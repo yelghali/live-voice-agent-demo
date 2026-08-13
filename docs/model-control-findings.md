@@ -309,6 +309,74 @@ a fully private Track B deployment.
 
 ---
 
+## Head to head: direct Voice Live vs agent mode on private Standard setup
+
+Comparing the two realistic enterprise shapes:
+
+* **Direct** — Voice Live direct-model mode, BYOM to your own `gpt-realtime-1.5`,
+  with a backend you host (this repo's `backend/`).
+* **Agent (private)** — Foundry Agent Service, Standard setup, VNet injection, private
+  endpoints on Storage / AI Search / Cosmos DB.
+
+| | Direct Voice Live + your backend | Agent mode, private Standard setup |
+|---|---|---|
+| **Model choice** | **Yours** — any deployment, incl. realtime, via `profile=byom-…` | Fixed by agent version; must be a **chat** deployment |
+| **Audio path** | **Native speech-to-speech** | **Cascaded** Azure STT → LLM → Azure TTS |
+| **Data residency of inference** | **Your deployment's** (e.g. Data Zone EU) | Whatever the agent's deployment is |
+| **Content filter** | Yours, incl. async filtering for latency | Foundry default unless BYO |
+| **Retrieval (RAG)** | You implement; backend queries AI Search / vector store | **Managed File Search or AI Search tool** |
+| **Retrieval privacy** | **Strongest** — search service reachable only by your backend | Private endpoint, needs Standard + VNet |
+| **MCP, public server** | Native, executed by Voice Live | Native, executed by Foundry |
+| **MCP, private server** | ❌ not as a native tool — **use a function call instead** (proven below) | ✅ native, through your VNet subnet |
+| **Who executes tools** | Voice Live (MCP) or your backend (functions) | Foundry |
+| **Tool approval flow** | You build it | `require_approval` + `mcp_approval_request` |
+| **Threads / history / tracing** | You build it | **Built in** |
+| **Versioning / rollback** | Your deploy pipeline | `agent_version` pinning |
+| **Interim "let me look that up"** | ❌ unsupported on realtime pipelines | ✅ `interim_response` |
+| **Infra you run** | A backend service (+ VNet if private) | None beyond the Standard BYO resources |
+| **Setup floor** | Foundry resource + a deployment | **Standard setup, BYO VNet, /27 delegated subnet, 3 private endpoints** |
+| **Auth to the service** | Entra or API key | **Entra only** |
+
+### Private MCP without native MCP: use a function call
+
+If the MCP server is private, direct-model mode does not lose MCP — it moves the MCP
+client into your backend. `scripts/probe_private_mcp_via_function.py` proves this with
+a real MCP server bound to loopback and a secret that exists nowhere else:
+
+```
+A. Native MCP tool   -> mcp_list_tools.failed  (Azure cannot see 127.0.0.1)
+B. Function tool     -> model called get_supplier_policy({"query": "..."})
+                        [private server] tools/call get_supplier_policy
+   spoken: "Policy code SUP-2026-QX41 requires that the transition manager have at
+            least ten years of contact centre migration experience..."
+```
+
+The model spoke a value that only the private server holds, so the data really did
+travel: model → Voice Live → your backend → private MCP server → back. The service
+never opened a connection to the private network.
+
+```
+declare:  {"type": "function", "name": "get_supplier_policy", ...}
+on call:  McpProxy(private_url).call(name, args)   # backend is the MCP client
+return:   FunctionCallOutputItem(call_id=..., output=...)
+```
+
+What you give up versus native MCP: automatic tool discovery (you declare the schema
+yourself), the built-in approval flow, and the service-side retry and timeout
+handling. What you gain: the server never has to be publicly reachable, and you can
+log and police every call.
+
+### Choosing
+
+- **Latency, model control, or data residency dominates** → Direct. Annex D's 1.2 s
+  P95 turn latency is this kind of requirement.
+- **Least code, governance, auditability dominates** → Agent, private Standard setup.
+- **Private MCP with native tool semantics** → Agent is the only option.
+- **Private MCP but you need your own realtime model** → Direct, with the MCP client
+  in your backend as a function tool.
+
+---
+
 ## Reproducing
 
 ```bash

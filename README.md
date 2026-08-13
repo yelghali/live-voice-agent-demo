@@ -78,6 +78,9 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 # 3b. Who dials out to the MCP server? (does it have to be public?)
 .\.venv\Scripts\python.exe scripts\probe_mcp_networking.py
 
+# 3c. A private MCP server: native tool fails, backend function call works
+.\.venv\Scripts\python.exe scripts\probe_private_mcp_via_function.py
+
 # 4. Index the RFP corpus, then write VECTOR_STORE_ID into .env
 .\.venv\Scripts\python.exe agent\setup_knowledge.py
 

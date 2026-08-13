@@ -33,6 +33,9 @@ from backend.tools import KnowledgeTools
 TURN_TIMEOUT_SECONDS = 90
 DEFAULT_QUESTION = "What is the proposal deadline for this tender?"
 DEFAULT_EXPECT = ["april", "2026"]
+#: Which tool the default question should trigger. An ad-hoc --ask only has to
+#: produce *some* tool call, since we cannot know what it should route to.
+DEFAULT_TOOL = "search_rfp"
 
 
 async def main() -> int:
@@ -119,6 +122,7 @@ async def main() -> int:
             pass
         tools.close()
 
+    is_default = args.ask == DEFAULT_QUESTION
     print("\n" + "=" * 70)
     checks: list[tuple[str, bool, str]] = [
         ("session ready", state["ready"], f"route={state['route']}"),
@@ -128,14 +132,14 @@ async def main() -> int:
             state["route"] or "?",
         ),
         (
-            "backend executed search_rfp",
-            "search_rfp" in state["tools"],
+            f"tool used ({DEFAULT_TOOL})" if is_default else "a tool was used",
+            (DEFAULT_TOOL in state["tools"]) if is_default else bool(state["tools"]),
             str(state["tools"] or "no tool calls"),
         ),
         (
             "answer is grounded",
             any(tok in state["assistant_text"].lower() for tok in DEFAULT_EXPECT)
-            if args.ask == DEFAULT_QUESTION
+            if is_default
             else bool(state["assistant_text"]),
             state["assistant_text"][:90] or "(silence)",
         ),

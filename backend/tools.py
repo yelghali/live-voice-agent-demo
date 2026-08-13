@@ -1,14 +1,23 @@
-"""Knowledge tools, executed on the backend.
+"""Knowledge tools for the direct-model demo.
 
-In agent mode Foundry runs File Search and MCP for us, inside the service. In
-direct-model mode there is no agent, so whoever holds the Voice Live connection has
-to execute tool calls itself. That is the backend - never the browser:
+Two mechanisms are in play, and the boundary between them is not where the docs
+suggest:
 
-* the Entra credential and the vector store id stay server-side
-* the RFP corpus is never exposed to a client
-* one audited code path executes every lookup, whatever the front end is
+* **Retrieval** is ours. Model mode has no managed File Search equivalent, so RAG is
+  a function tool this backend executes: ``search_rfp``.
 
-The browser only ever streams microphone audio and receives audio back.
+* **MCP** is declared natively in ``session.update`` (see ``mcp_tool``). Voice Live
+  does connect to the server and list its tools. But when the model actually invokes
+  one, the observed behaviour is that the call comes back as a ``function_call``
+  addressed to the client, and the response completes with no audio. If nobody
+  answers it, the turn silently dies.
+
+  So the backend also proxies MCP calls itself: any tool name that is not one of ours
+  is forwarded to the MCP server by ``McpProxy``. That covers both paths - if the
+  service ever executes MCP itself, the proxy simply never fires.
+
+Either way the browser is not involved. Credentials, the vector store id and the MCP
+configuration all stay server-side.
 """
 
 from __future__ import annotations
@@ -28,8 +37,8 @@ logger = logging.getLogger(__name__)
 MCP_TIMEOUT_SECONDS = 30
 MAX_TOOL_RESULT_CHARS = 6000
 
-#: Advertised to the model in the Voice Live session. Names match `dispatch`.
-TOOL_SCHEMAS: list[dict[str, Any]] = [
+#: Executed by *us*. Voice Live has no managed retrieval in model mode.
+FUNCTION_TOOL_SCHEMAS: list[dict[str, Any]] = [
     {
         "type": "function",
         "name": "search_rfp",
@@ -46,26 +55,76 @@ TOOL_SCHEMAS: list[dict[str, Any]] = [
             "required": ["query"],
         },
     },
-    {
-        "type": "function",
-        "name": "search_docs",
-        "description": (
-            "Search official Microsoft and Azure product documentation. Use this for "
-            "questions about product capability, not about the tender."
-        ),
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "query": {"type": "string", "description": "The product question."}
-            },
-            "required": ["query"],
-        },
-    },
+]
+
+#: Tool names exposed by the Microsoft Learn MCP server that we allow.
+MCP_ALLOWED_TOOLS = [
+    "microsoft_docs_search",
+    "microsoft_docs_fetch",
+    "microsoft_code_sample_search",
 ]
 
 
+def mcp_tool(settings: Settings) -> dict[str, Any]:
+    """Declared to Voice Live so the model discovers the real tool list.
+
+    ``require_approval="never"`` because a voice call cannot pause for an approval
+    round-trip; ``allowed_tools`` is what keeps that bounded. Only safe because these
+    are read-only public documentation tools.
+    """
+    return {
+        "type": "mcp",
+        "server_label": settings.mcp_server_label,
+        "server_url": settings.mcp_server_url,
+        "require_approval": "never",
+        "allowed_tools": MCP_ALLOWED_TOOLS,
+    }
+
+
+def session_tools(settings: Settings) -> list[dict[str, Any]]:
+    """Everything advertised to the model in ``session.update``."""
+    return [*FUNCTION_TOOL_SCHEMAS, mcp_tool(settings)]
+
+
+class McpProxy:
+    """Minimal MCP client over streamable HTTP, for tool calls handed back to us."""
+
+    def __init__(self, server_url: str) -> None:
+        self.server_url = server_url
+
+    def call(self, name: str, arguments: dict[str, Any]) -> str:
+        payload = {
+            "jsonrpc": "2.0",
+            "id": 1,
+            "method": "tools/call",
+            "params": {"name": name, "arguments": arguments},
+        }
+        response = httpx.post(
+            self.server_url,
+            json=payload,
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json, text/event-stream",
+            },
+            timeout=MCP_TIMEOUT_SECONDS,
+        )
+        response.raise_for_status()
+
+        body = response.text.lstrip()
+        # The endpoint may reply as SSE; pull the JSON out of the data frame.
+        if body.startswith(("event:", "data:")):
+            for line in body.splitlines():
+                if line.startswith("data:"):
+                    body = line[len("data:") :].strip()
+                    break
+
+        content = json.loads(body).get("result", {}).get("content", [])
+        texts = [c.get("text", "") for c in content if c.get("type") == "text"]
+        return "\n\n".join(texts)
+
+
 class KnowledgeTools:
-    """Server-side implementations of the tools the model may call."""
+    """Backend-executed tools: retrieval, plus an MCP proxy as a safety net."""
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
@@ -75,6 +134,7 @@ class KnowledgeTools:
         )
         self._openai = project.get_openai_client()
         self._filenames: dict[str, str] = {}
+        self._mcp = McpProxy(settings.mcp_server_url)
 
     # -- search_rfp ---------------------------------------------------------
 
@@ -104,59 +164,29 @@ class KnowledgeTools:
             chunks.append(f"[{self._filename_for(item)}] {text.strip()}")
         return "\n\n".join(chunks)[:MAX_TOOL_RESULT_CHARS] or "Nothing found in the RFP pack."
 
-    # -- search_docs --------------------------------------------------------
-
-    def search_docs(self, query: str) -> str:
-        """Call the Microsoft Learn MCP server over streamable HTTP."""
-        payload = {
-            "jsonrpc": "2.0",
-            "id": 1,
-            "method": "tools/call",
-            "params": {"name": "microsoft_docs_search", "arguments": {"query": query}},
-        }
-        try:
-            response = httpx.post(
-                self.settings.mcp_server_url,
-                json=payload,
-                headers={
-                    "Content-Type": "application/json",
-                    "Accept": "application/json, text/event-stream",
-                },
-                timeout=MCP_TIMEOUT_SECONDS,
-            )
-            response.raise_for_status()
-            body = response.text.lstrip()
-            # The endpoint may reply as SSE; pull the JSON out of the data frame.
-            if body.startswith(("event:", "data:")):
-                for line in body.splitlines():
-                    if line.startswith("data:"):
-                        body = line[len("data:") :].strip()
-                        break
-            content = json.loads(body).get("result", {}).get("content", [])
-            texts = [c.get("text", "") for c in content if c.get("type") == "text"]
-            return "\n\n".join(texts)[:MAX_TOOL_RESULT_CHARS] or "No documentation found."
-        except Exception as exc:  # noqa: BLE001 - surface as a tool result, not a crash
-            logger.exception("MCP documentation search failed")
-            return f"Documentation search unavailable: {exc}"
-
     # -- dispatch -----------------------------------------------------------
 
     def dispatch(self, name: str, raw_arguments: str) -> str:
-        """Route one function call. Never raises - the model gets a readable string."""
+        """Route one tool call. Never raises - the model gets a readable string.
+
+        An unrecognised name is assumed to be an MCP tool that Voice Live handed
+        back to us rather than executing itself.
+        """
         try:
             arguments = json.loads(raw_arguments or "{}")
         except json.JSONDecodeError:
             return "Invalid tool arguments."
 
-        query = arguments.get("query", "")
-        if not query:
-            return "Missing 'query' argument."
-
         try:
             if name == "search_rfp":
+                query = arguments.get("query", "")
+                if not query:
+                    return "Missing 'query' argument."
                 return self.search_rfp(query)
-            if name == "search_docs":
-                return self.search_docs(query)
+
+            if name in MCP_ALLOWED_TOOLS:
+                logger.info("Proxying MCP tool %s", name)
+                return self._mcp.call(name, arguments)[:MAX_TOOL_RESULT_CHARS]
         except Exception as exc:  # noqa: BLE001
             logger.exception("Tool %s failed", name)
             return f"Tool {name} failed: {exc}"

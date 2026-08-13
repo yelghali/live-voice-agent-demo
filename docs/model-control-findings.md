@@ -191,32 +191,51 @@ Microsoft does not document is not something to depend on in production.
 
 ## What this means for the RFP agent
 
-The two capabilities pull in opposite directions, so this repo ships both.
+Both tracks can do VoiceRAG **and** MCP. The real difference is who runs each piece.
 
 | | Track A — agent mode | Track B — direct model + BYOM |
 |---|---|---|
 | Brain | agent's chat deployment (`gpt-5`) | **your `gpt-realtime-1.5`** |
 | Audio | cascaded STT → LLM → TTS | native speech-to-speech |
-| RFP grounding | File Search, run by Foundry | `search_rfp`, run by your backend |
-| Microsoft docs | MCP tool, run by Foundry | `search_docs`, run by your backend |
+| RFP grounding | **File Search, managed by Foundry** | `search_rfp` function, run by your backend |
+| MCP | managed by Foundry Agent Service | **native to Voice Live**, executed by the service |
 | Conversation history | Foundry threads + tracing | your problem |
 | Model choice | fixed by agent version | yours |
 | Who holds the socket | the client | your backend |
 
-The distinction that matters in Track B is *who executes the tools*, not client
-versus server. There is no Foundry agent to run File Search or MCP, so the process
-holding the Voice Live socket has to do it — and that process is the **backend**
-(`backend/bridge.py`), never the browser. The browser streams microphone audio and
-plays audio back; it has no Azure credential and never sees the RFP corpus.
+### MCP works in both — this corrects an earlier assumption
 
-**Choose Track A** when you want Foundry to own orchestration — tools, threads,
-tracing, versioning — and you can accept cascaded latency.
+MCP is **not** exclusive to agent mode. Declaring an `mcp` tool in `session.update`
+works in direct-model mode, and Voice Live connects to the server, lists its tools,
+and invokes them itself. Verified: `mcp_list_tools.completed`, then
+`response.mcp_call.*`, then a grounded spoken answer citing three BYOM profiles.
 
-**Choose Track B** when latency or model/data-residency control dominates. Annex D
-of the sample tender asks for a turn latency under 1.2 s at the 95th percentile,
-which is exactly the kind of target that pushes you here.
+Two caveats that cost real debugging time:
 
-There is no third option that gives you both today.
+1. **You must call `response.create()` after `response.mcp_call.completed`.** Voice
+   Live executes the tool but does not then speak the result. Miss this and the turn
+   dies silently — the model never says anything and the call looks hung. Wait until
+   *all* in-flight MCP calls finish, or the model answers on partial results.
+
+2. **Tool calls can also arrive as ordinary `function_call` items** naming an MCP
+   tool, which the client is expected to execute. If nothing answers them, the
+   response completes with zero audio. `backend/tools.py` therefore proxies any
+   unrecognised tool name to the MCP server as a safety net.
+
+Retrieval is the genuine asymmetry: agent mode gets **managed File Search** with no
+retrieval code at all, while direct-model mode has no equivalent, so RAG stays a
+function tool your backend implements.
+
+**Choose Track A** when you want Foundry to own orchestration — retrieval, threads,
+tracing, versioning — and you can accept cascaded latency. Least code.
+
+**Choose Track B** when latency or model/data-residency control dominates, and you
+can host a small backend for retrieval. Annex D of the sample tender asks for turn
+latency under 1.2 s at the 95th percentile, which is the kind of target that pushes
+you here.
+
+Both give you MCP. Only Track A gives you managed RAG. Only Track B gives you the
+model.
 
 ---
 

@@ -29,8 +29,8 @@ flowchart LR
         direction TB
         B1[Browser<br/>audio only] <--> B2[Backend<br/>aiohttp]
         B2 <--> B3["your gpt-realtime-1.5<br/>native speech-to-speech"]
-        B2 --> B4[search_rfp]
-        B2 --> B5[search_docs]
+        B2 --> B4[search_rfp<br/>backend runs it]
+        B3 --> B5[MCP<br/>Voice Live runs it]
     end
 ```
 
@@ -38,14 +38,17 @@ flowchart LR
 |---|---|---|
 | Brain | agent's chat deployment | **your realtime deployment** |
 | Audio | cascaded | native speech-to-speech |
-| Tools | Foundry runs them | your backend runs them |
+| RFP grounding | managed File Search | your backend |
+| MCP | Foundry runs it | Voice Live runs it |
 | Threads and tracing | Foundry | none |
 | Model choice | fixed by agent version | yours |
 | Client | Python console | browser, no credentials |
 
-In Track B the browser only streams microphone audio and plays audio back. The Entra
-credential, the Foundry endpoint, the vector store id and every tool implementation
-stay on the backend, which is also the only party holding the Voice Live socket.
+Both tracks get MCP. Only Track A gets managed retrieval; only Track B lets you pick
+the model. In Track B the browser only streams microphone audio and plays audio back
+— the Entra credential, the Foundry endpoint, the vector store id and the tool
+implementations all stay on the backend, which is also the only party holding the
+Voice Live socket.
 
 ## Setup
 
@@ -104,7 +107,7 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 | `agent/setup_knowledge.py` | Uploads `data/rfp/` into a vector store |
 | `agent/create_rfp_agent.py` | Creates the agent; verifies the voice config round-trips |
 | `agent/voice_live_agent_client.py` | Track A console client |
-| `backend/tools.py` | `search_rfp` and `search_docs`, executed server-side |
+| `backend/tools.py` | `search_rfp` (backend-run) plus the native MCP tool declaration |
 | `backend/bridge.py` | One browser session ↔ one Voice Live session, plus tool dispatch |
 | `backend/server.py` | aiohttp app: serves the frontend, relays audio over `/ws` |
 | `frontend/` | Browser client: mic capture, playback, transcript |
@@ -119,6 +122,12 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 - `require_approval="never"` on the MCP tool is deliberate: a voice call cannot pause
   for an approval round-trip. The allow-list is what keeps it bounded. Reconsider
   this for any tool that writes.
+- After `response.mcp_call.completed` the client **must** call `response.create()`.
+  Voice Live runs the MCP tool but does not speak the result on its own, so missing
+  this makes the turn die silently.
+- MCP tool calls sometimes arrive as plain `function_call` items instead. The backend
+  proxies unknown tool names to the MCP server so either path works; the cost is that
+  a tool can occasionally be invoked twice in one turn.
 - `logs/` holds a technical log and a conversation transcript per run. The transcript
   records which agent and voice a session resolved to. Both are gitignored.
 - The backend authenticates with `AzureCliCredential`, which is right for a local

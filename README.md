@@ -27,10 +27,10 @@ flowchart LR
     end
     subgraph B["Track B - direct model + BYOM"]
         direction TB
-        B1[Mic] --> B2["your gpt-realtime-1.5<br/>native speech-to-speech"]
-        B2 --> B3[search_rfp<br/>client-side]
-        B2 --> B4[search_docs<br/>client-side]
-        B2 --> B5[Speaker]
+        B1[Browser<br/>audio only] <--> B2[Backend<br/>aiohttp]
+        B2 <--> B3["your gpt-realtime-1.5<br/>native speech-to-speech"]
+        B2 --> B4[search_rfp]
+        B2 --> B5[search_docs]
     end
 ```
 
@@ -38,9 +38,14 @@ flowchart LR
 |---|---|---|
 | Brain | agent's chat deployment | **your realtime deployment** |
 | Audio | cascaded | native speech-to-speech |
-| Tools | server-side (File Search, MCP) | client-side function calls |
+| Tools | Foundry runs them | your backend runs them |
 | Threads and tracing | Foundry | none |
 | Model choice | fixed by agent version | yours |
+| Client | Python console | browser, no credentials |
+
+In Track B the browser only streams microphone audio and plays audio back. The Entra
+credential, the Foundry endpoint, the vector store id and every tool implementation
+stay on the backend, which is also the only party holding the Voice Live socket.
 
 ## Setup
 
@@ -73,15 +78,21 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 # 5. Create the agent (File Search + MCP + Voice Live config in metadata)
 .\.venv\Scripts\python.exe agent\create_rfp_agent.py
 
-# 6. Check grounding and tool use over text before touching audio
+# 6. What is the agent's voice pipeline actually made of?
+.\.venv\Scripts\python.exe scripts\probe_agent_session.py
+
+# 7. Check grounding and tool use over text before touching audio
 .\.venv\Scripts\python.exe scripts\test_agent_text.py
 
-# 7a. Track A - talk to the agent
+# 8a. Track A - talk to the agent from the console
 .\.venv\Scripts\python.exe agent\voice_live_agent_client.py
 
-# 7b. Track B - talk to your own realtime deployment
-.\.venv\Scripts\python.exe agent\voice_live_byom_client.py
-.\.venv\Scripts\python.exe agent\voice_live_byom_client.py --probe-only   # no mic needed
+# 8b. Track B - start the backend, then open http://localhost:8000
+.\.venv\Scripts\python.exe -m backend.server
+
+# Headless checks for Track B (no microphone needed)
+.\.venv\Scripts\python.exe scripts\test_tools.py
+.\.venv\Scripts\python.exe scripts\test_backend_turn.py
 ```
 
 ## Layout
@@ -92,10 +103,13 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 | `agent/audio.py` | PCM16 24 kHz duplex audio, with sequence-numbered playback for barge-in |
 | `agent/setup_knowledge.py` | Uploads `data/rfp/` into a vector store |
 | `agent/create_rfp_agent.py` | Creates the agent; verifies the voice config round-trips |
-| `agent/voice_live_agent_client.py` | Track A client |
-| `agent/voice_live_byom_client.py` | Track B client, with client-side RAG and docs search |
+| `agent/voice_live_agent_client.py` | Track A console client |
+| `backend/tools.py` | `search_rfp` and `search_docs`, executed server-side |
+| `backend/bridge.py` | One browser session ↔ one Voice Live session, plus tool dispatch |
+| `backend/server.py` | aiohttp app: serves the frontend, relays audio over `/ws` |
+| `frontend/` | Browser client: mic capture, playback, transcript |
 | `scripts/probe_*.py` | Capability probes; `probe_model_control.py` is the important one |
-| `scripts/test_agent_text.py` | Text-mode assertions for grounding and MCP |
+| `scripts/test_*.py` | Grounding, MCP, backend tools, and a full headless voice turn |
 | `data/rfp/` | Synthetic tender pack (main document + annexes B, C, D) |
 | `docs/model-control-findings.md` | The findings, with evidence |
 
@@ -107,3 +121,8 @@ Required roles on the Foundry resource: **Cognitive Services User** and
   this for any tool that writes.
 - `logs/` holds a technical log and a conversation transcript per run. The transcript
   records which agent and voice a session resolved to. Both are gitignored.
+- The backend authenticates with `AzureCliCredential`, which is right for a local
+  demo and wrong for deployment. Swap it for a managed identity and put real
+  authentication in front of `/ws` before this goes anywhere shared.
+- One backend process holds one Voice Live session per browser. That is fine for a
+  demo; a real deployment needs connection limits and per-user quota.

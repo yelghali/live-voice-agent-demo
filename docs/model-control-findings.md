@@ -118,6 +118,54 @@ Voice Type      : azure-standard
 `agent/voice_live_agent_client.py` writes this to `logs/<timestamp>_conversation.log`
 on every run.
 
+---
+
+## So what *is* "the voice model" in agent mode?
+
+There isn't one. There are three separate models, and the audio ones are Azure
+Speech, not a realtime model. From `scripts/probe_agent_session.py`:
+
+| Stage | Component | Value |
+|---|---|---|
+| **Ears** | speech to text | `azure-speech` (Azure Speech STT, 24 kHz) |
+| **Brain** | LLM | `gpt-5` — from the agent version, **not reported in the session** |
+| **Mouth** | text to speech | `en-US-AvaMultilingualNeural`, type `azure-standard` |
+| — | turn detection | `azure_semantic_vad_multilingual` |
+| — | noise / echo | `azure_deep_noise_suppression`, `server_echo_cancellation` |
+
+So "the voice model" is an **Azure Neural TTS voice**. It is not GPT Realtime, and no
+realtime or audio model appears anywhere in the session.
+
+The single most telling field is `session.model`:
+
+```json
+{
+  "id": "sess_42ZBmG4US2vQdz0y9xf9CA",
+  "model": "rfp-voice-agent",          // <- the AGENT occupies the model slot
+  "voice": {"name": "en-US-AvaMultilingualNeural", "type": "azure-standard"},
+  "input_audio_transcription": {"model": "azure-speech"},
+  "agent": {"type": "agent", "name": "rfp-voice-agent"}
+}
+```
+
+In direct-model mode that field holds a model name. In agent mode it holds the
+*agent name* — the slot is already taken, which is precisely why passing `?model=`
+has nothing to override.
+
+### Which of those can you change?
+
+| Component | Changeable? | How |
+|---|---|---|
+| TTS voice | yes | agent metadata, or `session.update` at runtime |
+| Voice style / rate / temperature | yes | same `voice` object |
+| STT model | yes | `azure-speech` or `mai-transcribe` |
+| Turn detection, noise, echo | yes | same metadata block |
+| **LLM** | only by creating a new agent version | `PromptAgentDefinition(model=...)` |
+| **Swapping in a realtime model** | **no** | not available in agent mode at all |
+
+---
+
+
 ### Region: francecentral is better than documented
 
 The docs list HD voices for southeastasia, centralindia, swedencentral, westeurope,
@@ -149,11 +197,17 @@ The two capabilities pull in opposite directions, so this repo ships both.
 |---|---|---|
 | Brain | agent's chat deployment (`gpt-5`) | **your `gpt-realtime-1.5`** |
 | Audio | cascaded STT → LLM → TTS | native speech-to-speech |
-| RFP grounding | File Search, server-side | `search_rfp` function call, client-side |
-| Microsoft docs | MCP tool, server-side | `search_docs` function call, client-side |
+| RFP grounding | File Search, run by Foundry | `search_rfp`, run by your backend |
+| Microsoft docs | MCP tool, run by Foundry | `search_docs`, run by your backend |
 | Conversation history | Foundry threads + tracing | your problem |
 | Model choice | fixed by agent version | yours |
-| Client code | thin | thick |
+| Who holds the socket | the client | your backend |
+
+The distinction that matters in Track B is *who executes the tools*, not client
+versus server. There is no Foundry agent to run File Search or MCP, so the process
+holding the Voice Live socket has to do it — and that process is the **backend**
+(`backend/bridge.py`), never the browser. The browser streams microphone audio and
+plays audio back; it has no Azure credential and never sees the RFP corpus.
 
 **Choose Track A** when you want Foundry to own orchestration — tools, threads,
 tracing, versioning — and you can accept cascaded latency.
@@ -173,4 +227,6 @@ az login
 python scripts/probe_voicelive_region.py     # region + credentials gate
 python scripts/probe_voice_matrix.py         # voices and models this region accepts
 python scripts/probe_model_control.py        # the eight experiments above
+python scripts/probe_agent_session.py        # the agent-mode pipeline, field by field
+python scripts/test_backend_turn.py          # a full BYOM turn, no microphone needed
 ```

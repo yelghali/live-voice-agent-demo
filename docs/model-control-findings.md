@@ -377,6 +377,67 @@ log and police every call.
 
 ---
 
+## Data residency: the three legs are governed differently
+
+Run `python scripts/probe_data_residency.py` to audit a resource. On
+`fdy-sa33b5nih2ogs` (francecentral):
+
+| Leg | Component | Governed by | Status |
+|---|---|---|---|
+| Ears | Azure Speech STT | Speech terms | processed in server memory, **nothing stored at rest** |
+| Brain | the LLM | **deployment SKU** | `gpt-5` is `GlobalStandard` → **any Azure region** |
+| Mouth | Azure Speech TTS | Speech terms + voice availability | no retention; region depends on the voice |
+
+### The speech legs
+
+Azure Speech's real-time path is strong on **retention**: audio "is processed only on
+Azure's server memory, and no data is stored at rest", and Voice Live "does not store
+or retain customer data". The one exception is opt-in debug logging, which only
+happens if you raise a support ticket; that data is stored "within the same resource
+region" and deleted after 30 days.
+
+But retention is not geography. No public doc states that speech recognition or
+synthesis for a given voice is *performed* in your resource's region — and there is a
+concrete reason not to assume it:
+
+| Voice | Accepted in francecentral? | Documented for francecentral? |
+|---|---|---|
+| `en-US-AvaMultilingualNeural` | yes | yes — standard neural, dozens of regions |
+| `en-US-Ava:DragonHDLatestNeural` | **yes** | **no** — DragonHD lists centralindia, eastus, eastus2, southeastasia, swedencentral, westeurope, westus2 |
+| `en-US-Harper:MAI-Voice-2-Flash` | **yes** | **no published region list** (preview) |
+
+A voice being *accepted* is not evidence it is *synthesised locally*. Either the
+region list is stale, or the request is served from elsewhere. For a tender clause
+like M-01 that must be resolved with Microsoft in writing, not inferred from the fact
+that it works.
+
+This is why the repo defaults to `en-US-AvaMultilingualNeural`. If you want HD quality
+inside the EU, put the Voice Live resource in **westeurope** or **swedencentral**,
+where DragonHD is documented.
+
+### The brain leg is the one that actually breaks
+
+The SKU decides, not the resource region:
+
+```
+GlobalStandard / GlobalProvisionedManaged / GlobalBatch  -> ANY Azure region
+DataZoneStandard / DataZoneProvisionedManaged            -> within US / EU / APAC
+Standard / ProvisionedManaged                            -> the deployment region
+DeveloperTier                                            -> no residency guarantee
+```
+
+The agent in this repo runs on `gpt-5`, which is **GlobalStandard** — so despite a
+French resource and in-region speech, the LLM leg may be processed anywhere. On this
+resource only `gpt-realtime-1.5` and `Mistral-Large-3` are `DataZoneStandard`, and
+`gpt-realtime-1.5` cannot back an agent. So an EU-resident **agent** needs a Data Zone
+*chat* deployment — redeploy `gpt-5` as `DataZoneStandard`, or point the agent at
+`Mistral-Large-3`.
+
+Direct mode does not have this problem: it already runs on `gpt-realtime-1.5`
+(`DataZoneStandard`), which is exactly why that deployment exists.
+
+---
+
 ## Reproducing
 
 ```bash

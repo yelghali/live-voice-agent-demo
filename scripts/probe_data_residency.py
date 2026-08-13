@@ -15,15 +15,23 @@ for model inferencing in accordance with the terms that apply to the relevant mo
   Standard / ProvisionedManaged                            -> the deployment region
   DeveloperTier                                            -> no residency guarantee
 
-**The speech legs** are Azure Speech. Real-time speech to text is "processed only on
-Azure's server memory" with "no data stored at rest", and Voice Live "does not store
-or retain customer data". Opt-in debug logging (only when you raise a support ticket)
-is stored "within the same resource region" and deleted after 30 days.
+**The speech legs** are Azure Speech, and the guarantee is explicit and covers
+processing, not just storage:
 
-Note what that does and does not say. It is a strong statement about **retention**,
-and a weaker one about **geography**: no public doc states that speech synthesis for a
-given voice is performed in your resource's region. That matters when a voice is
-accepted in a region the docs do not list it for - see the voice check below.
+    "Azure Speech doesn't store or process your data outside the region of your
+     Azure Speech resource. The data is stored or processed only in the region
+     where the resource is created."
+    -- https://learn.microsoft.com/azure/ai-services/speech-service/regions
+
+So STT and TTS stay in your resource's region, full stop. The only thing to check is
+whether the *feature* you want exists there at all - a voice family that is not
+offered in your region is a capability question, not a residency one.
+
+**A trap on the brain leg**: Voice Live's own pre-deployed models have a deployment
+type that varies *per region*, and it is not always Data Zone. In `francecentral`,
+Voice Live serves managed `gpt-realtime-1.5` as **Global standard**, while the same
+model deployed by you as `DataZoneStandard` stays in the EU. Using BYOM is therefore
+a residency decision, not only a control one.
 
 Usage:
     python scripts/probe_data_residency.py
@@ -58,15 +66,18 @@ SKU_SCOPE: dict[str, tuple[str, bool]] = {
     "DeveloperTier": ("NO residency guarantee", False),
 }
 
-# Regions each voice family is *documented* for. A voice being accepted elsewhere is
-# not evidence that it is synthesised there.
+# Regions offering each voice family, from the Text to speech tab of the Azure Speech
+# regions page. This is an availability question - wherever a voice runs, it runs in
+# your resource's region.
 VOICE_FAMILY_REGIONS: dict[str, set[str]] = {
     "DragonHD": {
-        "southeastasia", "centralindia", "swedencentral", "westeurope",
-        "eastus", "eastus2", "westus2",
+        "canadacentral", "centralindia", "eastus", "eastus2", "francecentral",
+        "southeastasia", "swedencentral", "westeurope", "westus2",
     },
-    "DragonHDFlash": {"eastus", "westeurope", "southeastasia", "chinanorth3"},
-    "MAI-Voice": set(),  # preview; no published region list
+    "MAI-Voice": {
+        "canadacentral", "centralindia", "eastus", "eastus2", "francecentral",
+        "southeastasia", "swedencentral", "westeurope", "westus2",
+    },
 }
 
 
@@ -102,8 +113,6 @@ def resource_region(resource: str, resource_group: str) -> str:
 
 def voice_family(voice_name: str) -> str | None:
     """Classify a voice name into a family with a published region list."""
-    if "DragonHDFlash" in voice_name:
-        return "DragonHDFlash"
     if "DragonHD" in voice_name:
         return "DragonHD"
     if "MAI-Voice" in voice_name:
@@ -112,17 +121,18 @@ def voice_family(voice_name: str) -> str | None:
 
 
 def check_voice(voice_name: str, region: str) -> tuple[bool, str]:
-    """Is this voice documented for this region?"""
+    """Is this voice family offered in this region? (Availability, not residency.)"""
     family = voice_family(voice_name)
     if family is None:
         return True, "standard neural voice - available in dozens of regions"
 
     regions = VOICE_FAMILY_REGIONS.get(family, set())
-    if not regions:
-        return False, f"{family} has no published region list (preview)"
     if region in regions:
-        return True, f"{family} is documented for {region}"
-    return False, f"{family} is NOT documented for {region} (listed: {', '.join(sorted(regions))})"
+        return True, f"{family} voices are offered in {region}"
+    return False, (
+        f"{family} voices are NOT offered in {region} "
+        f"(offered in: {', '.join(sorted(regions))})"
+    )
 
 
 def agent_model(settings: Settings, agent_name: str) -> str | None:
@@ -170,16 +180,13 @@ def main() -> int:
 
     print("\nEARS and MOUTH - the Azure Speech legs")
     print("-" * 90)
-    print("  Real-time STT  : processed in server memory, nothing stored at rest")
-    print("  Voice Live     : does not store or retain customer data")
-    print("  Debug logging  : opt-in via support ticket only; stored in the SAME")
-    print("                   resource region, deleted after 30 days")
+    print("  Azure Speech does not store or process data outside the resource region,")
+    print(f"  so STT and TTS both stay in {region}.")
     voice_ok, voice_note = check_voice(settings.voice_name, region)
     print(f"  Configured voice: {settings.voice_name}")
     print(f"    {'OK ' if voice_ok else 'WARN'} - {voice_note}")
     if not voice_ok:
-        print("    A voice being accepted in a region is not evidence that it is")
-        print("    synthesised there. Confirm with Microsoft before relying on it.")
+        print("    This is an availability gap, not a residency risk.")
 
     print("\n" + "=" * 90)
     model = agent_model(settings, args.agent_name)

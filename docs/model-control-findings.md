@@ -379,45 +379,28 @@ log and police every call.
 
 ## Data residency: the three legs are governed differently
 
-Run `python scripts/probe_data_residency.py` to audit a resource. On
-`fdy-sa33b5nih2ogs` (francecentral):
+Run `python scripts/probe_data_residency.py` to audit a resource.
 
-| Leg | Component | Governed by | Status |
-|---|---|---|---|
-| Ears | Azure Speech STT | Speech terms | processed in server memory, **nothing stored at rest** |
-| Brain | the LLM | **deployment SKU** | `gpt-5` is `GlobalStandard` → **any Azure region** |
-| Mouth | Azure Speech TTS | Speech terms + voice availability | no retention; region depends on the voice |
+### The speech legs are fine, and explicitly so
 
-### The speech legs
+> "Azure Speech doesn't store or process your data outside the region of your Azure
+> Speech resource. The data is stored or processed only in the region where the
+> resource is created."
+> — [Supported regions for Azure Speech](https://learn.microsoft.com/azure/ai-services/speech-service/regions)
 
-Azure Speech's real-time path is strong on **retention**: audio "is processed only on
-Azure's server memory, and no data is stored at rest", and Voice Live "does not store
-or retain customer data". The one exception is opt-in debug logging, which only
-happens if you raise a support ticket; that data is stored "within the same resource
-region" and deleted after 30 days.
+That covers **processing**, not just storage, so STT and TTS both stay in
+`francecentral`. Voice Live adds that it "does not store or retain customer data";
+opt-in debug logging (support tickets only) stays in the same region for 30 days.
 
-But retention is not geography. No public doc states that speech recognition or
-synthesis for a given voice is *performed* in your resource's region — and there is a
-concrete reason not to assume it:
+France Central also *does* offer HD voices and MAI voices — the regions page's Text to
+speech tab marks both ✅. An earlier draft of this document warned that
+`en-US-Ava:DragonHDLatestNeural` was undocumented there, based on a narrower list in
+the Voice Live how-to. That was wrong; the regions page is authoritative. Voice choice
+in France Central is a free decision.
 
-| Voice | Accepted in francecentral? | Documented for francecentral? |
-|---|---|---|
-| `en-US-AvaMultilingualNeural` | yes | yes — standard neural, dozens of regions |
-| `en-US-Ava:DragonHDLatestNeural` | **yes** | **no** — DragonHD lists centralindia, eastus, eastus2, southeastasia, swedencentral, westeurope, westus2 |
-| `en-US-Harper:MAI-Voice-2-Flash` | **yes** | **no published region list** (preview) |
+### The brain leg is where residency actually breaks
 
-A voice being *accepted* is not evidence it is *synthesised locally*. Either the
-region list is stale, or the request is served from elsewhere. For a tender clause
-like M-01 that must be resolved with Microsoft in writing, not inferred from the fact
-that it works.
-
-This is why the repo defaults to `en-US-AvaMultilingualNeural`. If you want HD quality
-inside the EU, put the Voice Live resource in **westeurope** or **swedencentral**,
-where DragonHD is documented.
-
-### The brain leg is the one that actually breaks
-
-The SKU decides, not the resource region:
+The deployment SKU decides, not the resource region:
 
 ```
 GlobalStandard / GlobalProvisionedManaged / GlobalBatch  -> ANY Azure region
@@ -426,15 +409,37 @@ Standard / ProvisionedManaged                            -> the deployment regio
 DeveloperTier                                            -> no residency guarantee
 ```
 
-The agent in this repo runs on `gpt-5`, which is **GlobalStandard** — so despite a
-French resource and in-region speech, the LLM leg may be processed anywhere. On this
-resource only `gpt-realtime-1.5` and `Mistral-Large-3` are `DataZoneStandard`, and
-`gpt-realtime-1.5` cannot back an agent. So an EU-resident **agent** needs a Data Zone
-*chat* deployment — redeploy `gpt-5` as `DataZoneStandard`, or point the agent at
-`Mistral-Large-3`.
+On `fdy-sa33b5nih2ogs`:
 
-Direct mode does not have this problem: it already runs on `gpt-realtime-1.5`
-(`DataZoneStandard`), which is exactly why that deployment exists.
+| Deployment | SKU | Processed in | EU-safe |
+|---|---|---|---|
+| `gpt-5` | GlobalStandard | any Azure region | **no** |
+| `gpt-4o-mini` | GlobalStandard | any Azure region | **no** |
+| `text-embedding-3-small` | GlobalStandard | any Azure region | **no** |
+| `gpt-realtime-1.5` | DataZoneStandard | within the data zone | yes |
+| `Mistral-Large-3` | DataZoneStandard | within the data zone | yes |
+
+The agent in this repo runs on `gpt-5` — GlobalStandard — so despite a French resource
+and in-region speech, the LLM leg may be processed anywhere. Fix by pointing the agent
+at a Data Zone *chat* deployment (`Mistral-Large-3`, or redeploy `gpt-5` as
+`DataZoneStandard`). `gpt-realtime-1.5` cannot back an agent.
+
+### The trap: Voice Live's managed models are not all Data Zone
+
+The regions page's Voice Live tab gives a deployment type **per model, per region**.
+For `francecentral`:
+
+| Voice Live managed model | Deployment type in francecentral |
+|---|---|
+| `gpt-realtime-1.5`, `gpt-realtime`, `gpt-realtime-mini`, `azure-realtime` | **Global standard** |
+| `gpt-4o`, `gpt-4o-mini`, `gpt-4.1*`, `gpt-5`, `gpt-5-mini`, `gpt-5-nano`, `gpt-5.1` | Data zone standard |
+| `gpt-5.4`, `gpt-5.2` | Global standard |
+
+So if you use Voice Live's **managed** `gpt-realtime-1.5`, inference is Global
+standard and can leave the EU — even though the identical model, deployed by you as
+`DataZoneStandard`, does not. **BYOM is a residency decision here, not just a control
+one.** The direct-mode track in this repo already routes through your own deployment,
+which is exactly the right choice for an EU tender.
 
 ---
 

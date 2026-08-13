@@ -10,9 +10,10 @@ the audio path is cascaded. Your own `gpt-realtime-1.5` deployment only works in
 direct-model mode. The evidence, including the controls that disprove the obvious
 first reading, is in [docs/model-control-findings.md](docs/model-control-findings.md).
 
-Because the two capabilities are mutually exclusive today, this repo ships both.
+Because the two capabilities are mutually exclusive today, this repo ships both — plus
+a third track that skips Voice Live entirely, as a latency and complexity baseline.
 
-## Two tracks
+## Three tracks
 
 ```mermaid
 flowchart LR
@@ -25,30 +26,39 @@ flowchart LR
         A3 --> A6[Azure TTS]
         A6 --> A7[Speaker]
     end
-    subgraph B["Track B - direct model + BYOM"]
+    subgraph B["Track B - Voice Live direct model + BYOM"]
         direction TB
         B1[Browser<br/>audio only] <--> B2[Backend<br/>aiohttp]
         B2 <--> B3["your gpt-realtime-1.5<br/>native speech-to-speech"]
         B2 --> B4[search_rfp<br/>backend runs it]
         B3 --> B5[MCP<br/>Voice Live runs it]
     end
+    subgraph C["Track C - native AOAI Realtime"]
+        direction TB
+        C1[Client] <--> C2[Backend]
+        C2 <--> C3["same gpt-realtime-1.5<br/>no Voice Live in the path"]
+        C2 --> C4[search_rfp<br/>backend runs it]
+    end
 ```
 
-| | Track A | Track B |
-|---|---|---|
-| Brain | agent's chat deployment | **your realtime deployment** |
-| Audio | cascaded | native speech-to-speech |
-| RFP grounding | managed File Search | your backend |
-| MCP | Foundry runs it | Voice Live runs it |
-| Threads and tracing | Foundry | none |
-| Model choice | fixed by agent version | yours |
-| Client | Python console | browser, no credentials |
+| | Track A | Track B | Track C |
+|---|---|---|---|
+| Brain | agent's chat deployment | **your realtime deployment** | your realtime deployment |
+| Audio | cascaded | native speech-to-speech | native speech-to-speech |
+| Voices | 600+ Azure, HD, custom | same | model-native only |
+| RFP grounding | managed File Search | your backend | your backend |
+| MCP | Foundry runs it | Voice Live runs it | function call only |
+| Threads and tracing | Foundry | none | none |
+| Model choice | fixed by agent version | yours | yours |
+| Median first audio | 3.9 s (`gpt-5`) / 1.4 s (`gpt-4o-mini`) | **0.41 s** | **0.36 s** |
+| Client | Python console | browser, no credentials | script |
 
-Both tracks get MCP. Only Track A gets managed retrieval; only Track B lets you pick
-the model. In Track B the browser only streams microphone audio and plays audio back
-— the Entra credential, the Foundry endpoint, the vector store id and the tool
-implementations all stay on the backend, which is also the only party holding the
-Voice Live socket.
+All three answer the same RFP questions from the same corpus. Only Track A gets
+managed retrieval and threads; Tracks B and C let you pick the model; Track C is the
+fastest but gives up Azure voices, semantic VAD, noise suppression and native MCP.
+In Track B the browser only streams microphone audio and plays audio back — the Entra
+credential, the Foundry endpoint, the vector store id and the tool implementations all
+stay on the backend, which is also the only party holding the Voice Live socket.
 
 ## Setup
 
@@ -99,6 +109,12 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 # 8b. Track B - start the backend, then open http://localhost:8000
 .\.venv\Scripts\python.exe -m backend.server
 
+# 8c. Track C - VoiceRAG on the raw Azure OpenAI Realtime API, no Voice Live
+.\.venv\Scripts\python.exe scripts\probe_aoai_realtime_rag.py
+
+# 9. Time all three tracks against Annex D's latency targets
+.\.venv\Scripts\python.exe scripts\bench_latency.py --runs 3
+
 # Headless checks for Track B (no microphone needed)
 .\.venv\Scripts\python.exe scripts\test_tools.py
 .\.venv\Scripts\python.exe scripts\test_backend_turn.py
@@ -118,6 +134,7 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 | `backend/server.py` | aiohttp app: serves the frontend, relays audio over `/ws` |
 | `frontend/` | Browser client: mic capture, playback, transcript |
 | `scripts/probe_*.py` | Capability probes; `probe_model_control.py` is the important one |
+| `scripts/bench_latency.py` | Times all three tracks; text-injected turns, so no STT hop |
 | `scripts/test_*.py` | Grounding, MCP, backend tools, and a full headless voice turn |
 | `data/rfp/` | Synthetic tender pack (main document + annexes B, C, D) |
 | `docs/model-control-findings.md` | The findings, with evidence |

@@ -309,33 +309,83 @@ a fully private Track B deployment.
 
 ---
 
-## Head to head: direct Voice Live vs agent mode on private Standard setup
+## Head to head: three ways to build the same VoiceRAG agent
 
-Comparing the two realistic enterprise shapes:
+Three realistic shapes, all running the same RFP scenario in this repo:
 
-* **Direct** — Voice Live direct-model mode, BYOM to your own `gpt-realtime-1.5`,
+* **A — Agent (private)** — Foundry Agent Service, Standard setup, VNet injection,
+  private endpoints on Storage / AI Search / Cosmos DB, driven through Voice Live
+  agent mode.
+* **B — Direct Voice Live** — direct-model mode, BYOM to your own `gpt-realtime-1.5`,
   with a backend you host (this repo's `backend/`).
-* **Agent (private)** — Foundry Agent Service, Standard setup, VNet injection, private
-  endpoints on Storage / AI Search / Cosmos DB.
+* **C — Native Azure OpenAI Realtime** — the same deployment, reached at
+  `wss://<resource>.openai.azure.com/openai/realtime`, with **no Voice Live in the
+  path**. Microsoft positions Voice Live as "designed for compatibility with the Azure
+  OpenAI Realtime API", with its own features "optional and additive" — so C is the
+  baseline those additions sit on top of.
 
-| | Direct Voice Live + your backend | Agent mode, private Standard setup |
-|---|---|---|
-| **Model choice** | **Yours** — any deployment, incl. realtime, via `profile=byom-…` | Fixed by agent version; must be a **chat** deployment |
-| **Audio path** | **Native speech-to-speech** | **Cascaded** Azure STT → LLM → Azure TTS |
-| **Data residency of inference** | **Your deployment's** (e.g. Data Zone EU) | Whatever the agent's deployment is |
-| **Content filter** | Yours, incl. async filtering for latency | Foundry default unless BYO |
-| **Retrieval (RAG)** | You implement; backend queries AI Search / vector store | **Managed File Search or AI Search tool** |
-| **Retrieval privacy** | **Strongest** — search service reachable only by your backend | Private endpoint, needs Standard + VNet |
-| **MCP, public server** | Native, executed by Voice Live | Native, executed by Foundry |
-| **MCP, private server** | ❌ not as a native tool — **use a function call instead** (proven below) | ✅ native, through your VNet subnet |
-| **Who executes tools** | Voice Live (MCP) or your backend (functions) | Foundry |
-| **Tool approval flow** | You build it | `require_approval` + `mcp_approval_request` |
-| **Threads / history / tracing** | You build it | **Built in** |
-| **Versioning / rollback** | Your deploy pipeline | `agent_version` pinning |
-| **Interim "let me look that up"** | ❌ unsupported on realtime pipelines | ✅ `interim_response` |
-| **Infra you run** | A backend service (+ VNet if private) | None beyond the Standard BYO resources |
-| **Setup floor** | Foundry resource + a deployment | **Standard setup, BYO VNet, /27 delegated subnet, 3 private endpoints** |
-| **Auth to the service** | Entra or API key | **Entra only** |
+| | A · Agent mode, private Standard | B · Direct Voice Live + BYOM | C · Native AOAI Realtime |
+|---|---|---|---|
+| **Model choice** | Fixed by agent version; must be a **chat** deployment | **Yours** — any deployment, incl. realtime, via `profile=byom-…` | **Yours** — whatever you deployed |
+| **Audio path** | **Cascaded** Azure STT → LLM → Azure TTS | **Native speech-to-speech** | **Native speech-to-speech** |
+| **Median first audio (no tool)** | 3.9 s on `gpt-5`, **1.4 s** on `gpt-4o-mini` | **0.41 s** | **0.36 s** |
+| **Median first audio (one retrieval)** | 13.6 s on `gpt-5`, **3.1 s** on `gpt-4o-mini` | **1.96 s** | **1.28 s** |
+| **Voices** | 600+ Azure Neural, HD, MAI, **custom voice** | Same, on top of a realtime model | ❌ model-native only (`alloy`, `echo`, …) |
+| **Turn detection** | `azure_semantic_vad`, filler-word removal, EOU model | Same | ❌ `server_vad` / `semantic_vad` only |
+| **Noise suppression / echo cancellation** | ✅ server-side | ✅ server-side | ❌ build it yourself |
+| **Avatar, visemes, word timestamps** | ✅ | ✅ | ❌ |
+| **Data residency of inference** | Whatever the agent's deployment is | **Your deployment's** (e.g. Data Zone EU) | **Your deployment's** |
+| **Extra residency surface** | Azure STT + TTS legs, in-region by contract | Azure TTS leg, in-region by contract | **None** — one hop, one deployment |
+| **Private network** | ✅ tools and data through your VNet; service still dials the socket | Backend can be private; the Voice Live socket is a public egress | **Private endpoint on the Azure OpenAI resource** is the mature, documented path |
+| **Content filter** | Foundry default unless BYO | Yours, incl. async filtering for latency | Yours |
+| **Retrieval (RAG)** | **Managed File Search or AI Search tool** | You implement; backend queries AI Search / vector store | You implement, same as B |
+| **Retrieval privacy** | Private endpoint, needs Standard + VNet | **Strongest** — search reachable only by your backend | **Strongest** |
+| **MCP, public server** | Native, executed by Foundry | Native, executed by Voice Live | ❌ no native MCP — function call only |
+| **MCP, private server** | ✅ native, through your VNet subnet | ❌ not native — **use a function call** (proven below) | ✅ trivially — your backend is the MCP client |
+| **Who executes tools** | Foundry | Voice Live (MCP) or your backend (functions) | **Always your backend** |
+| **Tool approval flow** | `require_approval` + `mcp_approval_request` | Same, for native MCP | You build it |
+| **Threads / history / tracing** | **Built in** | You build it | You build it |
+| **Versioning / rollback** | `agent_version` pinning | Your deploy pipeline | Your deploy pipeline |
+| **Interim "let me look that up"** | ✅ `interim_response` | ❌ unsupported on realtime pipelines | ❌ |
+| **Infra you run** | None beyond the Standard BYO resources | A backend service (+ VNet if private) | A backend service |
+| **Setup floor** | **Standard setup, BYO VNet, /27 delegated subnet, 3 private endpoints** | Foundry resource + a deployment | Azure OpenAI deployment |
+| **Auth to the service** | **Entra only** | Entra or API key | Entra or API key |
+| **Billing** | Voice Live rate (Pro/Basic/Lite) + agent | Voice Live rate + your deployment | **Your deployment only** |
+
+### Measured latency
+
+`python scripts/bench_latency.py --runs 3` — three measured turns per question after a
+discarded warm-up, medians reported, single machine, `francecentral`.
+
+| Track | chit-chat, first audio | chit-chat, complete | retrieval, first audio | retrieval, complete | tool |
+|---|---|---|---|---|---|
+| A · agent mode, `gpt-5` | 3 920 ms | 3 923 ms | 13 555 ms | 15 325 ms | server-side |
+| A · agent mode, `gpt-4o-mini` | 1 415 ms | 1 421 ms | 3 141 ms | 4 316 ms | server-side |
+| B · Voice Live direct + BYOM | **406 ms** | 416 ms | 1 958 ms | 3 725 ms | 669 ms |
+| C · native AOAI Realtime | **363 ms** | 387 ms | **1 279 ms** | **2 924 ms** | 559 ms |
+
+Three things this settles:
+
+1. **Cascaded is a different latency class.** Even on a fast chat model, agent mode
+   needs ~1.4 s before the first syllable, because the LLM has to finish enough text
+   for TTS to start. The realtime tracks start speaking in under half a second. Annex
+   D's P-02 (<1.5 s first response) is already at the edge for track A **before**
+   adding the speech-to-text hop.
+2. **The `gpt-5` number is a model choice, not a cascade tax.** A control agent on
+   `gpt-4o-mini` cut retrieval latency from 13.6 s to 3.1 s. But that is the point:
+   agent mode makes you pick a text model and pay its *entire* think time before a
+   word is spoken, whereas a realtime model talks while it thinks.
+3. **Voice Live costs roughly 40–700 ms over the raw API.** B and C run the *same
+   deployment*; the delta is the Voice Live layer plus Azure TTS instead of native
+   audio. That is the price of Azure voices, semantic VAD, noise suppression and
+   native MCP. Whether it is worth it is a product decision, not a technical one.
+
+**Read the numbers honestly.** The user turn is injected as **text**, so the
+speech-to-text hop is excluded from every track. Tracks B and C barely have one — the
+model consumes audio directly — but track A does STT before the LLM starts, so these
+numbers *flatter the cascaded track*. Its real microphone-to-audio latency is higher
+than shown. The comparison is still fair for the LLM + TTS + tool portion, which is
+where the architectural difference actually lives.
 
 ### Private MCP without native MCP: use a function call
 
@@ -368,12 +418,54 @@ log and police every call.
 
 ### Choosing
 
-- **Latency, model control, or data residency dominates** → Direct. Annex D's 1.2 s
-  P95 turn latency is this kind of requirement.
-- **Least code, governance, auditability dominates** → Agent, private Standard setup.
-- **Private MCP with native tool semantics** → Agent is the only option.
-- **Private MCP but you need your own realtime model** → Direct, with the MCP client
+- **Annex D's 1.2 s P95 turn latency dominates** → B or C. Track A cannot get there
+  through a cascade, whatever model you pick.
+- **You need Azure voices, custom voice, semantic VAD or an avatar** → B. That is the
+  entire reason to accept Voice Live's ~40–700 ms over the raw API.
+- **You want the shortest possible path and own everything else** → C. One hop, one
+  deployment, one residency story, and the lowest measured latency — but you build
+  VAD, barge-in polish and noise handling yourself, and you live with `alloy`.
+- **Least code, governance, auditability dominates** → A, private Standard setup.
+- **Private MCP with native tool semantics** → A is the only option.
+- **Private MCP but you need your own realtime model** → B or C, with the MCP client
   in your backend as a function tool.
+
+---
+
+## Authenticating to MCP servers and to retrieval
+
+Documentation review, not implemented in this repo. The pattern differs sharply by
+track, because a different party is holding the credential.
+
+### To an MCP server
+
+| Track | Who is the MCP client | How it authenticates |
+|---|---|---|
+| A · agent mode | Foundry Agent Service | A **project connection** (`project_connection_id`). Create with `azd ai connection create --kind remote-tool --auth-type …`, where the type is one of `none`, `custom-keys` (e.g. `Authorization=Bearer <PAT>`), `oauth2` (authorization URL, token URL, client id/secret, scopes), `user-entra-token` (plus `--audience`, on-behalf-of the signed-in user), `project-managed-identity`, or `agentic-identity`. With `oauth2` the first call returns `CONSENT_REQUIRED` (JSON-RPC code `-32006`) carrying a consent URL the user must visit once. |
+| B · Voice Live direct | Voice Live itself | The `mcp` tool object takes `authorization` (a bearer token) and `headers` (arbitrary extra headers), alongside `allowed_tools` and `require_approval`. **The token is minted by you and handed to the service**, so it is only as good as your rotation story — and the server must be publicly reachable. |
+| C · native AOAI Realtime | **Your backend** | No native MCP exists, so this is ordinary outbound HTTP from your own process. Use whatever the server expects — managed identity, a secret from Key Vault, OBO — and never let the credential near the model. |
+
+The practical consequence: **A and C put the credential somewhere you control** (a
+Foundry connection, or your own process). B is the only one where a long-lived
+secret is handed to a Microsoft service to replay on your behalf. For a private
+server, B degrades to C's model anyway — see the function-call proof above — which
+means B's MCP auth story only matters for public servers.
+
+### To RAG (AI Search or a vector store)
+
+| Track | Who queries | How it authenticates |
+|---|---|---|
+| A · agent mode | Foundry Agent Service | A project connection to AI Search, using the project's **managed identity** (recommended) or an API key. `AzureAISearchTool` and File Search both go through it. In a network-isolated Standard setup, AI Search and File Search traffic is routed over **private endpoints**; the indexer additionally needs `executionEnvironment: "Private"`, or indexing silently succeeds and leaves you with an empty index. |
+| B and C | **Your backend** | Your own Entra credential. This repo uses `AzureCliCredential` for local development; in production use a **managed identity** with `Search Index Data Reader` (or the vector store's equivalent) and let the search service refuse everything else at the network layer. |
+
+Two things are worth stating plainly:
+
+* In B and C the retrieval credential and the vector store id **never leave the
+  backend**. The model only ever sees the text you chose to return. That is why the
+  earlier client-side-search sketch was wrong.
+* In A, retrieval privacy is achievable but expensive: it is the Standard setup, the
+  BYO VNet, the /27 delegated subnet, and three private endpoints — and the empty-index
+  trap above is a real one.
 
 ---
 

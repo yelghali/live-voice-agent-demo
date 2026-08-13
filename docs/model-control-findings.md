@@ -324,22 +324,18 @@ Three realistic shapes, all running the same RFP scenario in this repo:
   OpenAI Realtime API", with its own features "optional and additive" — so C is the
   baseline those additions sit on top of.
 
-| | A · Agent mode, private Standard | B · Direct Voice Live + BYOM | C · Native AOAI Realtime |
+### 1. Features
+
+| | A · Agent mode | B · Voice Live + BYOM | C · Native AOAI Realtime |
 |---|---|---|---|
 | **Model choice** | Fixed by agent version; must be a **chat** deployment | **Yours** — any deployment, incl. realtime, via `profile=byom-…` | **Yours** — whatever you deployed |
 | **Audio path** | **Cascaded** Azure STT → LLM → Azure TTS | **Native speech-to-speech** | **Native speech-to-speech** |
-| **Median first audio (no tool)** | 3.9 s on `gpt-5`, **1.4 s** on `gpt-4o-mini` | **0.41 s** | **0.36 s** |
-| **Median first audio (one retrieval)** | 13.6 s on `gpt-5`, **3.1 s** on `gpt-4o-mini` | **1.96 s** | **1.28 s** |
 | **Voices** | 600+ Azure Neural, HD, MAI, **custom voice** | Same, on top of a realtime model | ❌ model-native only (`alloy`, `echo`, …) |
 | **Turn detection** | `azure_semantic_vad`, filler-word removal, EOU model | Same | ❌ `server_vad` / `semantic_vad` only |
 | **Noise suppression / echo cancellation** | ✅ server-side | ✅ server-side | ❌ build it yourself |
 | **Avatar, visemes, word timestamps** | ✅ | ✅ | ❌ |
-| **Data residency of inference** | Whatever the agent's deployment is | **Your deployment's** (e.g. Data Zone EU) | **Your deployment's** |
-| **Extra residency surface** | Azure STT + TTS legs, in-region by contract | Azure TTS leg, in-region by contract | **None** — one hop, one deployment |
-| **Private network** | ✅ tools and data through your VNet; service still dials the socket | Backend can be private; the Voice Live socket is a public egress | **Private endpoint on the Azure OpenAI resource** is the mature, documented path |
-| **Content filter** | Foundry default unless BYO | Yours, incl. async filtering for latency | Yours |
-| **Retrieval (RAG)** | **Managed File Search or AI Search tool** | You implement; backend queries AI Search / vector store | You implement, same as B |
-| **Retrieval privacy** | Private endpoint, needs Standard + VNet | **Strongest** — search reachable only by your backend | **Strongest** |
+| **Transcription control** | `azure-speech`, `mai-transcribe`, phrase lists, custom speech | Same, or OpenAI transcribe models | Whisper / `gpt-4o-transcribe` only |
+| **Retrieval (RAG)** | **Managed File Search or AI Search tool** | You implement; backend queries the vector store | You implement, same as B |
 | **MCP, public server** | Native, executed by Foundry | Native, executed by Voice Live | ❌ no native MCP — function call only |
 | **MCP, private server** | ✅ native, through your VNet subnet | ❌ not native — **use a function call** (proven below) | ✅ trivially — your backend is the MCP client |
 | **Who executes tools** | Foundry | Voice Live (MCP) or your backend (functions) | **Always your backend** |
@@ -347,15 +343,15 @@ Three realistic shapes, all running the same RFP scenario in this repo:
 | **Threads / history / tracing** | **Built in** | You build it | You build it |
 | **Versioning / rollback** | `agent_version` pinning | Your deploy pipeline | Your deploy pipeline |
 | **Interim "let me look that up"** | ✅ `interim_response` | ❌ unsupported on realtime pipelines | ❌ |
-| **Infra you run** | None beyond the Standard BYO resources | A backend service (+ VNet if private) | A backend service |
-| **Setup floor** | **Standard setup, BYO VNet, /27 delegated subnet, 3 private endpoints** | Foundry resource + a deployment | Azure OpenAI deployment |
-| **Auth to the service** | **Entra only** | Entra or API key | Entra or API key |
-| **Billing** | Voice Live rate (Pro/Basic/Lite) + agent | Voice Live rate + your deployment | **Your deployment only** |
+| **Content filter** | Foundry default unless BYO | Yours, incl. async filtering for latency | Yours |
 
-### Measured latency
+**Read this as:** A is a product, C is a protocol, B is the middle — Azure's speech
+front-end bolted onto a model you chose.
+
+### 2. Latency
 
 `python scripts/bench_latency.py --runs 3` — three measured turns per question after a
-discarded warm-up, medians reported, single machine, `francecentral`.
+discarded warm-up, medians, single machine, `francecentral`.
 
 | Track | chit-chat, first audio | chit-chat, complete | retrieval, first audio | retrieval, complete | tool |
 |---|---|---|---|---|---|
@@ -386,6 +382,90 @@ model consumes audio directly — but track A does STT before the LLM starts, so
 numbers *flatter the cascaded track*. Its real microphone-to-audio latency is higher
 than shown. The comparison is still fair for the LLM + TTS + tool portion, which is
 where the architectural difference actually lives.
+
+### 3. Cost
+
+Two separate questions: what gets metered, and how many meters you are standing on.
+
+**How you are charged**
+
+| | A · Agent mode | B · Voice Live + BYOM | C · Native AOAI Realtime |
+|---|---|---|---|
+| **Meters** | Voice Live tiered rate + the agent's deployment | **Voice Live tiered rate + your deployment** | **Your deployment only** |
+| **Tier** | Pro / Basic / Lite by model — `gpt-5`, `gpt-4o`, `gpt-4.1`, `gpt-realtime` are **Pro** | Same tiering applies to the audio path | n/a |
+| **Extras billed separately** | Custom voice and avatar training + hosting | Same | none |
+| **Capacity model** | Pay-as-you-go | PTU possible on **your** deployment | PTU possible |
+| **Audio token rule of thumb** | ~10 tokens/s in, ~20 tokens/s out | Same | Same |
+
+**What one identical turn actually metered** — `python scripts/probe_cost_signals.py`,
+same question ("What is the proposal deadline for this tender?"), same answer:
+
+| Track | total | input | output text | output audio | reasoning |
+|---|---|---|---|---|---|
+| A · agent mode (`gpt-5`) | **7 207** | 6 324 | 668 | 215 | **576** |
+| B · Voice Live + BYOM | 1 865 | 1 639 | 33 | 193 | 0 |
+| C · native AOAI Realtime | **1 851** | 1 640 | 50 | 161 | 0 |
+
+Three readings:
+
+1. **Agent mode cost ~3.9× the tokens for the same sentence.** Two causes: 576
+   reasoning tokens, and a 6 324-token input because File Search injects retrieved
+   chunks into the prompt. Retrieval you do not control is retrieval you cannot
+   trim.
+2. **B and C metered almost identically (1 865 vs 1 851)** — as expected, since they
+   are the same model doing the same work. The difference is not the token count, it
+   is **how many bills those tokens generate**. In C there is one. In B the same
+   traffic also crosses Voice Live, which charges its own tiered rate on top.
+3. **The BYOM meter is incomplete by design.** The docs say that for the Anthropic
+   profile `usage` "only contains audio token usage … LLM token usage from the
+   Anthropic model is reported separately." So do not size a BYOM deployment from the
+   `response.done` payload — reconcile against Cost Management.
+
+Worth noting against the tender: Annex C rule **C.3.4 bans per-token AI pricing** in
+the commercial response. That is a pricing-model problem, not an architecture one, but
+it pushes toward PTU on your own deployment — which only B and C can offer, because A
+does not let you choose the deployment.
+
+### 4. Enterprise integration
+
+| | A · Agent mode | B · Voice Live + BYOM | C · Native AOAI Realtime |
+|---|---|---|---|
+| **Residency of inference** | Whatever the agent's deployment is — `gpt-5` here is **GlobalStandard**, which breaks EU residency | **Your deployment's** — Data Zone if you deploy it that way | **Your deployment's** |
+| **Residency trap** | Voice Live's *managed* realtime models are **Global standard** in francecentral | Avoided precisely **because** BYOM points at your own SKU | Avoided |
+| **Extra residency surface** | Azure STT + TTS legs, in-region by contract | Azure TTS leg, in-region by contract | **None** — one hop, one deployment |
+| **Private network — data + tools** | ✅ through your VNet and private endpoints | ✅ backend-side; the search service can be fully private | ✅ backend-side |
+| **Private network — the socket** | Service dials out; the Voice Live WS is still a public egress | Same | **Private endpoint on the Azure OpenAI resource** is the mature, documented path |
+| **Private MCP** | ✅ native | Function-call proxy only | Function-call proxy, but that *is* the normal pattern |
+| **Auth to the service** | **Entra only** | Entra or API key | Entra or API key |
+| **Auth to MCP** | Foundry **project connection** (`oauth2`, `custom-keys`, `user-entra-token`, managed identity, agentic identity) | `authorization` / `headers` on the `mcp` tool — **you hand a token to the service** | Your backend's own credential; nothing leaves your process |
+| **Auth to retrieval** | Project connection, managed identity, private endpoints (+ `executionEnvironment: "Private"`) | Backend's managed identity; store id never leaves the backend | Same as B |
+| **Audit / tracing** | **Built in** | Yours to build | Yours to build |
+| **Setup floor** | **Standard setup, BYO VNet, /27 delegated subnet, 3 private endpoints** | Foundry resource + a deployment | Azure OpenAI deployment |
+
+The sharpest line here: **A is the only track where a Microsoft service must reach
+into your network, and B is the only track where a long-lived secret must leave it.**
+
+### 5. Effort to build
+
+Non-blank lines actually written in this repo for each track, plus what is still
+missing at that line count:
+
+| | A · Agent mode | B · Voice Live + BYOM | C · Native AOAI Realtime |
+|---|---|---|---|
+| **Code in this repo** | ~565 lines (agent definition, console client, audio I/O, indexing) | ~913 lines (backend, bridge, tools, browser client) | **~154 lines** for a working headless VoiceRAG turn |
+| **What that buys** | Full working voice agent with retrieval, MCP, threads | Full working browser voice agent | One turn, no UI, no mic |
+| **Still to build for parity** | Nothing functional | Nothing functional | Browser client, barge-in, VAD tuning, noise handling — i.e. most of B's 913 lines |
+| **Azure-side setup** | Vector store, agent version, voice config chunked into metadata (512-char limit) | A realtime deployment; managed identity for BYOM | A realtime deployment |
+| **Hardest thing encountered** | Voice config exceeds the 512-char metadata limit and must be chunked | Concurrent WebSocket writes corrupt the socket; MCP needs a manual `response.create()` | Nothing — it behaved exactly like the documented API |
+| **Ops burden** | Lowest — Foundry runs tools, threads, tracing | Highest — you run a stateful service | High, plus you own VAD and barge-in quality |
+
+The line counts invert the usual intuition. **C is the smallest thing to get working
+and the largest thing to get *right*** — 154 lines reach a grounded spoken answer, but
+everything that makes a voice agent feel good (barge-in, end-of-turn detection, noise
+handling, a voice that is not `alloy`) is left to you. B's extra ~750 lines are mostly
+that polish, and Voice Live supplies the hard parts server-side. A writes the least
+product code but the most Azure configuration.
+
 
 ### Private MCP without native MCP: use a function call
 
@@ -418,17 +498,35 @@ log and police every call.
 
 ### Choosing
 
+One winner per dimension, on the evidence above:
+
+| Dimension | Winner | Margin |
+|---|---|---|
+| Features | **A** | Managed retrieval, threads, tracing, native private MCP |
+| Latency | **C** | 363 ms vs 406 ms vs 1 415 ms first audio |
+| Cost | **C** | One meter; ~1 851 tokens vs A's 7 207 for the same sentence |
+| Residency | **B / C** | You pick the SKU; A inherits the agent's, which is GlobalStandard today |
+| Private network | **A** | Only track with native private MCP and VNet-injected tools |
+| Auth | **A / C** | Credential stays in a Foundry connection or your process; B hands a token to the service |
+| Effort | **A** | Least product code; most Azure configuration |
+
+No track wins twice in the same direction, which is why this is a real decision:
+
 - **Annex D's 1.2 s P95 turn latency dominates** → B or C. Track A cannot get there
   through a cascade, whatever model you pick.
 - **You need Azure voices, custom voice, semantic VAD or an avatar** → B. That is the
-  entire reason to accept Voice Live's ~40–700 ms over the raw API.
-- **You want the shortest possible path and own everything else** → C. One hop, one
-  deployment, one residency story, and the lowest measured latency — but you build
-  VAD, barge-in polish and noise handling yourself, and you live with `alloy`.
+  entire reason to accept Voice Live's ~40–700 ms and second meter.
+- **Cost or residency dominates** → C. One hop, one deployment, one bill, one region.
 - **Least code, governance, auditability dominates** → A, private Standard setup.
 - **Private MCP with native tool semantics** → A is the only option.
 - **Private MCP but you need your own realtime model** → B or C, with the MCP client
   in your backend as a function tool.
+
+For this tender specifically: **B**. Annex D rules out A on latency, and Annex C's ban
+on per-token pricing plus M-01's EU residency rule out A's GlobalStandard `gpt-5`.
+C is faster and cheaper, but a bid assistant that speaks with `alloy` and has no
+barge-in tuning is a worse demo than one that speaks with a branded Azure voice — and
+that single sentence is what Voice Live's premium buys.
 
 ---
 

@@ -115,6 +115,9 @@ Required roles on the Foundry resource: **Cognitive Services User** and
 # 9. Time all three tracks against Annex D's latency targets
 .\.venv\Scripts\python.exe scripts\bench_latency.py --runs 3
 
+# 10. What does each track actually meter?
+.\.venv\Scripts\python.exe scripts\probe_cost_signals.py
+
 # Headless checks for Track B (no microphone needed)
 .\.venv\Scripts\python.exe scripts\test_tools.py
 .\.venv\Scripts\python.exe scripts\test_backend_turn.py

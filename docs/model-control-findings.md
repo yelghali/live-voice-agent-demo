@@ -461,10 +461,43 @@ Once you accept a Data Zone chat deployment for the agent, both shapes are viabl
 | **Private MCP** | via backend function proxy (**proven**) | **native**, through your VNet subnet |
 | **MCP tool discovery** | manual schemas | **automatic** |
 | **MCP approval flow** | you build it | **built in** |
+| **MCP turn completion** | **you must call `response.create()`** after `mcp_call.completed`, or the turn goes silent | **agent orchestrates the loop** and speaks the result |
 | **Threads / tracing / versioning** | you build it | **built in** |
 | **Interim "let me check…"** | unsupported on realtime | **supported** |
 | **Infra to stand up** | Foundry + private endpoint + **one backend** | Standard setup: **BYO Storage + AI Search + Cosmos DB**, VNet, /27 delegated subnet, 3+ private endpoints, **and still a backend** |
 | **Code you own** | retrieval + tool plumbing | session plumbing only |
+
+### MCP through agent voice mode: verified
+
+The FAQ's "supported ... further with Foundry (new) agents" is ambiguous — it could
+mean the agent can use MCP via the Responses API, or that MCP still fires when the
+agent is driven through Voice Live. `scripts/probe_agent_mcp.py` settles the second,
+which is the one that matters for a voice product:
+
+```
+CONTROL - File Search through voice mode
+  A: "It's due on the tenth of April twenty twenty-six at twelve noon CET."   PASS
+
+TEST - MCP through voice mode
+  [event] response.mcp_call.in_progress
+  [event] response.mcp_call_arguments.done
+  [event] response.mcp_call.completed
+  A: "byom-azure-openai-realtime, byom-azure-openai-chat-completion, and
+      byom-foundry-anthropic-messages"                                        PASS
+```
+
+Three things worth noting, two of which corrected earlier assumptions here:
+
+1. It works on a **basic** agent setup — no VNet, no Standard setup. Private
+   networking is only needed to make the MCP *server* private, not to use MCP.
+2. The MCP lifecycle **is mirrored onto the Voice Live socket** as
+   `response.mcp_call.*`, so tool activity can be surfaced in the UI for free. An
+   earlier draft assumed these events stayed inside the Agent Service.
+3. The client does **not** call `response.create()` afterwards. The agent orchestrates
+   the tool loop and speaks the result — the exact opposite of direct-model mode,
+   where omitting that call ends the turn in silence.
+
+Point 3 is a real ergonomic advantage for B that the latency comparison alone hides.
 
 ### Three challenges to the framing
 

@@ -239,6 +239,76 @@ model.
 
 ---
 
+## Networking: who dials out, and can it be private?
+
+This is the constraint most likely to decide the architecture in a regulated tender,
+and it cuts the opposite way from everything above.
+
+### Who originates the connection
+
+| | Track A — agent mode | Track B — direct model |
+|---|---|---|
+| MCP server is called by | Foundry Agent Service | **Voice Live itself** |
+| Retrieval is called by | Foundry (File Search / AI Search) | **your backend** |
+
+Proved for Track B by pointing the MCP tool at `http://localhost:9999/mcp` — a server
+only reachable from this laptop. The session accepted the tool, then:
+
+```
+session.updated (tools accepted)
+mcp_list_tools.in_progress
+mcp_list_tools.failed
+```
+
+Voice Live is dialling out, not the client. The tool declaration is accepted
+regardless, so a bad URL fails at discovery rather than at configuration.
+
+### What that means for private networking
+
+**MCP.** In Track B the MCP server must be reachable from the Voice Live service —
+in practice, a public endpoint. The `mcp` tool takes only `server_url`, `headers`,
+`authorization`, `allowed_tools` and `require_approval`; there is no VNet or private
+link parameter, and the troubleshooting guidance is to confirm the server is
+"accessible from Azure's network". Authentication can be locked down; network
+exposure cannot.
+
+Track A does support private MCP, and it is documented explicitly:
+
+| Agent tool | Supported when network-isolated | Traffic flow |
+|---|---|---|
+| MCP Tool (Private MCP) | yes | through your VNet subnet |
+| Azure AI Search | yes | through private endpoint |
+| File Search | yes | through private endpoint |
+| Function Calling | yes | Microsoft backbone |
+| Bing / Websearch / SharePoint | yes | **public endpoint** |
+
+Private MCP requires **Standard agent setup with VNet injection** (BYO VNet, subnet
+delegated to `Microsoft.App/environments`, /27 or larger). Basic setup does not
+support it.
+
+**Retrieval.** Track B is the *stronger* position here, not the weaker one. Because
+your backend performs the search, Azure AI Search or the vector store never has to be
+reachable by any Microsoft service — put the backend in the VNet, give the search
+service a private endpoint, and the retrieval path never leaves your network. Track A
+also supports private AI Search, but only with the Standard + VNet setup above.
+
+Note the residual flow either way: the *retrieved text* is sent to Voice Live as tool
+output so the model can speak it. Private networking protects the search service, not
+the content of the answer.
+
+### The uncomfortable summary
+
+- Need **private MCP**? Only Track A, and only with Standard setup + VNet injection.
+- Need **private retrieval** with minimal infrastructure? Track B — your backend owns it.
+- Need private MCP **and** your own realtime model? Not available today. That is the
+  same wall as the model-control finding, arriving from a different direction.
+
+Not verified here: whether the Voice Live WebSocket itself is reachable over a Foundry
+private endpoint with public network access disabled. Worth testing before promising
+a fully private Track B deployment.
+
+---
+
 ## Reproducing
 
 ```bash

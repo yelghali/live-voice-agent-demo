@@ -443,6 +443,77 @@ which is exactly the right choice for an EU tender.
 
 ---
 
+## Decision: the two shapes that satisfy EU residency AND private networking
+
+Once you accept a Data Zone chat deployment for the agent, both shapes are viable:
+
+* **A — Direct + BYOM + function calls.** Your backend holds the Voice Live socket,
+  runs retrieval, and acts as the MCP client for any private MCP server.
+* **B — Agent voice mode (Data Zone model) + native MCP on Standard private setup.**
+
+| | A — Direct + BYOM + functions | B — Agent + private Standard |
+|---|---|---|
+| **Speech (STT/TTS)** | in resource region | in resource region |
+| **LLM residency** | your `DataZoneStandard` deployment | your `DataZoneStandard` deployment |
+| **Audio path** | **native speech-to-speech** | cascaded STT → LLM → TTS |
+| **Turn latency** | **lowest achievable** | + STT and TTS hops |
+| **Private RAG** | backend → private endpoint | File Search / AI Search → private endpoint |
+| **Private MCP** | via backend function proxy (**proven**) | **native**, through your VNet subnet |
+| **MCP tool discovery** | manual schemas | **automatic** |
+| **MCP approval flow** | you build it | **built in** |
+| **Threads / tracing / versioning** | you build it | **built in** |
+| **Interim "let me check…"** | unsupported on realtime | **supported** |
+| **Infra to stand up** | Foundry + private endpoint + **one backend** | Standard setup: **BYO Storage + AI Search + Cosmos DB**, VNet, /27 delegated subnet, 3+ private endpoints, **and still a backend** |
+| **Code you own** | retrieval + tool plumbing | session plumbing only |
+
+### Three challenges to the framing
+
+**1. Agent mode does not remove the backend.** Something still has to hold the Voice
+Live WebSocket and serve the browser. Option B makes that process thinner; it does not
+delete it. "Less infrastructure" is true of *tools*, not of *hosting*.
+
+**2. Private MCP is not a differentiator.** B gets it natively; A gets it through a
+backend proxy, demonstrated end-to-end in
+`scripts/probe_private_mcp_via_function.py`. What B actually buys is *native MCP
+semantics* — automatic discovery, the approval flow, service-side retries — not
+network reach.
+
+**3. Both options share an unverified inbound risk.** To make either fully private you
+need a custom domain plus a private endpoint on the Foundry resource, with the backend
+inside the VNet. `fdy-sa33b5nih2ogs` already has a custom domain, so the pattern
+applies. But the Speech private-link guidance warns that passing an auth token in the
+`Authorization` header works "only if you turned on the **All networks** access
+option" — and Voice Live agent mode is **Entra-only**. Whether that restriction
+applies to the Voice Live data plane is **not verified here**. It is a risk to both
+shapes, so it does not pick a winner, but it must be tested on a throwaway resource
+before either is promised.
+
+### So which one?
+
+The differentiators reduce to a single trade:
+
+> **A trades managed retrieval and governance for latency and control.
+> B trades latency for managed retrieval and governance.**
+
+For this tender, **A**. Annex D asks for a first response under 1.5 s and a turn
+latency under 1.2 s at the 95th percentile, and cascading recognition → generation →
+synthesis adds two model hops to every turn. A native speech-to-speech path is the
+only one with headroom, and P-03 is scored, not aspirational.
+
+Choose **B** instead when the scored criteria are governance-shaped rather than
+latency-shaped — auditability, approval trails, thread history, agent versioning — or
+when nobody on the team wants to own a retrieval path.
+
+Do not choose on infrastructure cost: B's Standard setup is a materially larger
+commitment (BYO Storage, AI Search and Cosmos DB, VNet injection, a delegated subnet,
+several private endpoints) than A's single backend behind a private endpoint.
+
+**This is measurable, not a matter of taste.** Both tracks in this repo work today,
+so the honest way to settle it is to time a turn on each against the P-02/P-03
+targets and let the numbers decide.
+
+---
+
 ## Reproducing
 
 ```bash

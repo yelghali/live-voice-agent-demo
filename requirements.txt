@@ -1,0 +1,22 @@
+# Voice Live SDK. The [aiohttp] extra pulls in the async WebSocket transport that
+# azure.ai.voicelive.aio.connect() requires - without it the import fails.
+azure-ai-voicelive[aiohttp]>=1.3.0
+
+# Foundry Agent Service (agent versions, toolboxes, file search)
+azure-ai-projects>=2.4.0
+
+# Responses API client used via AIProjectClient.get_openai_client()
+openai>=1.109.0
+
+# azure-ai-projects imports httpx directly. openai 3.x ships httpx2 instead, so
+# httpx has to be requested explicitly or `import azure.ai.projects` fails.
+httpx>=0.28.1
+
+# Entra ID auth - agent mode is Entra-only, no API keys
+azure-identity>=1.19.0
+
+# Local microphone capture / speaker playback (PCM16, 24 kHz, mono)
+pyaudio>=0.2.14
+
+# .env loading
+python-dotenv>=1.0.1

@@ -42,7 +42,7 @@ from azure.ai.voicelive.models import (
 )
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 from backend.tools import McpProxy
 
 HOST, PORT = "127.0.0.1", 8765
@@ -103,7 +103,7 @@ async def start_private_server() -> web.AppRunner:
 
 async def try_native_mcp(settings: Settings) -> bool:
     print("A. Native MCP tool - Voice Live dials the private server")
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,
@@ -155,7 +155,7 @@ async def try_function_proxy(settings: Settings) -> bool:
     spoken = ""
     heard_secret = False
 
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,

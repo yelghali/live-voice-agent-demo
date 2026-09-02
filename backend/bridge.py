@@ -33,7 +33,7 @@ from azure.ai.voicelive.models import (
 )
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 from backend.tools import KnowledgeTools, session_tools
 
 logger = logging.getLogger(__name__)
@@ -139,7 +139,7 @@ class VoiceLiveBridge:
         route = "your deployment (BYOM)" if self.use_byom else "Microsoft-hosted"
         logger.info("Connecting to Voice Live: model=%s route=%s", self.model, route)
 
-        async with AzureCliCredential() as credential:
+        async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
             async with connect(
                 endpoint=self.settings.voicelive_endpoint,
                 credential=credential,

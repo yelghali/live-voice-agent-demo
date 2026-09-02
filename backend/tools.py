@@ -30,7 +30,7 @@ import httpx
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 logger = logging.getLogger(__name__)
 
@@ -128,7 +128,7 @@ class KnowledgeTools:
 
     def __init__(self, settings: Settings) -> None:
         self.settings = settings
-        self._credential = AzureCliCredential()
+        self._credential = AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT)
         project = AIProjectClient(
             endpoint=settings.project_endpoint, credential=self._credential
         )

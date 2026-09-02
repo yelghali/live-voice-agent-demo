@@ -17,13 +17,13 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from agent._common import Settings
-from backend.tools import TOOL_SCHEMAS, KnowledgeTools
+from backend.tools import FUNCTION_TOOL_SCHEMAS, MCP_ALLOWED_TOOLS, KnowledgeTools
 
 CASES = [
     ("search_rfp", "proposal deadline", ["10 april", "2026"]),
     ("search_rfp", "how is the price score calculated", ["price_score", "lowest_compliant"]),
     ("search_rfp", "latency after the user stops speaking", ["1.2", "p-03"]),
-    ("search_docs", "Voice Live API bring your own model", ["byom", "voice live"]),
+    ("microsoft_docs_search", "Voice Live API bring your own model", ["byom", "voice live"]),
 ]
 
 
@@ -33,7 +33,8 @@ def main() -> int:
 
     print(f"Vector store : {settings.vector_store_id or '(none)'}")
     print(f"MCP server   : {settings.mcp_server_url}")
-    print(f"Tools        : {[t['name'] for t in TOOL_SCHEMAS]}")
+    print(f"Functions    : {[t['name'] for t in FUNCTION_TOOL_SCHEMAS]}")
+    print(f"MCP tools    : {MCP_ALLOWED_TOOLS}")
     print("-" * 70)
 
     tools = KnowledgeTools(settings)

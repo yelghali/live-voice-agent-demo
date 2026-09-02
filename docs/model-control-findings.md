@@ -350,8 +350,21 @@ front-end bolted onto a model you chose.
 
 ### 2. Latency
 
-`python scripts/bench_latency.py --runs 3` — three measured turns per question after a
-discarded warm-up, medians, single machine, `francecentral`.
+The publication headline uses the later **15 August 2026** run:
+`python scripts/bench_latency.py --runs 10` — ten warm, text-injected, no-tool turns per
+configuration, p50/p95, single machine, `francecentral`.
+
+| Track | Model | Warm p50 | Warm p95 |
+|---|---|---:|---:|
+| A · prompt agent | `gpt-5` (chat, reasoning) | 4.37 s | 5.36 s |
+| A · prompt agent | `gpt-4o-mini` (chat, non-reasoning) | **1.70 s** | 1.84 s |
+| B · Voice Live + BYOM | `gpt-realtime-1.5` (speech-native) | 0.42 s | 0.46 s |
+| C · native AOAI Realtime | `gpt-realtime-1.5` (speech-native) | 0.34 s | 0.36 s |
+
+The table below is an **earlier exploratory three-run median probe from 13 August 2026**.
+It is retained because it includes retrieval, completion, and tool timings that the
+headline no-tool run does not. Do not substitute its medians for the ten-run p50/p95
+values above.
 
 | Track | chit-chat, first audio | chit-chat, complete | retrieval, first audio | retrieval, complete | tool |
 |---|---|---|---|---|---|
@@ -360,21 +373,21 @@ discarded warm-up, medians, single machine, `francecentral`.
 | B · Voice Live direct + BYOM | **406 ms** | 416 ms | 1 958 ms | 3 725 ms | 669 ms |
 | C · native AOAI Realtime | **363 ms** | 387 ms | **1 279 ms** | **2 924 ms** | 559 ms |
 
-Three things this settles:
+Three things the two directional probes support:
 
-1. **Cascaded is a different latency class.** Even on a fast chat model, agent mode
-   needs ~1.4 s before the first syllable, because the LLM has to finish enough text
-   for TTS to start. The realtime tracks start speaking in under half a second. Annex
-   D's P-02 (<1.5 s first response) is already at the edge for track A **before**
-   adding the speech-to-text hop.
+1. **Cascaded is a different latency class.** In the later run, the fast chat model
+   needed 1.70 s p50 before the first syllable, while the realtime tracks started in
+   under half a second. Annex D's P-02 (<1.5 s first response) is already missed by
+   the tested prompt-agent path **before** adding the speech-to-text hop.
 2. **The `gpt-5` number is a model choice, not a cascade tax.** A control agent on
-   `gpt-4o-mini` cut retrieval latency from 13.6 s to 3.1 s. But that is the point:
-   agent mode makes you pick a text model and pay its *entire* think time before a
-   word is spoken, whereas a realtime model talks while it thinks.
-3. **Voice Live costs roughly 40–700 ms over the raw API.** B and C run the *same
-   deployment*; the delta is the Voice Live layer plus Azure TTS instead of native
-   audio. That is the price of Azure voices, semantic VAD, noise suppression and
-   native MCP. Whether it is worth it is a product decision, not a technical one.
+   `gpt-4o-mini` cut no-tool p50 from 4.37 s to 1.70 s. In the earlier exploratory
+   run, it cut retrieval first audio from 13.6 s to 3.1 s. A prompt agent still uses
+   a chat model and waits for enough text before TTS can begin, whereas a realtime
+   model talks while it generates.
+3. **Voice Live added a directional tens-to-hundreds-of-milliseconds gap over the raw
+   API in these sequential probes.** B and C used the same deployment; the observed
+   delta also includes Azure TTS instead of native audio and should not be treated as
+   an isolated service-overhead benchmark.
 
 **Read the numbers honestly.** The user turn is injected as **text**, so the
 speech-to-text hop is excluded from every track. Tracks B and C barely have one — the
@@ -503,7 +516,7 @@ One winner per dimension, on the evidence above:
 | Dimension | Winner | Margin |
 |---|---|---|
 | Features | **A** | Managed retrieval, threads, tracing, native private MCP |
-| Latency | **C** | 363 ms vs 406 ms vs 1 415 ms first audio |
+| Latency | **C** | 0.34 s vs 0.42 s vs 1.70 s warm p50 first audio |
 | Cost | **C** | One meter; ~1 851 tokens vs A's 7 207 for the same sentence |
 | Residency | **B / C** | You pick the SKU; A inherits the agent's, which is GlobalStandard today |
 | Private network | **A** | Only track with native private MCP and VNet-injected tools |
@@ -515,7 +528,7 @@ No track wins twice in the same direction, which is why this is a real decision:
 - **Annex D's 1.2 s P95 turn latency dominates** → B or C. Track A cannot get there
   through a cascade, whatever model you pick.
 - **You need Azure voices, custom voice, semantic VAD or an avatar** → B. That is the
-  entire reason to accept Voice Live's ~40–700 ms and second meter.
+  reason to accept the observed latency gap and second meter.
 - **Cost or residency dominates** → C. One hop, one deployment, one bill, one region.
 - **Least code, governance, auditability dominates** → A, private Standard setup.
 - **Private MCP with native tool semantics** → A is the only option.

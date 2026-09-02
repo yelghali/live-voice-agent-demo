@@ -7,8 +7,9 @@ Three ways to build the same VoiceRAG turn, timed side by side:
   C  **Native Azure OpenAI Realtime** - same deployment, no Voice Live in the path
 
 Two questions per track: one that needs no tool (pure model + TTS latency) and one
-that forces retrieval (adds the tool round trip). Each is run several times and the
-median is reported, because first-token latency is noisy.
+that forces retrieval (adds the tool round trip). The benchmark separately records
+WebSocket/session readiness, the first post-session answer, and subsequent answers.
+Warm samples are reported at p50 and p95 because first-token latency is noisy.
 
 READ THIS BEFORE QUOTING THE NUMBERS
 ------------------------------------
@@ -25,7 +26,7 @@ Treat them as an ordering, not an SLA.
 
 Usage:
     python scripts/bench_latency.py
-    python scripts/bench_latency.py --runs 5
+    python scripts/bench_latency.py --runs 10
     python scripts/bench_latency.py --tracks B,C
 """
 
@@ -33,7 +34,6 @@ from __future__ import annotations
 
 import argparse
 import asyncio
-import statistics
 import sys
 import time
 from dataclasses import dataclass, field
@@ -84,9 +84,24 @@ class Turn:
     tools: list[str] = field(default_factory=list)
 
 
-def median(values: list[float]) -> float | None:
+@dataclass
+class TrackResults:
+    """Connection and conversation measurements for one track."""
+
+    connection_ready_ms: float
+    first_turn: Turn
+    warm: dict[str, list[Turn]]
+
+
+def percentile(values: list[float | None], p: float) -> float | None:
     clean = [v for v in values if v is not None]
-    return statistics.median(clean) if clean else None
+    if not clean:
+        return None
+    ordered = sorted(clean)
+    position = (len(ordered) - 1) * p
+    lower = int(position)
+    upper = min(lower + 1, len(ordered) - 1)
+    return ordered[lower] + (ordered[upper] - ordered[lower]) * (position - lower)
 
 
 # --------------------------------------------------------------------------- #
@@ -157,12 +172,13 @@ async def _voicelive_turn(connection, question: str, tools: KnowledgeTools | Non
 
 
 async def bench_agent_mode(settings: Settings, runs: int,
-                           agent_name: str) -> dict[str, list[Turn]]:
+                           agent_name: str) -> TrackResults:
     """Track A: cascaded agent mode. Tools execute inside Foundry, not here."""
-    results: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
+    warm: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
     send_lock = asyncio.Lock()
 
     async with AzureCliCredential(process_timeout=60) as credential:
+        connection_started = time.perf_counter()
         async with voicelive_connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,
@@ -176,22 +192,25 @@ async def bench_agent_mode(settings: Settings, runs: int,
                 )
             await _drain_until_ready(connection)
 
-            await _voicelive_turn(connection, CHITCHAT, None, send_lock)  # warm-up
+            connection_ready_ms = (time.perf_counter() - connection_started) * 1000
+            first_turn = await _voicelive_turn(connection, CHITCHAT, None, send_lock)
+            _print_turn("A", "first turn", 0, first_turn)
             for question in (CHITCHAT, RETRIEVAL):
                 for i in range(runs):
                     turn = await _voicelive_turn(connection, question, None, send_lock)
-                    results[question].append(turn)
+                    warm[question].append(turn)
                     _print_turn("A", question, i, turn)
-    return results
+    return TrackResults(connection_ready_ms, first_turn, warm)
 
 
 async def bench_direct_model(settings: Settings, tools: KnowledgeTools,
-                             runs: int) -> dict[str, list[Turn]]:
+                             runs: int) -> TrackResults:
     """Track B: Voice Live direct-model on your own deployment, with BYOM."""
-    results: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
+    warm: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
     send_lock = asyncio.Lock()
 
     async with AzureCliCredential(process_timeout=60) as credential:
+        connection_started = time.perf_counter()
         async with voicelive_connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,
@@ -215,13 +234,15 @@ async def bench_direct_model(settings: Settings, tools: KnowledgeTools,
                 )
             await _drain_until_ready(connection)
 
-            await _voicelive_turn(connection, CHITCHAT, tools, send_lock)  # warm-up
+            connection_ready_ms = (time.perf_counter() - connection_started) * 1000
+            first_turn = await _voicelive_turn(connection, CHITCHAT, tools, send_lock)
+            _print_turn("B", "first turn", 0, first_turn)
             for question in (CHITCHAT, RETRIEVAL):
                 for i in range(runs):
                     turn = await _voicelive_turn(connection, question, tools, send_lock)
-                    results[question].append(turn)
+                    warm[question].append(turn)
                     _print_turn("B", question, i, turn)
-    return results
+    return TrackResults(connection_ready_ms, first_turn, warm)
 
 
 async def _drain_until_ready(connection) -> None:
@@ -238,11 +259,12 @@ async def _drain_until_ready(connection) -> None:
 
 
 async def bench_aoai_realtime(settings: Settings, tools: KnowledgeTools, runs: int,
-                              resource: str) -> dict[str, list[Turn]]:
+                              resource: str) -> TrackResults:
     """Track C: the same deployment, reached directly, with no Voice Live layer."""
-    results: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
+    warm: dict[str, list[Turn]] = {CHITCHAT: [], RETRIEVAL: []}
 
     async with AzureCliCredential(process_timeout=60) as credential:
+        connection_started = time.perf_counter()
         client = AsyncAzureOpenAI(
             azure_endpoint=AOAI_HOST.format(resource=resource),
             api_version=AOAI_API_VERSION,
@@ -263,13 +285,15 @@ async def bench_aoai_realtime(settings: Settings, tools: KnowledgeTools, runs: i
                 }
             )
 
-            await _aoai_turn(conn, CHITCHAT, tools)  # warm-up
+            connection_ready_ms = (time.perf_counter() - connection_started) * 1000
+            first_turn = await _aoai_turn(conn, CHITCHAT, tools)
+            _print_turn("C", "first turn", 0, first_turn)
             for question in (CHITCHAT, RETRIEVAL):
                 for i in range(runs):
                     turn = await _aoai_turn(conn, question, tools)
-                    results[question].append(turn)
+                    warm[question].append(turn)
                     _print_turn("C", question, i, turn)
-    return results
+    return TrackResults(connection_ready_ms, first_turn, warm)
 
 
 async def _aoai_turn(conn, question: str, tools: KnowledgeTools) -> Turn:
@@ -327,7 +351,7 @@ async def _aoai_turn(conn, question: str, tools: KnowledgeTools) -> Turn:
 
 
 def _print_turn(track: str, question: str, index: int, turn: Turn) -> None:
-    kind = "retrieval" if question == RETRIEVAL else "chit-chat"
+    kind = "retrieval" if question == RETRIEVAL else question
     first = f"{turn.first_audio_ms:7.0f}" if turn.first_audio_ms else "      -"
     done = f"{turn.done_ms:7.0f}" if turn.done_ms else "      -"
     tool = f"{turn.tool_ms:6.0f}" if turn.tool_ms else "     -"
@@ -335,33 +359,51 @@ def _print_turn(track: str, question: str, index: int, turn: Turn) -> None:
           f"complete {done} ms   tool {tool} ms   {turn.tools or ''}")
 
 
-def summarise(all_results: dict[str, dict[str, list[Turn]]], agent_label: str) -> None:
+def _format_ms(value: float | None) -> str:
+    return f"{value:.0f} ms" if value is not None else "-"
+
+
+def summarise(all_results: dict[str, TrackResults], agent_label: str) -> None:
     labels = {
         "A": f"Voice Live agent mode ({agent_label}, cascaded)",
         "B": "Voice Live direct model (gpt-realtime-1.5, BYOM)",
         "C": "Native AOAI Realtime (gpt-realtime-1.5)",
     }
     print("\n" + "=" * 92)
-    print("MEDIAN LATENCY - text-injected turns, so the STT hop is excluded everywhere")
+    print("LATENCY - text-injected turns, so the STT hop is excluded everywhere")
     print("=" * 92)
-    header = (f"{'Track':<48}{'first audio':>14}{'full answer':>14}{'tool':>10}")
+    print("\nConnection setup and first post-session answer")
+    header = (f"{'Track':<48}{'connection':>14}{'first audio':>14}{'full answer':>14}")
+    print(header)
+    print("-" * 92)
+    for track, result in all_results.items():
+        first = result.first_turn.first_audio_ms
+        done = result.first_turn.done_ms
+        print(f"{labels[track]:<48}{_format_ms(result.connection_ready_ms):>14}"
+              f"{_format_ms(first):>14}{_format_ms(done):>14}")
+
+    header = (f"{'Track':<48}{'p50 first':>14}{'p95 first':>14}"
+              f"{'p50 complete':>14}{'p95 complete':>14}")
     for kind, question in (("chit-chat, no tool", CHITCHAT),
                            ("retrieval, one tool call", RETRIEVAL)):
-        print(f"\n{kind}")
+        print(f"\nWarm {kind}")
         print(header)
         print("-" * 92)
-        for track, results in all_results.items():
-            turns = results.get(question, [])
+        for track, result in all_results.items():
+            turns = result.warm.get(question, [])
             if not turns:
                 continue
-            first = median([t.first_audio_ms for t in turns])
-            done = median([t.done_ms for t in turns])
-            tool = median([t.tool_ms for t in turns]) or 0
-            flag = "" if first is None or first <= P02_FIRST_RESPONSE_MS else "  (over P-02)"
+            first_p50 = percentile([t.first_audio_ms for t in turns], 0.50)
+            first_p95 = percentile([t.first_audio_ms for t in turns], 0.95)
+            done_p50 = percentile([t.done_ms for t in turns], 0.50)
+            done_p95 = percentile([t.done_ms for t in turns], 0.95)
+            flag = ("" if first_p95 is None or first_p95 <= P02_FIRST_RESPONSE_MS
+                    else "  (p95 over P-02)")
             print(f"{labels[track]:<48}"
-                  f"{(f'{first:.0f} ms' if first else '-'):>14}"
-                  f"{(f'{done:.0f} ms' if done else '-'):>14}"
-                  f"{(f'{tool:.0f} ms' if tool else '-'):>10}{flag}")
+                  f"{_format_ms(first_p50):>14}"
+                  f"{_format_ms(first_p95):>14}"
+                  f"{_format_ms(done_p50):>14}"
+                  f"{_format_ms(done_p95):>14}{flag}")
     print(f"\nAnnex D targets: P-02 first response < {P02_FIRST_RESPONSE_MS} ms, "
           f"P-03 turn latency < {P03_TURN_LATENCY_MS} ms (P95, spoken input).")
     print("Add the STT hop before comparing track A against a live-microphone target.")
@@ -370,9 +412,10 @@ def summarise(all_results: dict[str, dict[str, list[Turn]]], agent_label: str) -
 async def main() -> int:
     settings = Settings.load()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--runs", type=int, default=3)
+    parser.add_argument("--runs", type=int, default=10,
+                        help="Warm turns per question and track; use at least 10 for p95.")
     parser.add_argument("--tracks", default="A,B,C")
-    parser.add_argument("--resource", default="fdy-sa33b5nih2ogs")
+    parser.add_argument("--resource", default=settings.aoai_resource_name)
     parser.add_argument("--agent-name", default=settings.agent_name,
                         help="Which agent track A drives. Point this at an agent on a "
                              "non-reasoning model to separate cascade overhead from "
@@ -381,9 +424,16 @@ async def main() -> int:
 
     settings.require("VOICELIVE_ENDPOINT", "PROJECT_ENDPOINT", "PROJECT_NAME")
     wanted = [t.strip().upper() for t in args.tracks.split(",") if t.strip()]
+    if "C" in wanted and not args.resource:
+        parser.error(
+            "Track C needs an Azure OpenAI resource name. Set AOAI_RESOURCE_NAME in "
+            ".env, pass --resource, or drop it with --tracks A,B."
+        )
 
-    print(f"Latency benchmark - {args.runs} measured turns per question, "
-          f"plus one discarded warm-up\n")
+    if args.runs < 2:
+        parser.error("--runs must be at least 2 to calculate p95.")
+    print(f"Latency benchmark - one connection/setup measurement, one first-turn "
+          f"measurement, and {args.runs} warm turns per question\n")
 
     tools = KnowledgeTools(settings)
     all_results: dict[str, dict[str, list[Turn]]] = {}

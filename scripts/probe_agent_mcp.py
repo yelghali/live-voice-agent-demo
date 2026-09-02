@@ -46,7 +46,7 @@ from azure.ai.voicelive.models import (
 )
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 TURN_TIMEOUT_SECONDS = 120
 
@@ -114,7 +114,7 @@ async def main() -> int:
     print("Mode    : Voice Live AGENT mode (tools run inside Foundry Agent Service)")
     print("=" * 74)
 
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,

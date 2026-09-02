@@ -2,8 +2,8 @@
 
 The agent answers RFP questions with the Foundry **File Search** tool, which reads
 from an OpenAI-compatible vector store. This script creates that store, uploads
-everything in ``data/rfp/``, waits for indexing, and prints the store id to put in
-``.env`` as ``VECTOR_STORE_ID``.
+everything in ``data/rfp/``, waits for indexing, and writes the store id back to
+``.env`` as ``VECTOR_STORE_ID`` so the agent and backend pick it up automatically.
 
 Re-running with the same ``--name`` reuses the existing store instead of creating a
 duplicate, so this is safe to run repeatedly.
@@ -11,6 +11,7 @@ duplicate, so this is safe to run repeatedly.
 Usage:
     python agent/setup_knowledge.py
     python agent/setup_knowledge.py --recreate
+    python agent/setup_knowledge.py --no-write-env
 """
 
 from __future__ import annotations
@@ -24,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureCliCredential
 
-from agent._common import REPO_ROOT, Settings
+from agent._common import CLI_PROCESS_TIMEOUT, REPO_ROOT, Settings, write_env_value
 
 DEFAULT_STORE_NAME = "rfp-2026-014"
 RFP_DIR = REPO_ROOT / "data" / "rfp"
@@ -46,6 +47,11 @@ def main() -> int:
         action="store_true",
         help="Delete an existing store with this name before creating it.",
     )
+    parser.add_argument(
+        "--no-write-env",
+        action="store_true",
+        help="Print VECTOR_STORE_ID instead of writing it back to .env.",
+    )
     args = parser.parse_args()
 
     settings = Settings.load()
@@ -59,7 +65,7 @@ def main() -> int:
     print(f"Store   : {args.name}")
     print(f"Source  : {RFP_DIR}  ({len(documents)} files)\n")
 
-    with AzureCliCredential() as credential:
+    with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         project = AIProjectClient(endpoint=settings.project_endpoint, credential=credential)
         openai_client = project.get_openai_client()
 
@@ -95,8 +101,13 @@ def main() -> int:
 
         counts = openai_client.vector_stores.retrieve(store.id).file_counts
         print(f"\nFile counts: {counts}")
-        print("\nAdd this to your .env:")
-        print(f"VECTOR_STORE_ID={store.id}")
+
+        if args.no_write_env:
+            print("\nAdd this to your .env:")
+            print(f"VECTOR_STORE_ID={store.id}")
+        else:
+            write_env_value("VECTOR_STORE_ID", store.id)
+            print(f"\nWrote VECTOR_STORE_ID={store.id} to .env")
 
     return 0
 

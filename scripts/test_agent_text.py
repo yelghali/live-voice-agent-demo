@@ -24,7 +24,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 
 class Checks:
@@ -125,7 +125,7 @@ def main() -> int:
     print(f"Project : {settings.project_endpoint}")
     print(f"Agent   : {args.agent_name}")
 
-    with AzureCliCredential() as credential:
+    with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         project = AIProjectClient(endpoint=settings.project_endpoint, credential=credential)
         openai_client = project.get_openai_client()
 

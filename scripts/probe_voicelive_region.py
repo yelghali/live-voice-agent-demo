@@ -27,7 +27,7 @@ from azure.ai.voicelive.aio import connect
 from azure.ai.voicelive.models import Modality, RequestSession, ServerEventType
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings, dumps
+from agent._common import CLI_PROCESS_TIMEOUT, Settings, dumps
 
 # Give up rather than hang forever if the socket opens but nothing comes back.
 EVENT_TIMEOUT_SECONDS = 30
@@ -62,7 +62,7 @@ async def probe(args: argparse.Namespace, settings: Settings) -> int:
     print(f"Voice       : {args.voice}")
     print("-" * 70)
 
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,

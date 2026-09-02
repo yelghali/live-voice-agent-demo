@@ -47,7 +47,7 @@ from azure.ai.voicelive.aio import connect
 from azure.ai.voicelive.models import Modality, RequestSession, ServerEventType
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings, dumps
+from agent._common import CLI_PROCESS_TIMEOUT, Settings, dumps
 
 EVENT_TIMEOUT_SECONDS = 30
 
@@ -202,7 +202,7 @@ async def main() -> int:
     print("=" * 78)
 
     results: list[tuple[Experiment, Outcome]] = []
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         for exp in build_experiments(settings, agent_name):
             print(f"\n{exp.name}  -  {exp.question}")
             printable = {k: v for k, v in exp.connect_kwargs.items() if k != "api_version"}

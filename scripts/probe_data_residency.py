@@ -51,7 +51,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from azure.ai.projects import AIProjectClient
 from azure.identity import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 # SKU -> (scope label, satisfies a data-zone requirement?)
 SKU_SCOPE: dict[str, tuple[str, bool]] = {
@@ -136,7 +136,7 @@ def check_voice(voice_name: str, region: str) -> tuple[bool, str]:
 
 
 def agent_model(settings: Settings, agent_name: str) -> str | None:
-    with AzureCliCredential() as credential:
+    with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         project = AIProjectClient(endpoint=settings.project_endpoint, credential=credential)
         try:
             agent = project.agents.get(agent_name=agent_name)
@@ -150,8 +150,8 @@ def agent_model(settings: Settings, agent_name: str) -> str | None:
 def main() -> int:
     settings = Settings.load()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--resource", default="fdy-sa33b5nih2ogs")
-    parser.add_argument("--resource-group", default="rg-grchatbot")
+    parser.add_argument("--resource", default=settings.aoai_resource_name)
+    parser.add_argument("--resource-group", default=settings.azure_resource_group)
     parser.add_argument("--agent-name", default=settings.agent_name)
     parser.add_argument(
         "--require-zone",
@@ -161,6 +161,12 @@ def main() -> int:
     args = parser.parse_args()
 
     settings.require("PROJECT_ENDPOINT")
+    if not args.resource or not args.resource_group:
+        raise SystemExit(
+            "This probe reads deployment SKUs with the Azure CLI and needs both a\n"
+            "resource and its resource group. Set AOAI_RESOURCE_NAME and "
+            "AZURE_RESOURCE_GROUP in .env, or pass --resource / --resource-group."
+        )
 
     deployments = list_deployments(args.resource, args.resource_group)
     region = resource_region(args.resource, args.resource_group)

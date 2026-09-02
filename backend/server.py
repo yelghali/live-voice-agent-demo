@@ -11,7 +11,7 @@ Run:
     python -m backend.server
     python -m backend.server --no-byom --port 8080
 
-Then open http://localhost:8000
+Then open http://localhost:8000 (or the --port you chose).
 """
 
 from __future__ import annotations

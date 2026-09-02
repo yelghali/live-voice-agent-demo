@@ -45,7 +45,7 @@ from azure.ai.voicelive.models import (
 )
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import LOGS_DIR, Settings
+from agent._common import CLI_PROCESS_TIMEOUT, LOGS_DIR, Settings
 from agent.audio import AudioProcessor, check_audio_devices
 
 TIMESTAMP = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -91,7 +91,7 @@ class AgentVoiceClient:
         settings = self.settings
         logger.info("Connecting to agent %s in project %s", self.agent_name, settings.project_name)
 
-        async with AzureCliCredential() as credential:
+        async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
             async with connect(
                 endpoint=settings.voicelive_endpoint,
                 credential=credential,

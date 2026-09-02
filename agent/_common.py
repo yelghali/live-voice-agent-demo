@@ -14,14 +14,17 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Mapping
+from urllib.parse import urlparse
 
 from dotenv import load_dotenv
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LOGS_DIR = REPO_ROOT / "logs"
+ENV_PATH = REPO_ROOT / ".env"
 
 #: Agent metadata key that Voice Live reads session configuration from.
 VOICE_LIVE_CONFIG_KEY = "microsoft.voice-live.configuration"
@@ -29,10 +32,54 @@ VOICE_LIVE_CONFIG_KEY = "microsoft.voice-live.configuration"
 #: Foundry caps each agent metadata value at this many characters.
 METADATA_VALUE_LIMIT = 512
 
+#: Seconds to allow ``AzureCliCredential`` for a token. The default of 10 is not
+#: enough for a cold ``az`` process on Windows, which surfaces as an intermittent
+#: "Failed to invoke the Azure CLI" partway through a run.
+CLI_PROCESS_TIMEOUT = 60
+
 
 def _clean(value: str | None) -> str:
     """Return a stripped value, treating blank strings as absent."""
     return (value or "").strip()
+
+
+def _resource_from_endpoint(*endpoints: str) -> str:
+    """First DNS label of the first usable endpoint.
+
+    ``https://fdy-abc123.services.ai.azure.com/`` -> ``fdy-abc123``. Foundry and
+    Azure OpenAI share the resource name across their two domains, so this is the
+    default for scripts that need to build an ``*.openai.azure.com`` host or call
+    ``az cognitiveservices``.
+    """
+    for endpoint in endpoints:
+        host = urlparse(_clean(endpoint)).hostname or ""
+        label = host.split(".")[0]
+        if label and label not in {"localhost", "www"}:
+            return label
+    return ""
+
+
+def write_env_value(key: str, value: str, env_path: Path = ENV_PATH) -> None:
+    """Persist ``key=value`` in .env, replacing any existing assignment.
+
+    Provisioning scripts produce ids that every later step needs. Printing them and
+    trusting the operator to copy them is how a demo ends up silently ungrounded, so
+    they are written back to .env instead.
+    """
+    line = f"{key}={value}"
+    if not env_path.exists():
+        env_path.write_text(line + "\n", encoding="utf-8")
+        os.environ[key] = value
+        return
+
+    text = env_path.read_text(encoding="utf-8")
+    pattern = re.compile(rf"^[ \t]*{re.escape(key)}[ \t]*=.*$", re.MULTILINE)
+    if pattern.search(text):
+        text = pattern.sub(line, text, count=1)
+    else:
+        text = text.rstrip("\n") + f"\n{line}\n"
+    env_path.write_text(text, encoding="utf-8")
+    os.environ[key] = value
 
 
 @dataclass(frozen=True)
@@ -57,6 +104,8 @@ class Settings:
     vector_store_id: str
     mcp_server_url: str
     mcp_server_label: str
+    aoai_resource_name: str
+    azure_resource_group: str
     missing: tuple[str, ...] = field(default=())
 
     @classmethod
@@ -95,6 +144,11 @@ class Settings:
             mcp_server_url=_clean(os.environ.get("MCP_SERVER_URL"))
             or "https://learn.microsoft.com/api/mcp",
             mcp_server_label=_clean(os.environ.get("MCP_SERVER_LABEL")) or "mslearn",
+            aoai_resource_name=_clean(os.environ.get("AOAI_RESOURCE_NAME"))
+            or _resource_from_endpoint(
+                required["PROJECT_ENDPOINT"], required["VOICELIVE_ENDPOINT"]
+            ),
+            azure_resource_group=_clean(os.environ.get("AZURE_RESOURCE_GROUP")),
             missing=missing,
         )
 

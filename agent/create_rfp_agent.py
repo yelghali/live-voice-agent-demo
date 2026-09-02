@@ -38,6 +38,7 @@ from azure.ai.projects.models import FileSearchTool, MCPTool, PromptAgentDefinit
 from azure.identity import AzureCliCredential
 
 from agent._common import (
+    CLI_PROCESS_TIMEOUT,
     Settings,
     build_voice_live_config,
     chunk_config,
@@ -87,16 +88,23 @@ requirement or a disqualifier, say so immediately.
 """
 
 
-def build_tools(settings: Settings) -> list:
+def build_tools(settings: Settings, allow_ungrounded: bool = False) -> list:
     tools: list = []
 
     if settings.vector_store_id:
         tools.append(
             FileSearchTool(vector_store_ids=[settings.vector_store_id], max_num_results=8)
         )
+    elif allow_ungrounded:
+        print("WARNING: VECTOR_STORE_ID is empty - creating the agent without File Search.")
+        print("         It will not be able to answer anything about the RFP pack.\n")
     else:
-        print("WARNING: VECTOR_STORE_ID is empty - skipping File Search.")
-        print("         Run: python agent/setup_knowledge.py\n")
+        raise SystemExit(
+            "VECTOR_STORE_ID is empty, so the agent would be created without File Search\n"
+            "and could not answer a single RFP question.\n"
+            "Run: python agent/setup_knowledge.py\n"
+            "Or pass --allow-ungrounded if that is genuinely what you want."
+        )
 
     tools.append(
         MCPTool(
@@ -118,6 +126,11 @@ def main() -> int:
     parser.add_argument("--model", default=settings.model_deployment_name)
     parser.add_argument("--voice", default=settings.voice_name)
     parser.add_argument("--voice-type", default=settings.voice_type)
+    parser.add_argument(
+        "--allow-ungrounded",
+        action="store_true",
+        help="Create the agent even when no vector store is configured.",
+    )
     args = parser.parse_args()
 
     settings.require("PROJECT_ENDPOINT", "MODEL_DEPLOYMENT_NAME")
@@ -135,7 +148,7 @@ def main() -> int:
     print(f"Voice config: {len(config_json)} chars -> {len(metadata)} metadata chunk(s)")
     print("-" * 74)
 
-    with AzureCliCredential() as credential:
+    with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         project = AIProjectClient(endpoint=settings.project_endpoint, credential=credential)
 
         agent = project.agents.create_version(
@@ -143,7 +156,7 @@ def main() -> int:
             definition=PromptAgentDefinition(
                 model=args.model,
                 instructions=INSTRUCTIONS,
-                tools=build_tools(settings),
+                tools=build_tools(settings, args.allow_ungrounded),
             ),
             metadata=metadata,
         )

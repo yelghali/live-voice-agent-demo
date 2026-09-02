@@ -29,7 +29,7 @@ from azure.ai.voicelive.aio import connect
 from azure.ai.voicelive.models import ServerEventType
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 EVENT_TIMEOUT_SECONDS = 45
 UNREACHABLE_URL = "http://localhost:9999/mcp"
@@ -40,7 +40,7 @@ async def probe(settings: Settings, server_url: str, model: str) -> int:
     print(f"Model      : {model}")
     print("-" * 70)
 
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,

@@ -29,7 +29,7 @@ from azure.ai.voicelive.aio import connect
 from azure.ai.voicelive.models import Modality, RequestSession, ServerEventType
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 EVENT_TIMEOUT_SECONDS = 30
 
@@ -111,7 +111,7 @@ async def main() -> int:
     print(f"Endpoint    : {settings.voicelive_endpoint}")
     print(f"API version : {settings.api_version}\n")
 
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         if not args.models_only:
             print(f"VOICES  (probed with model={VOICE_PROBE_MODEL})")
             for name, voice_type, note in CANDIDATE_VOICES:

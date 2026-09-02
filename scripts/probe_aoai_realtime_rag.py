@@ -74,13 +74,18 @@ TOOLS = [
 async def main() -> int:
     settings = Settings.load()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--resource", default="fdy-sa33b5nih2ogs")
+    parser.add_argument("--resource", default=settings.aoai_resource_name)
     parser.add_argument("--model", default=settings.realtime_deployment_name)
     parser.add_argument("--voice", default="alloy")
     parser.add_argument("--ask", default="What is the proposal deadline for this tender?")
     args = parser.parse_args()
 
     settings.require("PROJECT_ENDPOINT")
+    if not args.resource:
+        raise SystemExit(
+            "No Azure OpenAI resource name. Set AOAI_RESOURCE_NAME in .env "
+            "(or pass --resource); it is normally the first label of PROJECT_ENDPOINT."
+        )
     endpoint = AOAI_HOST.format(resource=args.resource)
 
     print("Track C - native Azure OpenAI Realtime (no Voice Live)")

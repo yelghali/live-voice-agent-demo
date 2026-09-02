@@ -216,11 +216,16 @@ async def main() -> int:
     settings = Settings.load()
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--tracks", default="A,B,C")
-    parser.add_argument("--resource", default="fdy-sa33b5nih2ogs")
+    parser.add_argument("--resource", default=settings.aoai_resource_name)
     args = parser.parse_args()
 
     settings.require("VOICELIVE_ENDPOINT", "PROJECT_ENDPOINT", "PROJECT_NAME")
     wanted = [t.strip().upper() for t in args.tracks.split(",") if t.strip()]
+    if "C" in wanted and not args.resource:
+        parser.error(
+            "Track C needs an Azure OpenAI resource name. Set AOAI_RESOURCE_NAME in "
+            ".env, pass --resource, or drop it with --tracks A,B."
+        )
 
     print(f"One identical turn per track: {QUESTION!r}")
     print("=" * 74)

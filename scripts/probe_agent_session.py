@@ -29,14 +29,14 @@ from azure.ai.voicelive.models import ServerEventType
 from azure.identity import AzureCliCredential as SyncAzureCliCredential
 from azure.identity.aio import AzureCliCredential
 
-from agent._common import Settings
+from agent._common import CLI_PROCESS_TIMEOUT, Settings
 
 EVENT_TIMEOUT_SECONDS = 30
 
 
 def describe_agent(settings: Settings, agent_name: str, agent_version: str | None) -> dict:
     """The LLM is not reported in the session, so read it from the agent definition."""
-    with SyncAzureCliCredential() as credential:
+    with SyncAzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         project = AIProjectClient(endpoint=settings.project_endpoint, credential=credential)
         if agent_version:
             version = project.agents.get_version(
@@ -55,7 +55,7 @@ def describe_agent(settings: Settings, agent_name: str, agent_version: str | Non
 
 
 async def fetch_session(settings: Settings, agent_name: str, agent_version: str | None):
-    async with AzureCliCredential() as credential:
+    async with AzureCliCredential(process_timeout=CLI_PROCESS_TIMEOUT) as credential:
         async with connect(
             endpoint=settings.voicelive_endpoint,
             credential=credential,

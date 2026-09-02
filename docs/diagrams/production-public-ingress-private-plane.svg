@@ -1,0 +1,150 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="760" viewBox="0 0 1440 760" role="img" aria-labelledby="title desc">
+  <title id="title">Optional public edge with a private application and data plane</title>
+  <desc id="desc">An authenticated user enters through an optional public edge. A private application plane handles session policy, retrieval, tools, observability, and private endpoints. Voice Live and Foundry services remain service boundaries whose paths must be verified per architecture.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset=".58" stop-color="#f5fbf8"/>
+      <stop offset="1" stop-color="#faf7ff"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff8ec"/>
+      <stop offset="1" stop-color="#fff1dc"/>
+    </linearGradient>
+    <linearGradient id="privateCard" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ecfaf4"/>
+      <stop offset="1" stop-color="#dff5eb"/>
+    </linearGradient>
+    <linearGradient id="service" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#edf5ff"/>
+      <stop offset="1" stop-color="#e8efff"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#17324d" flood-opacity=".11"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#3978d4"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#168466"/>
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#7357e5"/>
+    </marker>
+    <style>
+      .title{font:700 31px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .sub{font:15px 'Segoe UI',Arial,sans-serif;fill:#4b6178}
+      .zone{font:700 12px 'Segoe UI',Arial,sans-serif;letter-spacing:1.2px;fill:#526981}
+      .cardTitle{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .cardBody{font:14px 'Segoe UI',Arial,sans-serif;fill:#40566d}
+      .small{font:13px 'Segoe UI',Arial,sans-serif;fill:#486078}
+      .label{font:600 12px 'Segoe UI',Arial,sans-serif;fill:#486078}
+      .legend{font:600 13px 'Segoe UI',Arial,sans-serif;fill:#344e65}
+      .banner{font:600 14px 'Segoe UI',Arial,sans-serif;fill:#7c4300}
+    </style>
+  </defs>
+
+  <rect width="1440" height="760" fill="url(#bg)"/>
+  <circle cx="1360" cy="40" r="112" fill="#7357e5" opacity=".06"/>
+  <circle cx="1290" cy="8" r="48" fill="#18a078" opacity=".07"/>
+
+  <text x="52" y="44" class="title">Optional public edge, private application and data plane</text>
+  <text x="52" y="74" class="sub">Expose the authenticated experience; keep credentials, private data, and tools behind application policy.</text>
+
+  <rect x="50" y="120" width="220" height="500" rx="24" fill="url(#edge)" stroke="#e6a23d" stroke-width="1.7"/>
+  <text x="76" y="150" class="zone">PUBLIC EDGE</text>
+
+  <rect x="306" y="120" width="680" height="500" rx="24" fill="#fff" opacity=".72" stroke="#7fc9ad" stroke-width="1.7" stroke-dasharray="8 7"/>
+  <text x="334" y="150" class="zone">PRIVATE VNET · APPLICATION PLANE</text>
+
+  <rect x="1022" y="120" width="368" height="500" rx="24" fill="#fff" opacity=".74" stroke="#b8c8e7" stroke-width="1.7" stroke-dasharray="8 7"/>
+  <text x="1050" y="150" class="zone">MICROSOFT SERVICE BOUNDARY</text>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="190" width="156" height="112" rx="18" fill="#fff" stroke="#d1dce8" stroke-width="1.5"/>
+    <circle cx="112" cy="226" r="15" fill="#eaf1fb"/>
+    <circle cx="112" cy="222" r="5" fill="#3978d4"/>
+    <path d="M103 237c4-7 15-7 19 0" fill="none" stroke="#3978d4" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="140" y="230" class="cardTitle">User</text>
+    <text x="104" y="266" class="cardBody">Browser or client</text>
+    <text x="104" y="288" class="cardBody">Entra-authenticated</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="82" y="388" width="156" height="124" rx="18" fill="#fff" stroke="#e6a23d" stroke-width="1.7"/>
+    <text x="104" y="424" class="cardTitle">Optional edge</text>
+    <text x="104" y="450" class="cardBody">WAF / App Gateway</text>
+    <text x="104" y="474" class="cardBody">TLS + rate limits</text>
+    <text x="104" y="498" class="cardBody">No data or tool plane</text>
+  </g>
+  <path d="M160 302V388" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="176" y="349" class="label">HTTPS / WSS</text>
+
+  <g filter="url(#shadow)">
+    <rect x="350" y="190" width="286" height="136" rx="20" fill="url(#privateCard)" stroke="#43a981" stroke-width="1.8"/>
+    <text x="376" y="228" class="cardTitle">Application backend</text>
+    <text x="376" y="258" class="cardBody">Session admission + policy</text>
+    <text x="376" y="282" class="cardBody">Managed identity + secrets</text>
+    <text x="376" y="306" class="cardBody">User and action authorization</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="700" y="190" width="238" height="136" rx="20" fill="url(#privateCard)" stroke="#43a981" stroke-width="1.8"/>
+    <text x="726" y="228" class="cardTitle">Private endpoints</text>
+    <text x="726" y="258" class="cardBody">Models + search + storage</text>
+    <text x="726" y="282" class="cardBody">Private DNS + firewall</text>
+    <text x="726" y="306" class="cardBody">Explicit egress only</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="350" y="392" width="286" height="112" rx="20" fill="url(#privateCard)" stroke="#43a981" stroke-width="1.6"/>
+    <text x="376" y="430" class="cardTitle">Private RAG + tools</text>
+    <text x="376" y="458" class="cardBody">AI Search / vector stores</text>
+    <text x="376" y="482" class="cardBody">MCP / functions / enterprise APIs</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="700" y="392" width="238" height="112" rx="20" fill="#fff" stroke="#b9c9d9" stroke-width="1.6"/>
+    <text x="726" y="430" class="cardTitle">Observability</text>
+    <text x="726" y="458" class="cardBody">Logs + traces + cost</text>
+    <text x="726" y="482" class="cardBody">Redaction + retention</text>
+  </g>
+
+  <path d="M238 450H296Q320 450 320 426V282Q320 258 350 258" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="160" y="548" text-anchor="middle" class="label">single authenticated ingress</text>
+  <path d="M636 258H700" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="668" y="244" text-anchor="middle" class="label">private</text>
+  <path d="M494 326V392" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <path d="M552 326C576 362 762 350 804 392" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="1062" y="190" width="286" height="116" rx="20" fill="url(#service)" stroke="#6e93d6" stroke-width="1.8"/>
+    <text x="1088" y="228" class="cardTitle">Voice Live</text>
+    <text x="1088" y="258" class="cardBody">Speech session + audio processing</text>
+    <text x="1088" y="282" class="cardBody">Service path must be documented</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1062" y="382" width="286" height="116" rx="20" fill="url(#service)" stroke="#6e93d6" stroke-width="1.8"/>
+    <text x="1088" y="420" class="cardTitle">Foundry services</text>
+    <text x="1088" y="450" class="cardBody">Models / Agent Service / connections</text>
+    <text x="1088" y="474" class="cardBody">Selected deployment SKU</text>
+  </g>
+
+  <path d="M636 226C760 166 938 172 1062 226" stroke="#7357e5" stroke-width="3" stroke-dasharray="8 7" fill="none" marker-end="url(#arrowPurple)"/>
+  <text x="844" y="177" text-anchor="middle" class="label">Voice Live service path · verify egress and feature support</text>
+  <path d="M938 258H986Q1010 258 1010 282V416Q1010 440 1062 440" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="974" y="350" text-anchor="end" class="label">private endpoint</text>
+  <path d="M1205 306V382" stroke="#7357e5" stroke-width="3" stroke-dasharray="8 7" fill="none" marker-end="url(#arrowPurple)"/>
+  <text x="1220" y="350" class="label">BYOM / service routing</text>
+
+  <g>
+    <line x1="352" y1="560" x2="396" y2="560" stroke="#168466" stroke-width="3"/>
+    <text x="408" y="565" class="legend">private or application-controlled path</text>
+    <line x1="700" y1="560" x2="744" y2="560" stroke="#7357e5" stroke-width="3" stroke-dasharray="8 7"/>
+    <text x="756" y="565" class="legend">service path to verify</text>
+  </g>
+
+  <rect x="50" y="660" width="1340" height="58" rx="16" fill="#fff5e6" stroke="#e5a23c" stroke-width="1.6"/>
+  <text x="76" y="695" class="banner">Design principle: keep credentials, private data, and tools behind application policy; review each service link as a separate network and residency decision.</text>
+</svg>

@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">Direct Realtime API architecture</title>
+  <desc id="desc">An authenticated client connects to an application-responsible realtime voice runtime. The backend reaches a realtime model through a private endpoint and handles retrieval, tools, credentials, and conversation behavior.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3fbf7"/>
+      <stop offset=".52" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#f3f7ff"/>
+    </linearGradient>
+    <linearGradient id="backend" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#087f65"/>
+      <stop offset="1" stop-color="#32aa7c"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f6cbd"/>
+      <stop offset="1" stop-color="#3a96dd"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#17324d" flood-opacity=".12"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#3978d4"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#168466"/>
+    </marker>
+    <style>
+      .title{font:700 31px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .sub{font:15px 'Segoe UI',Arial,sans-serif;fill:#4b6178}
+      .eyebrow{font:700 12px 'Segoe UI',Arial,sans-serif;letter-spacing:1.3px;fill:#0a795f}
+      .zone{font:700 12px 'Segoe UI',Arial,sans-serif;letter-spacing:1px;fill:#597088}
+      .cardTitle{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .cardBody{font:14px 'Segoe UI',Arial,sans-serif;fill:#40566d}
+      .whiteTitle{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#fff}
+      .whiteBody{font:14px 'Segoe UI',Arial,sans-serif;fill:#eefaff}
+      .label{font:600 12px 'Segoe UI',Arial,sans-serif;fill:#486078}
+      .foot{font:600 14px 'Segoe UI',Arial,sans-serif;fill:#18364f}
+      .pill{font:700 11px 'Segoe UI',Arial,sans-serif;letter-spacing:.7px;fill:#fff}
+      .responsibility{font:600 13px 'Segoe UI',Arial,sans-serif;fill:#27506b}
+    </style>
+  </defs>
+
+  <rect width="1400" height="620" fill="url(#bg)"/>
+  <circle cx="1315" cy="44" r="98" fill="#0f6cbd" opacity=".07"/>
+  <circle cx="1240" cy="10" r="48" fill="#18a078" opacity=".08"/>
+
+  <text x="56" y="42" class="eyebrow">PATTERN 1 · APPLICATION VOICE RUNTIME</text>
+  <text x="56" y="82" class="title">Realtime API direct</text>
+  <text x="56" y="112" class="sub">One model endpoint and the clearest credential boundary; your application handles the voice runtime.</text>
+
+  <rect x="300" y="146" width="710" height="374" rx="24" fill="#fff" opacity=".72" stroke="#9dd7c2" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="326" y="172" class="zone">YOUR PRIVATE APPLICATION PLANE</text>
+  <rect x="1044" y="146" width="300" height="374" rx="24" fill="#fff" opacity=".72" stroke="#aac9e7" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="1070" y="172" class="zone">MICROSOFT FOUNDRY MODELS</text>
+  <text x="56" y="172" class="zone">CLIENT</text>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="220" width="210" height="154" rx="20" fill="#fff" stroke="#c9d6e5" stroke-width="1.5"/>
+    <circle cx="92" cy="258" r="17" fill="#eaf1fb"/>
+    <circle cx="92" cy="253" r="6" fill="#3978d4"/>
+    <path d="M81 270c4-8 18-8 22 0" fill="none" stroke="#3978d4" stroke-width="3" stroke-linecap="round"/>
+    <text x="120" y="255" class="cardTitle">Authenticated</text>
+    <text x="120" y="277" class="cardTitle">client</text>
+    <text x="80" y="310" class="cardBody">PCM audio + app session</text>
+    <text x="80" y="333" class="cardBody">No model credentials</text>
+    <text x="80" y="356" class="cardBody">Playback buffer in client</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="336" y="202" width="356" height="190" rx="20" fill="url(#backend)"/>
+    <rect x="358" y="224" width="104" height="24" rx="12" fill="#fff" opacity=".18"/>
+    <text x="410" y="240" text-anchor="middle" class="pill">APP HANDLES</text>
+    <text x="360" y="282" class="whiteTitle">Realtime voice runtime</text>
+    <text x="360" y="310" class="whiteBody">VAD + interruption + audio buffering</text>
+    <text x="360" y="334" class="whiteBody">Reconnect + quotas + tool loop</text>
+    <text x="360" y="358" class="whiteBody">User and action authorization</text>
+    <text x="360" y="382" class="whiteBody">Managed identity + observability</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="756" y="220" width="222" height="154" rx="20" fill="#edf9f4" stroke="#4dad88" stroke-width="2"/>
+    <rect x="778" y="240" width="132" height="24" rx="12" fill="#d9f2e8"/>
+    <text x="844" y="256" text-anchor="middle" class="label">PRIVATE ENDPOINT</text>
+    <text x="780" y="296" class="cardTitle">Network boundary</text>
+    <text x="780" y="324" class="cardBody">Private DNS + firewall</text>
+    <text x="780" y="348" class="cardBody">Allowed egress only</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1076" y="210" width="236" height="174" rx="20" fill="url(#model)"/>
+    <rect x="1098" y="232" width="104" height="24" rx="12" fill="#fff" opacity=".18"/>
+    <text x="1150" y="248" text-anchor="middle" class="pill">SPEECH-NATIVE</text>
+    <text x="1100" y="290" class="whiteTitle">Realtime deployment</text>
+    <text x="1100" y="318" class="whiteBody">Audio in + audio out</text>
+    <text x="1100" y="342" class="whiteBody">Your deployment SKU</text>
+    <text x="1100" y="366" class="whiteBody">Model-native voices</text>
+  </g>
+
+  <path d="M266 297H336" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M692 297H756" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <path d="M978 297H1076" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <text x="301" y="285" text-anchor="middle" class="label">WSS</text>
+  <text x="724" y="285" text-anchor="middle" class="label">private</text>
+  <text x="1027" y="285" text-anchor="middle" class="label">audio events</text>
+
+  <g filter="url(#shadow)">
+    <rect x="336" y="430" width="306" height="66" rx="16" fill="#edf9f4" stroke="#4dad88" stroke-width="1.5"/>
+    <text x="360" y="457" class="cardTitle">Authenticated RAG</text>
+    <text x="360" y="481" class="cardBody">Filter results before the model sees them</text>
+  </g>
+  <g filter="url(#shadow)">
+    <rect x="672" y="430" width="306" height="66" rx="16" fill="#edf9f4" stroke="#4dad88" stroke-width="1.5"/>
+    <text x="696" y="457" class="cardTitle">Private tools / MCP</text>
+    <text x="696" y="481" class="cardBody">Backend holds credentials and executes calls</text>
+  </g>
+  <path d="M474 392V430" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+  <path d="M556 392C580 416 772 406 810 430" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+
+  <rect x="56" y="552" width="1288" height="42" rx="13" fill="#edf9f4" stroke="#b9ddcf"/>
+  <text x="78" y="578" class="foot">Best fit: private model access, low model-path latency, and credential custody justify the additional application work.</text>
+</svg>

@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="650" viewBox="0 0 1400 650" role="img" aria-labelledby="title desc">
+  <title id="title">Directional warm first-audio latency test</title>
+  <desc id="desc">A bar chart compares warm p50 first-audio latency for the direct Realtime API at 0.34 seconds, Voice Live with BYOM at 0.42 seconds, Voice Live with a prompt agent on GPT-4o mini at 1.70 seconds, and Voice Live with a prompt agent on GPT-5 at 4.37 seconds. The test used ten text-injected turns and is not a production benchmark.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f8fbff"/>
+      <stop offset="1" stop-color="#f5fbf8"/>
+    </linearGradient>
+    <linearGradient id="promptReason" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#7357e5"/>
+      <stop offset="1" stop-color="#a17df1"/>
+    </linearGradient>
+    <linearGradient id="promptFast" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5579d8"/>
+      <stop offset="1" stop-color="#79a3ec"/>
+    </linearGradient>
+    <linearGradient id="byom" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0f8a68"/>
+      <stop offset="1" stop-color="#38b887"/>
+    </linearGradient>
+    <linearGradient id="direct" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#087a9f"/>
+      <stop offset="1" stop-color="#32a8cf"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-30%" width="140%" height="160%">
+      <feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#17324d" flood-opacity=".12"/>
+    </filter>
+    <style>
+      .title{font:700 31px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .sub{font:15px 'Segoe UI',Arial,sans-serif;fill:#4b6178}
+      .axis{font:12px 'Segoe UI',Arial,sans-serif;fill:#60758b}
+      .name{font:700 17px 'Segoe UI',Arial,sans-serif;fill:#172a3f}
+      .detail{font:13px 'Segoe UI',Arial,sans-serif;fill:#526981}
+      .value{font:700 16px 'Segoe UI',Arial,sans-serif;fill:#17324d}
+      .insightTitle{font:700 13px 'Segoe UI',Arial,sans-serif;fill:#5840bf}
+      .insight{font:13px 'Segoe UI',Arial,sans-serif;fill:#40566d}
+      .note{font:600 13px 'Segoe UI',Arial,sans-serif;fill:#7c4300}
+    </style>
+  </defs>
+
+  <rect width="1400" height="650" fill="url(#bg)"/>
+  <circle cx="1325" cy="38" r="105" fill="#7357e5" opacity=".06"/>
+
+  <text x="52" y="48" class="title">Warm first-audio p50: separate model choice from pattern</text>
+  <text x="52" y="78" class="sub">Ten text-injected, no-tool turns per configuration · France Central · 15 August 2026 · p50 shown · directional test, not an SLA</text>
+
+  <rect x="704" y="546" width="640" height="34" rx="12" fill="#f2eeff" stroke="#c8baf1"/>
+  <text x="722" y="568" class="insight"><tspan class="insightTitle">RESULT · </tspan>Chat model change: -2.7 s p50; measured gap to BYOM: ~1.3 s.</text>
+
+  <g stroke="#d9e3ee" stroke-width="1">
+    <line x1="392" y1="140" x2="392" y2="520"/>
+    <line x1="552" y1="140" x2="552" y2="520"/>
+    <line x1="712" y1="140" x2="712" y2="520"/>
+    <line x1="872" y1="140" x2="872" y2="520"/>
+    <line x1="1032" y1="140" x2="1032" y2="520"/>
+    <line x1="1192" y1="140" x2="1192" y2="520"/>
+    <line x1="1352" y1="140" x2="1352" y2="520"/>
+  </g>
+  <g class="axis">
+    <text x="392" y="130" text-anchor="middle">0 s</text>
+    <text x="552" y="130" text-anchor="middle">1</text>
+    <text x="712" y="130" text-anchor="middle">2</text>
+    <text x="872" y="130" text-anchor="middle">3</text>
+    <text x="1032" y="130" text-anchor="middle">4</text>
+    <text x="1192" y="130" text-anchor="middle">5</text>
+    <text x="1352" y="130" text-anchor="middle">6</text>
+  </g>
+
+  <text x="52" y="205" class="name">Realtime API direct</text>
+  <text x="52" y="227" class="detail">GPT Realtime 1.5 · speech-native</text>
+  <rect x="392" y="180" width="54" height="58" rx="14" fill="url(#direct)" filter="url(#shadow)"/>
+  <text x="464" y="207" class="value">0.34 s</text>
+
+  <text x="52" y="305" class="name">Voice Live + BYOM</text>
+  <text x="52" y="327" class="detail">GPT Realtime 1.5 · speech-native</text>
+  <rect x="392" y="280" width="67" height="58" rx="14" fill="url(#byom)" filter="url(#shadow)"/>
+  <text x="477" y="307" class="value">0.42 s</text>
+
+  <text x="52" y="405" class="name">Voice Live + prompt agent</text>
+  <text x="52" y="427" class="detail">GPT-4o mini · chat · non-reasoning · cascaded</text>
+  <rect x="392" y="380" width="272" height="58" rx="14" fill="url(#promptFast)" filter="url(#shadow)"/>
+  <text x="682" y="407" class="value">1.70 s</text>
+
+  <text x="52" y="505" class="name">Voice Live + prompt agent</text>
+  <text x="52" y="527" class="detail">GPT-5 · chat · reasoning · cascaded</text>
+  <rect x="392" y="480" width="699" height="58" rx="14" fill="url(#promptReason)" filter="url(#shadow)"/>
+  <text x="1110" y="507" class="value">4.37 s</text>
+
+  <rect x="52" y="590" width="1296" height="48" rx="14" fill="#fff5e6" stroke="#e5a23c" stroke-width="1.4"/>
+  <text x="76" y="619" class="note">What is missing: STT (cascaded path only), microphone capture, VAD finalization, playback buffering, tools, concurrency, and enough samples for a production distribution.</text>
+</svg>

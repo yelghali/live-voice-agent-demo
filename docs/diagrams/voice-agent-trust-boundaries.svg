@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="790" viewBox="0 0 1440 790" role="img" aria-labelledby="title description">
+  <title id="title">Enterprise voice-agent trust boundaries</title>
+  <desc id="description">A comparison of Foundry Agent Mode, Voice Live with bring-your-own-model, and native Azure OpenAI Realtime. It shows credential holders, private network paths, public realtime paths, and model residency control.</desc>
+  <defs>
+    <style>
+      .title{font:700 28px Arial,sans-serif;fill:#102a43}.subtitle{font:400 15px Arial,sans-serif;fill:#486581}.label{font:700 16px Arial,sans-serif;fill:#102a43}.body{font:400 13px Arial,sans-serif;fill:#243b53}.small{font:400 12px Arial,sans-serif;fill:#486581}.tiny{font:400 11px Arial,sans-serif;fill:#486581}.badge{font:700 11px Arial,sans-serif;fill:#fff}.card{fill:#fff;stroke:#d9e2ec;stroke-width:1.5}.private{fill:#ecfdf3;stroke:#23a566;stroke-width:1.5}.service{fill:#eef5ff;stroke:#3578e5;stroke-width:1.5}.risk{fill:#fff4e5;stroke:#e68a00;stroke-width:1.5}.line{stroke:#3578e5;stroke-width:2;fill:none}.dash{stroke:#e68a00;stroke-width:2;stroke-dasharray:7 5;fill:none}.mint{stroke:#23a566;stroke-width:2;fill:none}.zone{fill:#f7fbff;stroke:#b7d5f5;stroke-width:1.5;stroke-dasharray:5 5}
+    </style>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#3578e5"/></marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#23a566"/></marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#e68a00"/></marker>
+  </defs>
+  <rect width="1440" height="790" fill="#f8fbff"/>
+  <text x="48" y="52" class="title">Where identity, network traffic, and inference data actually flow</text>
+  <text x="48" y="79" class="subtitle">Solid green = private application path · dashed amber = public realtime/service egress · key = credential holder</text>
+
+  <g transform="translate(48 120)">
+    <rect class="card" width="416" height="590" rx="14"/>
+    <rect x="0" y="0" width="416" height="55" rx="14" fill="#e8f1ff"/>
+    <text x="24" y="34" class="label">A · Foundry Agent Mode</text>
+    <text x="24" y="82" class="small">Managed agent capabilities; chat deployment selects inference.</text>
+    <rect x="24" y="112" width="168" height="59" rx="8" class="card"/>
+    <text x="38" y="138" class="body">User + application client</text><text x="38" y="157" class="tiny">Entra sign-in</text>
+    <rect x="224" y="112" width="168" height="59" rx="8" class="service"/>
+    <text x="238" y="138" class="body">Foundry Agent</text><text x="238" y="157" class="tiny">Entra-only service access</text>
+    <path d="M192 142H224" class="line" marker-end="url(#arrowBlue)"/>
+    <rect x="224" y="216" width="168" height="73" rx="8" class="service"/>
+    <text x="238" y="243" class="body">Chat deployment</text><text x="238" y="262" class="tiny">Residency: agent deployment SKU</text><rect x="238" y="269" width="96" height="15" rx="7" fill="#3578e5"/><text x="247" y="280" class="badge">MODEL BRAIN</text>
+    <path d="M308 171V216" class="line" marker-end="url(#arrowBlue)"/>
+    <rect x="24" y="216" width="168" height="73" rx="8" class="private"/>
+    <text x="38" y="243" class="body">Private RAG / MCP</text><text x="38" y="262" class="tiny">Project connection + MI</text><rect x="38" y="269" width="104" height="15" rx="7" fill="#23a566"/><text x="47" y="280" class="badge">PRIVATE PATH</text>
+    <path d="M224 252H192" class="mint" marker-end="url(#arrowGreen)"/>
+    <rect x="24" y="334" width="368" height="69" rx="8" class="risk"/>
+    <text x="38" y="361" class="body">Public-egress realtime socket</text><text x="38" y="381" class="tiny">Private tools do not make the Voice Live transport private.</text>
+    <path d="M308 289V334" class="dash" marker-end="url(#arrowAmber)"/>
+    <rect x="24" y="442" width="368" height="110" rx="8" fill="#fffaf2" stroke="#f3c47a"/>
+    <text x="38" y="470" class="body">Decision implication</text>
+    <text x="38" y="493" class="small">Best managed RAG, tracing, and native private MCP story.</text>
+    <text x="38" y="516" class="small">But check the chat deployment SKU: a local endpoint does not</text>
+    <text x="38" y="535" class="small">itself prove in-region inference.</text>
+  </g>
+
+  <g transform="translate(512 120)">
+    <rect class="card" width="416" height="590" rx="14"/>
+    <rect x="0" y="0" width="416" height="55" rx="14" fill="#edfdf6"/>
+    <text x="24" y="34" class="label">B · Voice Live + BYOM</text>
+    <text x="24" y="82" class="small">Backend owns the session; your deployment selects inference.</text>
+    <rect x="24" y="112" width="120" height="59" rx="8" class="card"/>
+    <text x="38" y="138" class="body">Browser</text><text x="38" y="157" class="tiny">Audio only</text>
+    <rect x="160" y="100" width="124" height="83" rx="8" class="private"/>
+    <text x="174" y="129" class="body">Backend</text><text x="174" y="148" class="tiny">🔑 MI / service token</text><text x="174" y="167" class="tiny">RAG + tool policy</text>
+    <rect x="300" y="112" width="92" height="59" rx="8" class="service"/>
+    <text x="314" y="138" class="body">Voice Live</text><text x="314" y="157" class="tiny">service</text>
+    <path d="M144 142H160" class="line" marker-end="url(#arrowBlue)"/>
+    <path d="M284 142H300" class="dash" marker-end="url(#arrowAmber)"/>
+    <rect x="224" y="216" width="168" height="73" rx="8" class="service"/>
+    <text x="238" y="243" class="body">Your realtime deployment</text><text x="238" y="262" class="tiny">Residency: your selected SKU</text><rect x="238" y="269" width="96" height="15" rx="7" fill="#3578e5"/><text x="247" y="280" class="badge">MODEL BRAIN</text>
+    <path d="M346 171V216" class="line" marker-end="url(#arrowBlue)"/>
+    <rect x="24" y="216" width="168" height="73" rx="8" class="private"/>
+    <text x="38" y="243" class="body">Private RAG / tools</text><text x="38" y="262" class="tiny">Backend MI; credentials stay here</text><rect x="38" y="269" width="104" height="15" rx="7" fill="#23a566"/><text x="47" y="280" class="badge">PRIVATE PATH</text>
+    <path d="M160 216V183" class="mint" marker-end="url(#arrowGreen)"/>
+    <rect x="24" y="334" width="368" height="69" rx="8" class="risk"/>
+    <text x="38" y="361" class="body">Critical boundary: MCP authorization</text><text x="38" y="381" class="tiny">A service-facing token/header leaves the backend if native MCP is used.</text>
+    <path d="M284 160L300 206" class="dash" marker-end="url(#arrowAmber)"/>
+    <rect x="24" y="442" width="368" height="110" rx="8" fill="#fffaf2" stroke="#f3c47a"/>
+    <text x="38" y="470" class="body">Decision implication</text>
+    <text x="38" y="493" class="small">Choose when Azure voice features and deployment-SKU control</text>
+    <text x="38" y="516" class="small">matter. Scope, rotate, and audit service-facing tool tokens.</text>
+  </g>
+
+  <g transform="translate(976 120)">
+    <rect class="card" width="416" height="590" rx="14"/>
+    <rect x="0" y="0" width="416" height="55" rx="14" fill="#f1edff"/>
+    <text x="24" y="34" class="label">C · Native AOAI Realtime</text>
+    <text x="24" y="82" class="small">Backend owns tools and can privately reach the model endpoint.</text>
+    <rect x="24" y="112" width="120" height="59" rx="8" class="card"/>
+    <text x="38" y="138" class="body">Browser</text><text x="38" y="157" class="tiny">Audio only</text>
+    <rect x="160" y="100" width="124" height="83" rx="8" class="private"/>
+    <text x="174" y="129" class="body">Backend</text><text x="174" y="148" class="tiny">🔑 MI + tool credentials</text><text x="174" y="167" class="tiny">MCP client / policy</text>
+    <rect x="300" y="112" width="92" height="59" rx="8" class="private"/>
+    <text x="314" y="138" class="body">AOAI</text><text x="314" y="157" class="tiny">private endpoint</text>
+    <path d="M144 142H160" class="line" marker-end="url(#arrowBlue)"/>
+    <path d="M284 142H300" class="mint" marker-end="url(#arrowGreen)"/>
+    <rect x="224" y="216" width="168" height="73" rx="8" class="service"/>
+    <text x="238" y="243" class="body">Your realtime deployment</text><text x="238" y="262" class="tiny">Residency: your selected SKU</text><rect x="238" y="269" width="96" height="15" rx="7" fill="#3578e5"/><text x="247" y="280" class="badge">MODEL BRAIN</text>
+    <path d="M346 171V216" class="mint" marker-end="url(#arrowGreen)"/>
+    <rect x="24" y="216" width="168" height="73" rx="8" class="private"/>
+    <text x="38" y="243" class="body">Private RAG / tools</text><text x="38" y="262" class="tiny">Backend keeps all credentials</text><rect x="38" y="269" width="104" height="15" rx="7" fill="#23a566"/><text x="47" y="280" class="badge">PRIVATE PATH</text>
+    <path d="M160 216V183" class="mint" marker-end="url(#arrowGreen)"/>
+    <rect x="24" y="334" width="368" height="69" rx="8" fill="#f3f0ff" stroke="#a78bfa"/>
+    <text x="38" y="361" class="body">Strongest credential custody</text><text x="38" y="381" class="tiny">The backend is the tool client; no tool token needs to cross to a service.</text>
+    <rect x="24" y="442" width="368" height="110" rx="8" fill="#fffaf2" stroke="#f3c47a"/>
+    <text x="38" y="470" class="body">Decision implication</text>
+    <text x="38" y="493" class="small">Lowest measured latency and clearest network ownership, but</text>
+    <text x="38" y="516" class="small">your team owns the production voice experience and operations.</text>
+  </g>
+  <text x="48" y="758" class="small">Residency is assessed per processing surface: model deployment, speech services, retrieval, tools, telemetry, and logs. Validate each against the applicable SKU and contractual commitments.</text>
+</svg>

@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="620" viewBox="0 0 1400 620" role="img" aria-labelledby="title desc">
+  <title id="title">Voice Live with your model deployment</title>
+  <desc id="desc">An authenticated client reaches an application backend. The backend handles policy and private tools, Voice Live handles the speech experience, and inference is routed to a model deployment selected by the customer.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4fbf8"/>
+      <stop offset=".52" stop-color="#f7fbff"/>
+      <stop offset="1" stop-color="#faf6ff"/>
+    </linearGradient>
+    <linearGradient id="voice" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#7357e5"/>
+      <stop offset="1" stop-color="#9b78f2"/>
+    </linearGradient>
+    <linearGradient id="backend" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#087f65"/>
+      <stop offset="1" stop-color="#32aa7c"/>
+    </linearGradient>
+    <linearGradient id="model" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f6cbd"/>
+      <stop offset="1" stop-color="#3a96dd"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#17324d" flood-opacity=".12"/>
+    </filter>
+    <marker id="arrowBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#3978d4"/>
+    </marker>
+    <marker id="arrowGreen" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#168466"/>
+    </marker>
+    <marker id="arrowAmber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M0 0 10 5 0 10z" fill="#d97706"/>
+    </marker>
+    <style>
+      .title{font:700 31px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .sub{font:15px 'Segoe UI',Arial,sans-serif;fill:#4b6178}
+      .eyebrow{font:700 12px 'Segoe UI',Arial,sans-serif;letter-spacing:1.3px;fill:#0a795f}
+      .zone{font:700 12px 'Segoe UI',Arial,sans-serif;letter-spacing:1px;fill:#597088}
+      .cardTitle{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#132238}
+      .cardBody{font:14px 'Segoe UI',Arial,sans-serif;fill:#40566d}
+      .whiteTitle{font:700 18px 'Segoe UI',Arial,sans-serif;fill:#fff}
+      .whiteBody{font:14px 'Segoe UI',Arial,sans-serif;fill:#eefaff}
+      .label{font:600 12px 'Segoe UI',Arial,sans-serif;fill:#486078}
+      .foot{font:600 14px 'Segoe UI',Arial,sans-serif;fill:#18364f}
+      .pill{font:700 11px 'Segoe UI',Arial,sans-serif;letter-spacing:.7px;fill:#fff}
+      .warn{font:600 12px 'Segoe UI',Arial,sans-serif;fill:#9a5200}
+    </style>
+  </defs>
+
+  <rect width="1400" height="620" fill="url(#bg)"/>
+  <circle cx="1320" cy="40" r="100" fill="#7357e5" opacity=".07"/>
+  <circle cx="1240" cy="10" r="44" fill="#16a277" opacity=".08"/>
+
+  <text x="56" y="42" class="eyebrow">PATTERN 2 · VOICE LIVE + YOUR MODEL DEPLOYMENT</text>
+  <text x="56" y="82" class="title">Voice Live + your model deployment (BYOM)</text>
+  <text x="56" y="112" class="sub">Your backend remains the trust anchor while Voice Live supplies the conversation layer.</text>
+
+  <rect x="300" y="146" width="360" height="374" rx="24" fill="#fff" opacity=".7" stroke="#9dd7c2" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="326" y="172" class="zone">YOUR PRIVATE APPLICATION PLANE</text>
+  <rect x="694" y="146" width="300" height="374" rx="24" fill="#fff" opacity=".7" stroke="#c7b9ef" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="720" y="172" class="zone">VOICE LIVE SERVICE</text>
+  <rect x="1028" y="146" width="316" height="374" rx="24" fill="#fff" opacity=".7" stroke="#aac9e7" stroke-width="1.5" stroke-dasharray="7 7"/>
+  <text x="1054" y="172" class="zone">YOUR FOUNDRY DEPLOYMENT</text>
+  <text x="56" y="172" class="zone">CLIENT</text>
+
+  <g filter="url(#shadow)">
+    <rect x="56" y="220" width="210" height="154" rx="20" fill="#fff" stroke="#c9d6e5" stroke-width="1.5"/>
+    <circle cx="92" cy="258" r="17" fill="#eaf1fb"/>
+    <circle cx="92" cy="253" r="6" fill="#3978d4"/>
+    <path d="M81 270c4-8 18-8 22 0" fill="none" stroke="#3978d4" stroke-width="3" stroke-linecap="round"/>
+    <text x="120" y="255" class="cardTitle">Authenticated</text>
+    <text x="120" y="277" class="cardTitle">client</text>
+    <text x="80" y="310" class="cardBody">Audio + app session</text>
+    <text x="80" y="333" class="cardBody">No Azure credentials</text>
+    <text x="80" y="356" class="cardBody">No model or index IDs</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="332" y="210" width="296" height="174" rx="20" fill="url(#backend)"/>
+    <rect x="354" y="232" width="104" height="24" rx="12" fill="#fff" opacity=".18"/>
+    <text x="406" y="248" text-anchor="middle" class="pill">APP HANDLES</text>
+    <text x="356" y="290" class="whiteTitle">Application backend</text>
+    <text x="356" y="318" class="whiteBody">Session admission + user policy</text>
+    <text x="356" y="342" class="whiteBody">Managed identity + correlation</text>
+    <text x="356" y="366" class="whiteBody">Function calls + private RAG</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="726" y="220" width="236" height="154" rx="20" fill="url(#voice)"/>
+    <rect x="748" y="240" width="74" height="24" rx="12" fill="#fff" opacity=".18"/>
+    <text x="785" y="256" text-anchor="middle" class="pill">VOICE</text>
+    <text x="750" y="296" class="whiteTitle">Voice Live</text>
+    <text x="750" y="324" class="whiteBody">VAD + barge-in + audio</text>
+    <text x="750" y="348" class="whiteBody">One managed WebSocket</text>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="1060" y="210" width="252" height="174" rx="20" fill="url(#model)"/>
+    <rect x="1082" y="232" width="72" height="24" rx="12" fill="#fff" opacity=".18"/>
+    <text x="1118" y="248" text-anchor="middle" class="pill">BYOM</text>
+    <text x="1084" y="290" class="whiteTitle">Selected deployment</text>
+    <text x="1084" y="318" class="whiteBody">Realtime, chat, or partner model</text>
+    <text x="1084" y="342" class="whiteBody">Deployment SKU + content filters</text>
+    <text x="1084" y="366" class="whiteBody">PTU where supported</text>
+  </g>
+
+  <path d="M266 297H332" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M628 297H726" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M962 297H1060" stroke="#3978d4" stroke-width="3" fill="none" marker-end="url(#arrowBlue)"/>
+  <text x="299" y="285" text-anchor="middle" class="label">audio</text>
+  <text x="677" y="285" text-anchor="middle" class="label">WSS</text>
+  <text x="1011" y="285" text-anchor="middle" class="label">BYOM profile</text>
+
+  <g filter="url(#shadow)">
+    <rect x="332" y="422" width="296" height="72" rx="16" fill="#edf9f4" stroke="#4dad88" stroke-width="1.5"/>
+    <text x="356" y="451" class="cardTitle">Private knowledge + tools</text>
+    <text x="356" y="476" class="cardBody">RAG / APIs / private MCP through functions</text>
+  </g>
+  <path d="M480 384V422" stroke="#168466" stroke-width="3" fill="none" marker-end="url(#arrowGreen)"/>
+
+  <g filter="url(#shadow)">
+    <rect x="726" y="422" width="586" height="72" rx="16" fill="#fff7e8" stroke="#efab4a" stroke-width="1.5"/>
+    <text x="750" y="451" class="cardTitle">Native MCP is a separate credential boundary</text>
+    <text x="750" y="476" class="warn">Voice Live receives your bearer token; the MCP endpoint must be reachable by the service.</text>
+  </g>
+  <path d="M844 374V422" stroke="#d97706" stroke-width="3" stroke-dasharray="7 6" fill="none" marker-end="url(#arrowAmber)"/>
+
+  <rect x="56" y="552" width="1288" height="42" rx="13" fill="#edf9f4" stroke="#b9ddcf"/>
+  <text x="78" y="578" class="foot">Best fit: Voice Live speech features plus control of model, deployment SKU, throughput, and content filters.</text>
+</svg>

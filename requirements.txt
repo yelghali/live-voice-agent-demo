@@ -3,7 +3,7 @@
 azure-ai-voicelive[aiohttp]>=1.3.0
 
 # Foundry Agent Service (agent versions, toolboxes, file search)
-azure-ai-projects>=2.4.0
+azure-ai-projects>=2.7.0
 
 # Responses API client used via AIProjectClient.get_openai_client(). The [realtime]
 # extra adds the websockets transport that client.realtime.connect() needs for the

@@ -1,0 +1,5320 @@
+{
+  "captured_at_utc": "2026-09-26T18:41:31.792614+00:00",
+  "region": "francecentral",
+  "method": {
+    "audio_file": "logs\\foundry-voice-benchmark.wav",
+    "sample_rate_hz": 24000,
+    "channels": 1,
+    "sample_width_bytes": 2,
+    "trimmed_speech_seconds": 1.328625,
+    "chunk_ms": 100,
+    "trailing_silence_ms": 1000,
+    "warmup_turns_per_agent": 5,
+    "measured_turns_per_agent": 50,
+    "turns_per_session": 10,
+    "interleaved": true,
+    "random_seed": 20260926,
+    "agent_order": [
+      "native",
+      "cascade-mini",
+      "cascade-gpt5"
+    ],
+    "client_metric": "last speech sample sent to first response audio received",
+    "service_metric": "input_audio_buffer.speech_stopped received to first response audio received"
+  },
+  "sdk_versions": {
+    "azure-ai-projects": "2.7.0",
+    "azure-identity": "1.25.3"
+  },
+  "results": [
+    {
+      "label": "native",
+      "agent_name": "rfp-foundry-voice-native",
+      "agent_version": "1",
+      "model_type": "managed",
+      "model": "gpt-realtime-2.1",
+      "connection_ready_ms": {
+        "summary": {
+          "min": 5324.648199981311,
+          "p50": 5507.8905999835115,
+          "p95": 7924.246260005748,
+          "max": 8459.52400000533
+        },
+        "samples": [
+          5783.135300007416,
+          5324.648199981311,
+          5450.30160000897,
+          5507.8905999835115,
+          8459.52400000533
+        ]
+      },
+      "warmups": [
+        {
+          "client_eou_to_first_audio_ms": 1313.674400007585,
+          "server_vad_to_first_audio_ms": 735.6130000262056,
+          "client_eou_to_done_ms": 1381.5460999903735,
+          "server_vad_to_done_ms": 803.484700008994,
+          "speech_start_after_send_ms": 62.448999990010634,
+          "response_audio_ms": 2000.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there, nice to meet you.",
+          "usage": {
+            "total_tokens": 113,
+            "input_tokens": 61,
+            "output_tokens": 52,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 18,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 12,
+              "audio_tokens": 40
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1285.157700011041,
+          "server_vad_to_first_audio_ms": 693.3944000047632,
+          "client_eou_to_done_ms": 1299.535600002855,
+          "server_vad_to_done_ms": 707.7722999965772,
+          "speech_start_after_send_ms": 64.23519999952987,
+          "response_audio_ms": 1200.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there!",
+          "usage": {
+            "total_tokens": 92,
+            "input_tokens": 61,
+            "output_tokens": 31,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 18,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 7,
+              "audio_tokens": 24
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1402.9904000053648,
+          "server_vad_to_first_audio_ms": 826.4531999884639,
+          "client_eou_to_done_ms": 1416.6339000221342,
+          "server_vad_to_done_ms": 840.0967000052333,
+          "speech_start_after_send_ms": 61.139099998399615,
+          "response_audio_ms": 1975.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there, nice to meet you.",
+          "usage": {
+            "total_tokens": 112,
+            "input_tokens": 61,
+            "output_tokens": 51,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 18,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 12,
+              "audio_tokens": 39
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1264.8943999956828,
+          "server_vad_to_first_audio_ms": 683.546899992507,
+          "client_eou_to_done_ms": 1360.2434000058565,
+          "server_vad_to_done_ms": 778.8959000026807,
+          "speech_start_after_send_ms": 57.73400000180118,
+          "response_audio_ms": 1887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there, nice to meet you.",
+          "usage": {
+            "total_tokens": 110,
+            "input_tokens": 61,
+            "output_tokens": 49,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 18,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 12,
+              "audio_tokens": 37
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1390.2873999904841,
+          "server_vad_to_first_audio_ms": 812.3881999927107,
+          "client_eou_to_done_ms": 1469.3886000022758,
+          "server_vad_to_done_ms": 891.4894000045024,
+          "speech_start_after_send_ms": 60.35780001548119,
+          "response_audio_ms": 1962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there, nice to meet you.",
+          "usage": {
+            "total_tokens": 112,
+            "input_tokens": 61,
+            "output_tokens": 51,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 18,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 12,
+              "audio_tokens": 39
+            }
+          }
+        }
+      ],
+      "summary": {
+        "client_eou_to_first_audio_ms": {
+          "min": 1280.1178999943659,
+          "p50": 1462.995249996311,
+          "p95": 1762.8983349830378,
+          "max": 2273.70369998971
+        },
+        "server_vad_to_first_audio_ms": {
+          "min": 697.6467999920715,
+          "p50": 880.2083999908064,
+          "p95": 1186.4317299958202,
+          "max": 1699.40349998069
+        },
+        "client_eou_to_done_ms": {
+          "min": 1320.549199997913,
+          "p50": 1505.4864999983693,
+          "p95": 1860.1565799777743,
+          "max": 2328.5268000036012
+        },
+        "server_vad_to_done_ms": {
+          "min": 738.0780999956187,
+          "p50": 911.8983499938622,
+          "p95": 1283.3384849887805,
+          "max": 1754.2265999945812
+        },
+        "response_audio_ms": {
+          "min": 775.0,
+          "p50": 1506.25,
+          "p95": 2306.875,
+          "max": 2337.5
+        }
+      },
+      "turns": [
+        {
+          "client_eou_to_first_audio_ms": 1285.6145999976434,
+          "server_vad_to_first_audio_ms": 700.1413000107277,
+          "client_eou_to_done_ms": 1358.0923000117764,
+          "server_vad_to_done_ms": 772.6190000248607,
+          "speech_start_after_send_ms": 71.31370002753101,
+          "response_audio_ms": 1387.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, good to see you.",
+          "usage": {
+            "total_tokens": 155,
+            "input_tokens": 103,
+            "output_tokens": 52,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 65,
+              "audio_tokens": 38,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 27
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1745.6526999885682,
+          "server_vad_to_first_audio_ms": 1167.2528999915812,
+          "client_eou_to_done_ms": 1891.416999977082,
+          "server_vad_to_done_ms": 1313.017199980095,
+          "speech_start_after_send_ms": 57.99149998347275,
+          "response_audio_ms": 2337.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for stopping by.",
+          "usage": {
+            "total_tokens": 219,
+            "input_tokens": 144,
+            "output_tokens": 75,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 58,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 29,
+              "audio_tokens": 46
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1453.5518999909982,
+          "server_vad_to_first_audio_ms": 779.6693999844138,
+          "client_eou_to_done_ms": 1537.0280999923125,
+          "server_vad_to_done_ms": 863.145599985728,
+          "speech_start_after_send_ms": 61.851699982071295,
+          "response_audio_ms": 1437.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, welcome.",
+          "usage": {
+            "total_tokens": 236,
+            "input_tokens": 185,
+            "output_tokens": 51,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 107,
+              "audio_tokens": 78,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 28
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2224.108900001738,
+          "server_vad_to_first_audio_ms": 1641.9611999881454,
+          "client_eou_to_done_ms": 2275.4476999980398,
+          "server_vad_to_done_ms": 1693.299999984447,
+          "speech_start_after_send_ms": 58.93259998993017,
+          "response_audio_ms": 1500.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, glad you're here.",
+          "usage": {
+            "total_tokens": 277,
+            "input_tokens": 224,
+            "output_tokens": 53,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 126,
+              "audio_tokens": 98,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2273.70369998971,
+          "server_vad_to_first_audio_ms": 1699.40349998069,
+          "client_eou_to_done_ms": 2328.5268000036012,
+          "server_vad_to_done_ms": 1754.2265999945812,
+          "speech_start_after_send_ms": 58.31469999975525,
+          "response_audio_ms": 1500.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, thanks for joining me.",
+          "usage": {
+            "total_tokens": 318,
+            "input_tokens": 264,
+            "output_tokens": 54,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 146,
+              "audio_tokens": 118,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1483.8138000050094,
+          "server_vad_to_first_audio_ms": 889.8572000034619,
+          "client_eou_to_done_ms": 1518.5887000116054,
+          "server_vad_to_done_ms": 924.6321000100579,
+          "speech_start_after_send_ms": 65.00459997914732,
+          "response_audio_ms": 1637.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, nice to have you here.",
+          "usage": {
+            "total_tokens": 362,
+            "input_tokens": 305,
+            "output_tokens": 57,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 167,
+              "audio_tokens": 138,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 32
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1517.9033000022173,
+          "server_vad_to_first_audio_ms": 938.8076000032015,
+          "client_eou_to_done_ms": 1535.8178000024054,
+          "server_vad_to_done_ms": 956.7221000033896,
+          "speech_start_after_send_ms": 59.177399991312996,
+          "response_audio_ms": 1475.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, happy you're here.",
+          "usage": {
+            "total_tokens": 399,
+            "input_tokens": 347,
+            "output_tokens": 52,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 189,
+              "audio_tokens": 158,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 29
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1473.7894000136293,
+          "server_vad_to_first_audio_ms": 906.6729000187479,
+          "client_eou_to_done_ms": 1561.0342000145465,
+          "server_vad_to_done_ms": 993.9177000196651,
+          "speech_start_after_send_ms": 65.64849999267608,
+          "response_audio_ms": 2300.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for being here.",
+          "usage": {
+            "total_tokens": 458,
+            "input_tokens": 387,
+            "output_tokens": 71,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 209,
+              "audio_tokens": 178,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 46
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1440.444200008642,
+          "server_vad_to_first_audio_ms": 862.6265000202693,
+          "client_eou_to_done_ms": 1531.9515000155661,
+          "server_vad_to_done_ms": 954.1338000271935,
+          "speech_start_after_send_ms": 59.74990001413971,
+          "response_audio_ms": 2062.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, welcome aboard.",
+          "usage": {
+            "total_tokens": 489,
+            "input_tokens": 428,
+            "output_tokens": 61,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 230,
+              "audio_tokens": 198,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 20,
+              "audio_tokens": 41
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1777.008399978513,
+          "server_vad_to_first_audio_ms": 1202.1234999992885,
+          "client_eou_to_done_ms": 1821.949399978621,
+          "server_vad_to_done_ms": 1247.0644999993965,
+          "speech_start_after_send_ms": 59.04239998199046,
+          "response_audio_ms": 1575.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, great to see you.",
+          "usage": {
+            "total_tokens": 522,
+            "input_tokens": 467,
+            "output_tokens": 55,
+            "input_token_details": {
+              "cached_tokens": 384,
+              "text_tokens": 249,
+              "audio_tokens": 218,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 192,
+                "audio_tokens": 192,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 31
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1331.1540000140667,
+          "server_vad_to_first_audio_ms": 742.934800015064,
+          "client_eou_to_done_ms": 1332.9123000148684,
+          "server_vad_to_done_ms": 744.6931000158656,
+          "speech_start_after_send_ms": 63.74029998551123,
+          "response_audio_ms": 1075.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 140,
+            "input_tokens": 98,
+            "output_tokens": 42,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 60,
+              "audio_tokens": 38,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 21,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1416.8449999997392,
+          "server_vad_to_first_audio_ms": 824.1194000001997,
+          "client_eou_to_done_ms": 1433.5449000063818,
+          "server_vad_to_done_ms": 840.8193000068422,
+          "speech_start_after_send_ms": 74.73779999418184,
+          "response_audio_ms": 900.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 176,
+            "input_tokens": 135,
+            "output_tokens": 41,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 77,
+              "audio_tokens": 58,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1458.4720999991987,
+          "server_vad_to_first_audio_ms": 863.7174999748822,
+          "client_eou_to_done_ms": 1460.2126000099815,
+          "server_vad_to_done_ms": 865.4579999856651,
+          "speech_start_after_send_ms": 70.88660000590608,
+          "response_audio_ms": 875.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 212,
+            "input_tokens": 171,
+            "output_tokens": 41,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 93,
+              "audio_tokens": 78,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1478.31489998498,
+          "server_vad_to_first_audio_ms": 891.0422000044491,
+          "client_eou_to_done_ms": 1480.117600003723,
+          "server_vad_to_done_ms": 892.8449000231922,
+          "speech_start_after_send_ms": 72.54039999679662,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey there!",
+          "usage": {
+            "total_tokens": 246,
+            "input_tokens": 207,
+            "output_tokens": 39,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 109,
+              "audio_tokens": 98,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 20,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1579.0956999990158,
+          "server_vad_to_first_audio_ms": 994.3561000109185,
+          "client_eou_to_done_ms": 1598.1026999943424,
+          "server_vad_to_done_ms": 1013.3631000062451,
+          "speech_start_after_send_ms": 66.63519999710843,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 281,
+            "input_tokens": 244,
+            "output_tokens": 37,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 126,
+              "audio_tokens": 118,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 19,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1423.9786999823991,
+          "server_vad_to_first_audio_ms": 833.3750999881886,
+          "client_eou_to_done_ms": 1425.5815999931656,
+          "server_vad_to_done_ms": 834.977999998955,
+          "speech_start_after_send_ms": 67.2158999950625,
+          "response_audio_ms": 800.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 314,
+            "input_tokens": 280,
+            "output_tokens": 34,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 142,
+              "audio_tokens": 138,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 19,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1370.366599992849,
+          "server_vad_to_first_audio_ms": 776.0338000080083,
+          "client_eou_to_done_ms": 1378.0251999851316,
+          "server_vad_to_done_ms": 783.692400000291,
+          "speech_start_after_send_ms": 63.7966999784112,
+          "response_audio_ms": 837.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey!",
+          "usage": {
+            "total_tokens": 351,
+            "input_tokens": 316,
+            "output_tokens": 35,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 158,
+              "audio_tokens": 158,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 19,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1422.9712000233121,
+          "server_vad_to_first_audio_ms": 819.3880000035278,
+          "client_eou_to_done_ms": 1450.142700021388,
+          "server_vad_to_done_ms": 846.5595000016037,
+          "speech_start_after_send_ms": 72.1678999834694,
+          "response_audio_ms": 1050.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there!",
+          "usage": {
+            "total_tokens": 393,
+            "input_tokens": 352,
+            "output_tokens": 41,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 174,
+              "audio_tokens": 178,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 20,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1357.9963000083808,
+          "server_vad_to_first_audio_ms": 776.040800003102,
+          "client_eou_to_done_ms": 1359.6083000011276,
+          "server_vad_to_done_ms": 777.6527999958489,
+          "speech_start_after_send_ms": 64.34330000774935,
+          "response_audio_ms": 775.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 423,
+            "input_tokens": 389,
+            "output_tokens": 34,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 191,
+              "audio_tokens": 198,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 19,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1558.980200003134,
+          "server_vad_to_first_audio_ms": 962.0370000193361,
+          "client_eou_to_done_ms": 1565.807999984827,
+          "server_vad_to_done_ms": 968.8648000010289,
+          "speech_start_after_send_ms": 62.54719998105429,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 461,
+            "input_tokens": 425,
+            "output_tokens": 36,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 207,
+              "audio_tokens": 218,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 17,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1506.1895000108052,
+          "server_vad_to_first_audio_ms": 914.9132000165991,
+          "client_eou_to_done_ms": 1559.674799995264,
+          "server_vad_to_done_ms": 968.398500001058,
+          "speech_start_after_send_ms": 79.81259998632595,
+          "response_audio_ms": 1400.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, good to meet you.",
+          "usage": {
+            "total_tokens": 154,
+            "input_tokens": 103,
+            "output_tokens": 51,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 65,
+              "audio_tokens": 38,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 28
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1457.1590000123251,
+          "server_vad_to_first_audio_ms": 874.3421000253875,
+          "client_eou_to_done_ms": 1481.4526000118349,
+          "server_vad_to_done_ms": 898.6357000248972,
+          "speech_start_after_send_ms": 61.55149999540299,
+          "response_audio_ms": 2312.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for reaching out.",
+          "usage": {
+            "total_tokens": 214,
+            "input_tokens": 144,
+            "output_tokens": 70,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 58,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 46
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1397.9004999855533,
+          "server_vad_to_first_audio_ms": 818.5216000129003,
+          "client_eou_to_done_ms": 1467.8294999757782,
+          "server_vad_to_done_ms": 888.4506000031251,
+          "speech_start_after_send_ms": 68.14960000338033,
+          "response_audio_ms": 1975.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, glad you\u2019re here.",
+          "usage": {
+            "total_tokens": 249,
+            "input_tokens": 185,
+            "output_tokens": 64,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 107,
+              "audio_tokens": 78,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 39
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1396.5356000117026,
+          "server_vad_to_first_audio_ms": 814.3223999941256,
+          "client_eou_to_done_ms": 1485.4743000178132,
+          "server_vad_to_done_ms": 903.2611000002362,
+          "speech_start_after_send_ms": 64.51699999161065,
+          "response_audio_ms": 1887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, it\u2019s nice to see you.",
+          "usage": {
+            "total_tokens": 290,
+            "input_tokens": 227,
+            "output_tokens": 63,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 129,
+              "audio_tokens": 98,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 26,
+              "audio_tokens": 37
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1355.905000003986,
+          "server_vad_to_first_audio_ms": 775.9908000007272,
+          "client_eou_to_done_ms": 1383.2162000180688,
+          "server_vad_to_done_ms": 803.3020000148099,
+          "speech_start_after_send_ms": 68.23470001108944,
+          "response_audio_ms": 1325.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, welcome.",
+          "usage": {
+            "total_tokens": 315,
+            "input_tokens": 270,
+            "output_tokens": 45,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 152,
+              "audio_tokens": 118,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 19,
+              "audio_tokens": 26
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1573.3939000056125,
+          "server_vad_to_first_audio_ms": 983.7312000163365,
+          "client_eou_to_done_ms": 1643.5468999843579,
+          "server_vad_to_done_ms": 1053.8841999950819,
+          "speech_start_after_send_ms": 59.196799993515015,
+          "response_audio_ms": 2175.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for stopping by.",
+          "usage": {
+            "total_tokens": 376,
+            "input_tokens": 308,
+            "output_tokens": 68,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 170,
+              "audio_tokens": 138,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 43
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1439.4771000079345,
+          "server_vad_to_first_audio_ms": 828.3516000083182,
+          "client_eou_to_done_ms": 1508.3515000005718,
+          "server_vad_to_done_ms": 897.2260000009555,
+          "speech_start_after_send_ms": 59.0774999873247,
+          "response_audio_ms": 1562.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, nice to meet you.",
+          "usage": {
+            "total_tokens": 404,
+            "input_tokens": 349,
+            "output_tokens": 55,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 191,
+              "audio_tokens": 158,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 31
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1396.6995000082534,
+          "server_vad_to_first_audio_ms": 820.1921999861952,
+          "client_eou_to_done_ms": 1421.7593000212219,
+          "server_vad_to_done_ms": 845.2519999991637,
+          "speech_start_after_send_ms": 63.754400005564094,
+          "response_audio_ms": 1100.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there.",
+          "usage": {
+            "total_tokens": 432,
+            "input_tokens": 390,
+            "output_tokens": 42,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 212,
+              "audio_tokens": 178,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 20,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1502.3423999955412,
+          "server_vad_to_first_audio_ms": 920.265599997947,
+          "client_eou_to_done_ms": 1521.8951999850105,
+          "server_vad_to_done_ms": 939.8183999874163,
+          "speech_start_after_send_ms": 60.01799998921342,
+          "response_audio_ms": 1587.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, glad to connect.",
+          "usage": {
+            "total_tokens": 481,
+            "input_tokens": 427,
+            "output_tokens": 54,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 229,
+              "audio_tokens": 198,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 31
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1530.831699987175,
+          "server_vad_to_first_audio_ms": 942.8684999875259,
+          "client_eou_to_done_ms": 1584.1232999810018,
+          "server_vad_to_done_ms": 996.1600999813527,
+          "speech_start_after_send_ms": 56.07449999661185,
+          "response_audio_ms": 1575.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, good to see you.",
+          "usage": {
+            "total_tokens": 522,
+            "input_tokens": 467,
+            "output_tokens": 55,
+            "input_token_details": {
+              "cached_tokens": 384,
+              "text_tokens": 249,
+              "audio_tokens": 218,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 192,
+                "audio_tokens": 192,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 31
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1280.1178999943659,
+          "server_vad_to_first_audio_ms": 697.6467999920715,
+          "client_eou_to_done_ms": 1320.549199997913,
+          "server_vad_to_done_ms": 738.0780999956187,
+          "speech_start_after_send_ms": 59.28739998489618,
+          "response_audio_ms": 1375.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, good to see you.",
+          "usage": {
+            "total_tokens": 153,
+            "input_tokens": 103,
+            "output_tokens": 50,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 65,
+              "audio_tokens": 38,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 23,
+              "audio_tokens": 27
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1483.836200000951,
+          "server_vad_to_first_audio_ms": 906.9967000104953,
+          "client_eou_to_done_ms": 1485.8334999880753,
+          "server_vad_to_done_ms": 908.9939999976195,
+          "speech_start_after_send_ms": 58.95620002411306,
+          "response_audio_ms": 1875.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, hope you\u2019re doing well.",
+          "usage": {
+            "total_tokens": 206,
+            "input_tokens": 144,
+            "output_tokens": 62,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 58,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 37
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1423.7684999825433,
+          "server_vad_to_first_audio_ms": 840.7452999963425,
+          "client_eou_to_done_ms": 1472.3001999955159,
+          "server_vad_to_done_ms": 889.2770000093151,
+          "speech_start_after_send_ms": 58.3510999858845,
+          "response_audio_ms": 1950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, nice to hear from you.",
+          "usage": {
+            "total_tokens": 251,
+            "input_tokens": 186,
+            "output_tokens": 65,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 108,
+              "audio_tokens": 78,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 26,
+              "audio_tokens": 39
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1567.500699980883,
+          "server_vad_to_first_audio_ms": 876.4003999822307,
+          "client_eou_to_done_ms": 1690.1462999812793,
+          "server_vad_to_done_ms": 999.0459999826271,
+          "speech_start_after_send_ms": 65.38640000508167,
+          "response_audio_ms": 2337.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for reaching out.",
+          "usage": {
+            "total_tokens": 297,
+            "input_tokens": 229,
+            "output_tokens": 68,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 131,
+              "audio_tokens": 98,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 22,
+              "audio_tokens": 46
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1544.6806999971159,
+          "server_vad_to_first_audio_ms": 945.1952999806963,
+          "client_eou_to_done_ms": 1549.2891000176314,
+          "server_vad_to_done_ms": 949.8037000012118,
+          "speech_start_after_send_ms": 67.93689998448826,
+          "response_audio_ms": 1537.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, glad you\u2019re here.",
+          "usage": {
+            "total_tokens": 324,
+            "input_tokens": 270,
+            "output_tokens": 54,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 152,
+              "audio_tokens": 118,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1406.8700000061654,
+          "server_vad_to_first_audio_ms": 806.4119000046048,
+          "client_eou_to_done_ms": 1496.628499997314,
+          "server_vad_to_done_ms": 896.1703999957535,
+          "speech_start_after_send_ms": 64.15319998632185,
+          "response_audio_ms": 2150.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, it\u2019s nice to connect.",
+          "usage": {
+            "total_tokens": 379,
+            "input_tokens": 311,
+            "output_tokens": 68,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 173,
+              "audio_tokens": 138,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 43
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1460.3403999935836,
+          "server_vad_to_first_audio_ms": 884.016399999382,
+          "client_eou_to_done_ms": 1465.0210000108927,
+          "server_vad_to_done_ms": 888.6970000166912,
+          "speech_start_after_send_ms": 59.42569999024272,
+          "response_audio_ms": 1375.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, welcome.",
+          "usage": {
+            "total_tokens": 402,
+            "input_tokens": 353,
+            "output_tokens": 49,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 195,
+              "audio_tokens": 158,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 22,
+              "audio_tokens": 27
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1500.1606000005268,
+          "server_vad_to_first_audio_ms": 912.341799994465,
+          "client_eou_to_done_ms": 1502.6214999961667,
+          "server_vad_to_done_ms": 914.8026999901049,
+          "speech_start_after_send_ms": 58.51020000409335,
+          "response_audio_ms": 1912.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, happy to say hi.",
+          "usage": {
+            "total_tokens": 457,
+            "input_tokens": 392,
+            "output_tokens": 65,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 214,
+              "audio_tokens": 178,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 27,
+              "audio_tokens": 38
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1473.2275000133086,
+          "server_vad_to_first_audio_ms": 895.834199996898,
+          "client_eou_to_done_ms": 1525.81670001382,
+          "server_vad_to_done_ms": 948.4233999974094,
+          "speech_start_after_send_ms": 78.39660000172444,
+          "response_audio_ms": 2037.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, thanks for stopping by.",
+          "usage": {
+            "total_tokens": 498,
+            "input_tokens": 433,
+            "output_tokens": 65,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 235,
+              "audio_tokens": 198,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 40
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1396.4706999831833,
+          "server_vad_to_first_audio_ms": 817.1866000047885,
+          "client_eou_to_done_ms": 1451.8648999801371,
+          "server_vad_to_done_ms": 872.5808000017423,
+          "speech_start_after_send_ms": 64.12960001034662,
+          "response_audio_ms": 1512.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, nice to meet you.",
+          "usage": {
+            "total_tokens": 526,
+            "input_tokens": 474,
+            "output_tokens": 52,
+            "input_token_details": {
+              "cached_tokens": 384,
+              "text_tokens": 256,
+              "audio_tokens": 218,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 192,
+                "audio_tokens": 192,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 22,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1442.7300999814179,
+          "server_vad_to_first_audio_ms": 862.4686999828555,
+          "client_eou_to_done_ms": 1497.1250999951735,
+          "server_vad_to_done_ms": 916.8636999966111,
+          "speech_start_after_send_ms": 57.48429999221116,
+          "response_audio_ms": 1500.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, good to see you.",
+          "usage": {
+            "total_tokens": 157,
+            "input_tokens": 103,
+            "output_tokens": 54,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 65,
+              "audio_tokens": 38,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1538.447200000519,
+          "server_vad_to_first_audio_ms": 953.3042999973986,
+          "client_eou_to_done_ms": 1573.1340999773238,
+          "server_vad_to_done_ms": 987.9911999742035,
+          "speech_start_after_send_ms": 67.54269998054951,
+          "response_audio_ms": 2287.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, thanks for stopping by.",
+          "usage": {
+            "total_tokens": 214,
+            "input_tokens": 144,
+            "output_tokens": 70,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 58,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 25,
+              "audio_tokens": 45
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1422.9579999810085,
+          "server_vad_to_first_audio_ms": 840.1437999855261,
+          "client_eou_to_done_ms": 1466.6208999988157,
+          "server_vad_to_done_ms": 883.8067000033334,
+          "speech_start_after_send_ms": 68.92359998892061,
+          "response_audio_ms": 1475.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, glad you\u2019re here.",
+          "usage": {
+            "total_tokens": 243,
+            "input_tokens": 185,
+            "output_tokens": 58,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 107,
+              "audio_tokens": 78,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 29,
+              "audio_tokens": 29
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1365.0955999910366,
+          "server_vad_to_first_audio_ms": 785.206400003517,
+          "client_eou_to_done_ms": 1405.7275999803096,
+          "server_vad_to_done_ms": 825.8383999927901,
+          "speech_start_after_send_ms": 63.9487000007648,
+          "response_audio_ms": 1387.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, welcome.",
+          "usage": {
+            "total_tokens": 275,
+            "input_tokens": 226,
+            "output_tokens": 49,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 128,
+              "audio_tokens": 98,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 22,
+              "audio_tokens": 27
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1535.9066000091843,
+          "server_vad_to_first_audio_ms": 934.2529000132345,
+          "client_eou_to_done_ms": 1539.5095999992918,
+          "server_vad_to_done_ms": 937.855900003342,
+          "speech_start_after_send_ms": 57.99689999548718,
+          "response_audio_ms": 1887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, nice to see you.",
+          "usage": {
+            "total_tokens": 326,
+            "input_tokens": 265,
+            "output_tokens": 61,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 147,
+              "audio_tokens": 118,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 37
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1403.6652000213508,
+          "server_vad_to_first_audio_ms": 832.4422000150662,
+          "client_eou_to_done_ms": 1451.4792000118177,
+          "server_vad_to_done_ms": 880.2562000055332,
+          "speech_start_after_send_ms": 66.3498000067193,
+          "response_audio_ms": 1500.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, good to have you here.",
+          "usage": {
+            "total_tokens": 360,
+            "input_tokens": 306,
+            "output_tokens": 54,
+            "input_token_details": {
+              "cached_tokens": 128,
+              "text_tokens": 168,
+              "audio_tokens": 138,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 64,
+                "audio_tokens": 64,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1465.6500999990385,
+          "server_vad_to_first_audio_ms": 885.6293999997433,
+          "client_eou_to_done_ms": 1542.300000000978,
+          "server_vad_to_done_ms": 962.2793000016827,
+          "speech_start_after_send_ms": 66.64479998289607,
+          "response_audio_ms": 2187.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, thanks for joining me.",
+          "usage": {
+            "total_tokens": 415,
+            "input_tokens": 348,
+            "output_tokens": 67,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 190,
+              "audio_tokens": 158,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 24,
+              "audio_tokens": 43
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1509.5953999843914,
+          "server_vad_to_first_audio_ms": 934.9338999891188,
+          "client_eou_to_done_ms": 1535.0265999732073,
+          "server_vad_to_done_ms": 960.3650999779347,
+          "speech_start_after_send_ms": 57.79580000671558,
+          "response_audio_ms": 1225.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, welcome in.",
+          "usage": {
+            "total_tokens": 435,
+            "input_tokens": 389,
+            "output_tokens": 46,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 211,
+              "audio_tokens": 178,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 22,
+              "audio_tokens": 24
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1549.2255999997724,
+          "server_vad_to_first_audio_ms": 959.4131000048947,
+          "client_eou_to_done_ms": 1600.1289999985602,
+          "server_vad_to_done_ms": 1010.3165000036824,
+          "speech_start_after_send_ms": 73.13949998933822,
+          "response_audio_ms": 1550.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, great to have you.",
+          "usage": {
+            "total_tokens": 500,
+            "input_tokens": 428,
+            "output_tokens": 72,
+            "input_token_details": {
+              "cached_tokens": 256,
+              "text_tokens": 230,
+              "audio_tokens": 198,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 128,
+                "audio_tokens": 128,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 41,
+              "audio_tokens": 31
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1595.544699986931,
+          "server_vad_to_first_audio_ms": 998.2148999988567,
+          "client_eou_to_done_ms": 1630.3692999936175,
+          "server_vad_to_done_ms": 1033.0395000055432,
+          "speech_start_after_send_ms": 63.705200009280816,
+          "response_audio_ms": 2262.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, nice to have you here.",
+          "usage": {
+            "total_tokens": 540,
+            "input_tokens": 469,
+            "output_tokens": 71,
+            "input_token_details": {
+              "cached_tokens": 384,
+              "text_tokens": 251,
+              "audio_tokens": 218,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 192,
+                "audio_tokens": 192,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 26,
+              "audio_tokens": 45
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "cascade-mini",
+      "agent_name": "rfp-foundry-voice-cascade-mini",
+      "agent_version": "1",
+      "model_type": "self_deployed",
+      "model": "gpt-4o-mini",
+      "connection_ready_ms": {
+        "summary": {
+          "min": 4354.7154999978375,
+          "p50": 4835.172099992633,
+          "p95": 14311.80478002061,
+          "max": 16482.80340002384
+        },
+        "samples": [
+          16482.80340002384,
+          4354.7154999978375,
+          4835.172099992633,
+          4616.214499983471,
+          5627.810300007695
+        ]
+      },
+      "warmups": [
+        {
+          "client_eou_to_first_audio_ms": 1399.2223000095692,
+          "server_vad_to_first_audio_ms": 874.8698999988846,
+          "client_eou_to_done_ms": 1800.5999000160955,
+          "server_vad_to_done_ms": 1276.247500005411,
+          "speech_start_after_send_ms": 420.4844000050798,
+          "response_audio_ms": 2562.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello! How can I help you today?",
+          "usage": {
+            "total_tokens": 126,
+            "input_tokens": 66,
+            "output_tokens": 60,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 9,
+              "audio_tokens": 51
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1454.4744000013452,
+          "server_vad_to_first_audio_ms": 924.551900010556,
+          "client_eou_to_done_ms": 1477.6958000147715,
+          "server_vad_to_done_ms": 947.7733000239823,
+          "speech_start_after_send_ms": 418.1607000064105,
+          "response_audio_ms": 937.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 86,
+            "input_tokens": 66,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1462.777400010964,
+          "server_vad_to_first_audio_ms": 935.3327999997418,
+          "client_eou_to_done_ms": 1470.946700021159,
+          "server_vad_to_done_ms": 943.5021000099368,
+          "speech_start_after_send_ms": 422.1311000001151,
+          "response_audio_ms": 1062.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 89,
+            "input_tokens": 66,
+            "output_tokens": 23,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1185.9643000061624,
+          "server_vad_to_first_audio_ms": 657.3082999966573,
+          "client_eou_to_done_ms": 1195.1521000009961,
+          "server_vad_to_done_ms": 666.4960999914911,
+          "speech_start_after_send_ms": 418.03849997813813,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 85,
+            "input_tokens": 66,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1154.9636000127066,
+          "server_vad_to_first_audio_ms": 628.483700013021,
+          "client_eou_to_done_ms": 1168.3772999967914,
+          "server_vad_to_done_ms": 641.8973999971058,
+          "speech_start_after_send_ms": 428.5946999734733,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 87,
+            "input_tokens": 66,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 43,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        }
+      ],
+      "summary": {
+        "client_eou_to_first_audio_ms": {
+          "min": 1196.5474000026006,
+          "p50": 1347.5732999941101,
+          "p95": 1497.3813999953563,
+          "max": 1592.6246000162791
+        },
+        "server_vad_to_first_audio_ms": {
+          "min": 674.5155000244267,
+          "p50": 822.7889000118012,
+          "p95": 976.9976950017735,
+          "max": 1071.4213000028394
+        },
+        "client_eou_to_done_ms": {
+          "min": 1203.5238999815192,
+          "p50": 1350.3076499910094,
+          "p95": 1507.412499995553,
+          "max": 1598.713300016243
+        },
+        "server_vad_to_done_ms": {
+          "min": 681.4920000033453,
+          "p50": 824.5872000115924,
+          "p95": 985.9392349942937,
+          "max": 1077.5100000028033
+        },
+        "response_audio_ms": {
+          "min": 787.5,
+          "p50": 925.0,
+          "p95": 1120.625,
+          "max": 1225.0
+        }
+      },
+      "turns": [
+        {
+          "client_eou_to_first_audio_ms": 1456.1801999807358,
+          "server_vad_to_first_audio_ms": 930.2795999974478,
+          "client_eou_to_done_ms": 1460.4051999922376,
+          "server_vad_to_done_ms": 934.5046000089496,
+          "speech_start_after_send_ms": 228.48580000572838,
+          "response_audio_ms": 1050.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 114,
+            "input_tokens": 90,
+            "output_tokens": 24,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 64,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1214.635799988173,
+          "server_vad_to_first_audio_ms": 691.3859999913257,
+          "client_eou_to_done_ms": 1222.5927999825217,
+          "server_vad_to_done_ms": 699.3429999856744,
+          "speech_start_after_send_ms": 327.88449997315183,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 126,
+            "input_tokens": 105,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 79,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1301.5337999968324,
+          "server_vad_to_first_audio_ms": 782.9968000005465,
+          "client_eou_to_done_ms": 1303.122599987546,
+          "server_vad_to_done_ms": 784.5855999912601,
+          "speech_start_after_send_ms": 218.3229999791365,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 137,
+            "input_tokens": 119,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 93,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1251.1340999917593,
+          "server_vad_to_first_audio_ms": 723.2615999819245,
+          "client_eou_to_done_ms": 1272.9469999903813,
+          "server_vad_to_done_ms": 745.0744999805465,
+          "speech_start_after_send_ms": 226.5136999776587,
+          "response_audio_ms": 950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 154,
+            "input_tokens": 133,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 107,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1196.5474000026006,
+          "server_vad_to_first_audio_ms": 674.5155000244267,
+          "client_eou_to_done_ms": 1203.5238999815192,
+          "server_vad_to_done_ms": 681.4920000033453,
+          "speech_start_after_send_ms": 215.60650001629256,
+          "response_audio_ms": 800.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 164,
+            "input_tokens": 147,
+            "output_tokens": 17,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 121,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1234.1862999892328,
+          "server_vad_to_first_audio_ms": 712.4787000066135,
+          "client_eou_to_done_ms": 1243.1363000068814,
+          "server_vad_to_done_ms": 721.4287000242621,
+          "speech_start_after_send_ms": 234.43419998511672,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 180,
+            "input_tokens": 161,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 135,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1483.2366000046022,
+          "server_vad_to_first_audio_ms": 959.0545000100974,
+          "client_eou_to_done_ms": 1503.1186999985948,
+          "server_vad_to_done_ms": 978.93660000409,
+          "speech_start_after_send_ms": 223.24469999875873,
+          "response_audio_ms": 1087.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 199,
+            "input_tokens": 175,
+            "output_tokens": 24,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 149,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1214.9215999816079,
+          "server_vad_to_first_audio_ms": 687.5678999931552,
+          "client_eou_to_done_ms": 1216.817299980903,
+          "server_vad_to_done_ms": 689.4635999924503,
+          "speech_start_after_send_ms": 326.0960000043269,
+          "response_audio_ms": 937.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 210,
+            "input_tokens": 190,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 164,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1454.0851000056136,
+          "server_vad_to_first_audio_ms": 934.6842000086326,
+          "client_eou_to_done_ms": 1461.67200000491,
+          "server_vad_to_done_ms": 942.2711000079289,
+          "speech_start_after_send_ms": 217.77610000572167,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 222,
+            "input_tokens": 204,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 178,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1293.2577999890782,
+          "server_vad_to_first_audio_ms": 770.3961000079289,
+          "client_eou_to_done_ms": 1297.0973000046797,
+          "server_vad_to_done_ms": 774.2356000235304,
+          "speech_start_after_send_ms": 226.9869000010658,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 238,
+            "input_tokens": 218,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 192,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1329.991800012067,
+          "server_vad_to_first_audio_ms": 806.5601999987848,
+          "client_eou_to_done_ms": 1346.6649999900255,
+          "server_vad_to_done_ms": 823.2333999767434,
+          "speech_start_after_send_ms": 225.49040001467802,
+          "response_audio_ms": 1037.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 106,
+            "input_tokens": 83,
+            "output_tokens": 23,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 57,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1430.753900000127,
+          "server_vad_to_first_audio_ms": 904.8724999884143,
+          "client_eou_to_done_ms": 1432.7568000007886,
+          "server_vad_to_done_ms": 906.875399989076,
+          "speech_start_after_send_ms": 324.2817999853287,
+          "response_audio_ms": 1012.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 120,
+            "input_tokens": 98,
+            "output_tokens": 22,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 72,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1263.967600010801,
+          "server_vad_to_first_audio_ms": 740.2537000016309,
+          "client_eou_to_done_ms": 1274.3595000065397,
+          "server_vad_to_done_ms": 750.6455999973696,
+          "speech_start_after_send_ms": 225.77549997367896,
+          "response_audio_ms": 850.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 130,
+            "input_tokens": 112,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1238.0875000089873,
+          "server_vad_to_first_audio_ms": 714.9768999952357,
+          "client_eou_to_done_ms": 1244.5025000197347,
+          "server_vad_to_done_ms": 721.3919000059832,
+          "speech_start_after_send_ms": 229.5594000024721,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 147,
+            "input_tokens": 126,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 100,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1265.8391000004485,
+          "server_vad_to_first_audio_ms": 738.285100000212,
+          "client_eou_to_done_ms": 1273.1561999826226,
+          "server_vad_to_done_ms": 745.6021999823861,
+          "speech_start_after_send_ms": 218.30499998759478,
+          "response_audio_ms": 800.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 157,
+            "input_tokens": 140,
+            "output_tokens": 17,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 114,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1436.2306999973953,
+          "server_vad_to_first_audio_ms": 903.8846000039484,
+          "client_eou_to_done_ms": 1438.3857999928296,
+          "server_vad_to_done_ms": 906.0396999993827,
+          "speech_start_after_send_ms": 220.92669998528436,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 175,
+            "input_tokens": 154,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 128,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1412.8806999942753,
+          "server_vad_to_first_audio_ms": 890.7020000042394,
+          "client_eou_to_done_ms": 1464.2394999973476,
+          "server_vad_to_done_ms": 942.0608000073116,
+          "speech_start_after_send_ms": 217.80340000987053,
+          "response_audio_ms": 1100.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 193,
+            "input_tokens": 168,
+            "output_tokens": 25,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 142,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1274.605699989479,
+          "server_vad_to_first_audio_ms": 757.0556999999098,
+          "client_eou_to_done_ms": 1277.6767000032123,
+          "server_vad_to_done_ms": 760.1267000136431,
+          "speech_start_after_send_ms": 321.8580999819096,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 204,
+            "input_tokens": 183,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 157,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1276.199700019788,
+          "server_vad_to_first_audio_ms": 758.0325000162702,
+          "client_eou_to_done_ms": 1286.3928000151645,
+          "server_vad_to_done_ms": 768.2256000116467,
+          "speech_start_after_send_ms": 231.40580000472255,
+          "response_audio_ms": 787.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 214,
+            "input_tokens": 197,
+            "output_tokens": 17,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 171,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1404.6919999818783,
+          "server_vad_to_first_audio_ms": 881.6418999922462,
+          "client_eou_to_done_ms": 1411.7990999948233,
+          "server_vad_to_done_ms": 888.7490000051912,
+          "speech_start_after_send_ms": 234.94039999786764,
+          "response_audio_ms": 1000.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 233,
+            "input_tokens": 211,
+            "output_tokens": 22,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 185,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1503.4203999966849,
+          "server_vad_to_first_audio_ms": 983.5257999948226,
+          "client_eou_to_done_ms": 1505.457799998112,
+          "server_vad_to_done_ms": 985.5631999962498,
+          "speech_start_after_send_ms": 223.98470001644455,
+          "response_audio_ms": 1062.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 107,
+            "input_tokens": 83,
+            "output_tokens": 24,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 57,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1482.7672999817878,
+          "server_vad_to_first_audio_ms": 959.2726999835577,
+          "client_eou_to_done_ms": 1489.0871999959927,
+          "server_vad_to_done_ms": 965.5925999977626,
+          "speech_start_after_send_ms": 326.0362999862991,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 118,
+            "input_tokens": 98,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 72,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1339.5540000055917,
+          "server_vad_to_first_audio_ms": 810.726199997589,
+          "client_eou_to_done_ms": 1341.2275000009686,
+          "server_vad_to_done_ms": 812.3996999929659,
+          "speech_start_after_send_ms": 227.3194000008516,
+          "response_audio_ms": 862.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 131,
+            "input_tokens": 112,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1351.7700999800581,
+          "server_vad_to_first_audio_ms": 822.9544000059832,
+          "client_eou_to_done_ms": 1353.5858999821357,
+          "server_vad_to_done_ms": 824.7702000080608,
+          "speech_start_after_send_ms": 218.16769998986274,
+          "response_audio_ms": 950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 147,
+            "input_tokens": 126,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 100,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1315.2079999854323,
+          "server_vad_to_first_audio_ms": 786.8130999850109,
+          "client_eou_to_done_ms": 1321.866999991471,
+          "server_vad_to_done_ms": 793.4720999910496,
+          "speech_start_after_send_ms": 221.94930000114255,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 158,
+            "input_tokens": 140,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 114,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1356.244599999627,
+          "server_vad_to_first_audio_ms": 833.4676999947987,
+          "client_eou_to_done_ms": 1375.3462999884505,
+          "server_vad_to_done_ms": 852.5693999836221,
+          "speech_start_after_send_ms": 224.1144000145141,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 174,
+            "input_tokens": 154,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 128,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1370.317900000373,
+          "server_vad_to_first_audio_ms": 850.4352000018116,
+          "client_eou_to_done_ms": 1371.7500999919139,
+          "server_vad_to_done_ms": 851.8673999933526,
+          "speech_start_after_send_ms": 224.52449999400415,
+          "response_audio_ms": 1225.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 195,
+            "input_tokens": 168,
+            "output_tokens": 27,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 142,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 24
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1227.612599992426,
+          "server_vad_to_first_audio_ms": 702.0331000094302,
+          "client_eou_to_done_ms": 1228.5333999898285,
+          "server_vad_to_done_ms": 702.9539000068326,
+          "speech_start_after_send_ms": 321.01369998417795,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 202,
+            "input_tokens": 183,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 157,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1486.7029000015464,
+          "server_vad_to_first_audio_ms": 969.0189000102691,
+          "client_eou_to_done_ms": 1488.2988999888767,
+          "server_vad_to_done_ms": 970.6148999975994,
+          "speech_start_after_send_ms": 218.08750001946464,
+          "response_audio_ms": 837.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 215,
+            "input_tokens": 197,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 171,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1517.2333999944385,
+          "server_vad_to_first_audio_ms": 995.6166000047233,
+          "client_eou_to_done_ms": 1519.939499994507,
+          "server_vad_to_done_ms": 998.3227000047918,
+          "speech_start_after_send_ms": 227.42830001516268,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 232,
+            "input_tokens": 211,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 185,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1367.549600021448,
+          "server_vad_to_first_audio_ms": 849.3332000216469,
+          "client_eou_to_done_ms": 1374.0792000025976,
+          "server_vad_to_done_ms": 855.8628000027966,
+          "speech_start_after_send_ms": 221.66390001075342,
+          "response_audio_ms": 950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 105,
+            "input_tokens": 83,
+            "output_tokens": 22,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 57,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1342.8203000221401,
+          "server_vad_to_first_audio_ms": 823.5467000049539,
+          "client_eou_to_done_ms": 1344.3853000062518,
+          "server_vad_to_done_ms": 825.1116999890655,
+          "speech_start_after_send_ms": 317.8634000068996,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 119,
+            "input_tokens": 98,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 72,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1231.8998999835458,
+          "server_vad_to_first_audio_ms": 706.0665999888442,
+          "client_eou_to_done_ms": 1233.5982999939006,
+          "server_vad_to_done_ms": 707.7649999991991,
+          "speech_start_after_send_ms": 223.98290000273846,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 130,
+            "input_tokens": 112,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1305.410100001609,
+          "server_vad_to_first_audio_ms": 739.541899994947,
+          "client_eou_to_done_ms": 1340.2078000071924,
+          "server_vad_to_done_ms": 774.3396000005305,
+          "speech_start_after_send_ms": 271.2380999873858,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 146,
+            "input_tokens": 126,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 100,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1274.2238999926485,
+          "server_vad_to_first_audio_ms": 729.8349000047892,
+          "client_eou_to_done_ms": 1321.6400000092108,
+          "server_vad_to_done_ms": 777.2510000213515,
+          "speech_start_after_send_ms": 270.3103000239935,
+          "response_audio_ms": 837.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 158,
+            "input_tokens": 140,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 114,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1441.5406000043731,
+          "server_vad_to_first_audio_ms": 862.859600019874,
+          "client_eou_to_done_ms": 1450.0541999877896,
+          "server_vad_to_done_ms": 871.3732000032905,
+          "speech_start_after_send_ms": 238.48929998348467,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 173,
+            "input_tokens": 154,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 128,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1287.210899987258,
+          "server_vad_to_first_audio_ms": 761.5198999992572,
+          "client_eou_to_done_ms": 1295.6393999920692,
+          "server_vad_to_done_ms": 769.9484000040684,
+          "speech_start_after_send_ms": 222.546400007559,
+          "response_audio_ms": 1162.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 194,
+            "input_tokens": 168,
+            "output_tokens": 26,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 142,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 23
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1364.9017999996431,
+          "server_vad_to_first_audio_ms": 837.8190000075847,
+          "client_eou_to_done_ms": 1378.879700001562,
+          "server_vad_to_done_ms": 851.7969000095036,
+          "speech_start_after_send_ms": 321.57460000598803,
+          "response_audio_ms": 1025.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 205,
+            "input_tokens": 183,
+            "output_tokens": 22,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 157,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1302.0314000023063,
+          "server_vad_to_first_audio_ms": 775.5491000134498,
+          "client_eou_to_done_ms": 1305.3133999928832,
+          "server_vad_to_done_ms": 778.8311000040267,
+          "speech_start_after_send_ms": 225.7433999911882,
+          "response_audio_ms": 850.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 215,
+            "input_tokens": 197,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 171,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1351.9531000056304,
+          "server_vad_to_first_audio_ms": 822.6234000176191,
+          "client_eou_to_done_ms": 1353.7339000031352,
+          "server_vad_to_done_ms": 824.4042000151239,
+          "speech_start_after_send_ms": 294.5568999857642,
+          "response_audio_ms": 950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 232,
+            "input_tokens": 211,
+            "output_tokens": 21,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 185,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1489.1474999894854,
+          "server_vad_to_first_audio_ms": 966.3825999887194,
+          "client_eou_to_done_ms": 1509.0117999934591,
+          "server_vad_to_done_ms": 986.2468999926932,
+          "speech_start_after_send_ms": 224.25950001343153,
+          "response_audio_ms": 1087.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 107,
+            "input_tokens": 83,
+            "output_tokens": 24,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 57,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1340.9340000071097,
+          "server_vad_to_first_audio_ms": 809.8885999934282,
+          "client_eou_to_done_ms": 1346.8468000064604,
+          "server_vad_to_done_ms": 815.8013999927789,
+          "speech_start_after_send_ms": 323.9492999855429,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 118,
+            "input_tokens": 98,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 72,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1475.6634999939706,
+          "server_vad_to_first_audio_ms": 954.5152999926358,
+          "client_eou_to_done_ms": 1479.8026999924332,
+          "server_vad_to_done_ms": 958.6544999910984,
+          "speech_start_after_send_ms": 227.85289998864755,
+          "response_audio_ms": 875.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey!",
+          "usage": {
+            "total_tokens": 131,
+            "input_tokens": 112,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 86,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1354.736999986926,
+          "server_vad_to_first_audio_ms": 825.2105999854393,
+          "client_eou_to_done_ms": 1358.0545999866445,
+          "server_vad_to_done_ms": 828.5281999851577,
+          "speech_start_after_send_ms": 225.904899998568,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 144,
+            "input_tokens": 126,
+            "output_tokens": 18,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 100,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1490.0003999937326,
+          "server_vad_to_first_audio_ms": 954.6947000198998,
+          "client_eou_to_done_ms": 1492.061199998716,
+          "server_vad_to_done_ms": 956.7555000248831,
+          "speech_start_after_send_ms": 223.91060000518337,
+          "response_audio_ms": 1000.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 162,
+            "input_tokens": 140,
+            "output_tokens": 22,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 114,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1592.6246000162791,
+          "server_vad_to_first_audio_ms": 1071.4213000028394,
+          "client_eou_to_done_ms": 1598.713300016243,
+          "server_vad_to_done_ms": 1077.5100000028033,
+          "speech_start_after_send_ms": 215.99870000500232,
+          "response_audio_ms": 1137.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 179,
+            "input_tokens": 154,
+            "output_tokens": 25,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 128,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 3,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1304.617900023004,
+          "server_vad_to_first_audio_ms": 755.5633000156377,
+          "client_eou_to_done_ms": 1323.650300008012,
+          "server_vad_to_done_ms": 774.5957000006456,
+          "speech_start_after_send_ms": 235.78690001158975,
+          "response_audio_ms": 912.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 189,
+            "input_tokens": 169,
+            "output_tokens": 20,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 143,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1449.7206000087317,
+          "server_vad_to_first_audio_ms": 921.4612999930978,
+          "client_eou_to_done_ms": 1453.3870000159368,
+          "server_vad_to_done_ms": 925.1277000003029,
+          "speech_start_after_send_ms": 351.991800009273,
+          "response_audio_ms": 875.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 202,
+            "input_tokens": 183,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 157,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1393.2409000117332,
+          "server_vad_to_first_audio_ms": 870.1041000022087,
+          "client_eou_to_done_ms": 1398.395199998049,
+          "server_vad_to_done_ms": 875.2583999885246,
+          "speech_start_after_send_ms": 223.30830001737922,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey!",
+          "usage": {
+            "total_tokens": 216,
+            "input_tokens": 197,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 171,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 1343.376500008162,
+          "server_vad_to_first_audio_ms": 813.0527999892365,
+          "client_eou_to_done_ms": 1347.029399999883,
+          "server_vad_to_done_ms": 816.7056999809574,
+          "speech_start_after_send_ms": 221.68279998004436,
+          "response_audio_ms": 862.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 230,
+            "input_tokens": 211,
+            "output_tokens": 19,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 185,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 2,
+              "audio_tokens": 17
+            }
+          }
+        }
+      ]
+    },
+    {
+      "label": "cascade-gpt5",
+      "agent_name": "rfp-foundry-voice-cascade",
+      "agent_version": "1",
+      "model_type": "self_deployed",
+      "model": "gpt-5",
+      "connection_ready_ms": {
+        "summary": {
+          "min": 3443.8594999955967,
+          "p50": 6041.456400009338,
+          "p95": 14931.49426000309,
+          "max": 17104.334200004814
+        },
+        "samples": [
+          6240.134499996202,
+          3443.8594999955967,
+          3950.4460000025574,
+          6041.456400009338,
+          17104.334200004814
+        ]
+      },
+      "warmups": [
+        {
+          "client_eou_to_first_audio_ms": 3558.7862000102177,
+          "server_vad_to_first_audio_ms": 3016.369599994505,
+          "client_eou_to_done_ms": 3586.015300010331,
+          "server_vad_to_done_ms": 3043.598699994618,
+          "speech_start_after_send_ms": 424.4972000014968,
+          "response_audio_ms": 1037.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there.",
+          "usage": {
+            "total_tokens": 225,
+            "input_tokens": 65,
+            "output_tokens": 160,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 42,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5444.832500012126,
+          "server_vad_to_first_audio_ms": 4926.250399992568,
+          "client_eou_to_done_ms": 5536.125000013271,
+          "server_vad_to_done_ms": 5017.542899993714,
+          "speech_start_after_send_ms": 422.1199000021443,
+          "response_audio_ms": 2562.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, I'm Iris, how can I help?",
+          "usage": {
+            "total_tokens": 391,
+            "input_tokens": 65,
+            "output_tokens": 326,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 42,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 275,
+              "audio_tokens": 51
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5322.917899989989,
+          "server_vad_to_first_audio_ms": 4796.338599990122,
+          "client_eou_to_done_ms": 5344.919099996332,
+          "server_vad_to_done_ms": 4818.339799996465,
+          "speech_start_after_send_ms": 423.35869997623377,
+          "response_audio_ms": 962.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 351,
+            "input_tokens": 65,
+            "output_tokens": 286,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 42,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 267,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3351.5132000029553,
+          "server_vad_to_first_audio_ms": 2822.828700009268,
+          "client_eou_to_done_ms": 3436.8299999914598,
+          "server_vad_to_done_ms": 2908.1454999977723,
+          "speech_start_after_send_ms": 426.00529998890124,
+          "response_audio_ms": 2200.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, how can I help?",
+          "usage": {
+            "total_tokens": 254,
+            "input_tokens": 65,
+            "output_tokens": 189,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 42,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 145,
+              "audio_tokens": 44
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4668.668400001479,
+          "server_vad_to_first_audio_ms": 4126.146900001913,
+          "client_eou_to_done_ms": 4682.179299998097,
+          "server_vad_to_done_ms": 4139.657799998531,
+          "speech_start_after_send_ms": 423.8137999782339,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 350,
+            "input_tokens": 65,
+            "output_tokens": 285,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 42,
+              "audio_tokens": 23,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 267,
+              "audio_tokens": 18
+            }
+          }
+        }
+      ],
+      "summary": {
+        "client_eou_to_first_audio_ms": {
+          "min": 2483.8376000116114,
+          "p50": 3652.3742499994114,
+          "p95": 5995.195209998927,
+          "max": 7288.2901999983005
+        },
+        "server_vad_to_first_audio_ms": {
+          "min": 1955.4003000084776,
+          "p50": 3133.7116999930004,
+          "p95": 5466.266049988915,
+          "max": 6758.913400000893
+        },
+        "client_eou_to_done_ms": {
+          "min": 2494.374700007029,
+          "p50": 3659.5704999926966,
+          "p95": 6000.347789992518,
+          "max": 7291.73460000311
+        },
+        "server_vad_to_done_ms": {
+          "min": 1965.9374000038952,
+          "p50": 3138.9984500128776,
+          "p95": 5471.418629982507,
+          "max": 6762.357800005702
+        },
+        "response_audio_ms": {
+          "min": 762.5,
+          "p50": 893.75,
+          "p95": 1389.999999999999,
+          "max": 2100.0
+        }
+      },
+      "turns": [
+        {
+          "client_eou_to_first_audio_ms": 2516.6402000177186,
+          "server_vad_to_first_audio_ms": 1992.4680000112858,
+          "client_eou_to_done_ms": 2526.396700006444,
+          "server_vad_to_done_ms": 2002.2245000000112,
+          "speech_start_after_send_ms": 224.5495000097435,
+          "response_audio_ms": 900.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 177,
+            "input_tokens": 85,
+            "output_tokens": 92,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 59,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2849.240799987456,
+          "server_vad_to_first_audio_ms": 2322.429199994076,
+          "client_eou_to_done_ms": 2851.6041999973822,
+          "server_vad_to_done_ms": 2324.7926000040025,
+          "speech_start_after_send_ms": 322.80210001044907,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 192,
+            "input_tokens": 101,
+            "output_tokens": 91,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 75,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4121.772500016959,
+          "server_vad_to_first_audio_ms": 3586.0386000131257,
+          "client_eou_to_done_ms": 4128.489399998216,
+          "server_vad_to_done_ms": 3592.7554999943823,
+          "speech_start_after_send_ms": 233.0573000072036,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey there.",
+          "usage": {
+            "total_tokens": 276,
+            "input_tokens": 117,
+            "output_tokens": 159,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 91,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3210.4514999955427,
+          "server_vad_to_first_audio_ms": 2683.8028999918606,
+          "client_eou_to_done_ms": 3216.863999987254,
+          "server_vad_to_done_ms": 2690.215399983572,
+          "speech_start_after_send_ms": 248.45400001504458,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey.",
+          "usage": {
+            "total_tokens": 225,
+            "input_tokens": 134,
+            "output_tokens": 91,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 108,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 7288.2901999983005,
+          "server_vad_to_first_audio_ms": 6758.913400000893,
+          "client_eou_to_done_ms": 7291.73460000311,
+          "server_vad_to_done_ms": 6762.357800005702,
+          "speech_start_after_send_ms": 225.5946000223048,
+          "response_audio_ms": 1125.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there.",
+          "usage": {
+            "total_tokens": 376,
+            "input_tokens": 150,
+            "output_tokens": 226,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 124,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 204,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4033.2416000019293,
+          "server_vad_to_first_audio_ms": 3502.181100018788,
+          "client_eou_to_done_ms": 4044.5339999860153,
+          "server_vad_to_done_ms": 3513.473500002874,
+          "speech_start_after_send_ms": 230.06239999085665,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 324,
+            "input_tokens": 167,
+            "output_tokens": 157,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 141,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5222.764500009362,
+          "server_vad_to_first_audio_ms": 4697.354000003543,
+          "client_eou_to_done_ms": 5238.857599993935,
+          "server_vad_to_done_ms": 4713.447099988116,
+          "speech_start_after_send_ms": 228.05700000026263,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 338,
+            "input_tokens": 183,
+            "output_tokens": 155,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 157,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5134.730999998283,
+          "server_vad_to_first_audio_ms": 4609.678300010273,
+          "client_eou_to_done_ms": 5136.52820000425,
+          "server_vad_to_done_ms": 4611.47550001624,
+          "speech_start_after_send_ms": 332.68689998658374,
+          "response_audio_ms": 837.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Howdy.",
+          "usage": {
+            "total_tokens": 418,
+            "input_tokens": 199,
+            "output_tokens": 219,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 173,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 203,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4785.214200004702,
+          "server_vad_to_first_audio_ms": 4253.788500005612,
+          "client_eou_to_done_ms": 4794.641299988143,
+          "server_vad_to_done_ms": 4263.215599989053,
+          "speech_start_after_send_ms": 219.58669999730773,
+          "response_audio_ms": 950.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi again.",
+          "usage": {
+            "total_tokens": 374,
+            "input_tokens": 215,
+            "output_tokens": 159,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 189,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 6449.622200016165,
+          "server_vad_to_first_audio_ms": 5929.427900002338,
+          "client_eou_to_done_ms": 6458.7742000003345,
+          "server_vad_to_done_ms": 5938.579899986507,
+          "speech_start_after_send_ms": 225.23070001625456,
+          "response_audio_ms": 925.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Good day.",
+          "usage": {
+            "total_tokens": 582,
+            "input_tokens": 232,
+            "output_tokens": 350,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 206,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 332,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2664.6341000159737,
+          "server_vad_to_first_audio_ms": 2139.2400999902748,
+          "client_eou_to_done_ms": 2668.059500021627,
+          "server_vad_to_done_ms": 2142.6654999959283,
+          "speech_start_after_send_ms": 226.967099995818,
+          "response_audio_ms": 1012.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there.",
+          "usage": {
+            "total_tokens": 188,
+            "input_tokens": 92,
+            "output_tokens": 96,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 66,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 76,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2754.15619998239,
+          "server_vad_to_first_audio_ms": 2226.279099995736,
+          "client_eou_to_done_ms": 2763.2978999754414,
+          "server_vad_to_done_ms": 2235.4207999887876,
+          "speech_start_after_send_ms": 325.3123000031337,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 201,
+            "input_tokens": 109,
+            "output_tokens": 92,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 83,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3669.6324000076856,
+          "server_vad_to_first_audio_ms": 3148.3918000012636,
+          "client_eou_to_done_ms": 3674.942900019232,
+          "server_vad_to_done_ms": 3153.70230001281,
+          "speech_start_after_send_ms": 223.58839999651536,
+          "response_audio_ms": 800.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 279,
+            "input_tokens": 125,
+            "output_tokens": 154,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 99,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5660.216500022216,
+          "server_vad_to_first_audio_ms": 5131.577299995115,
+          "client_eou_to_done_ms": 5663.002100016456,
+          "server_vad_to_done_ms": 5134.362899989355,
+          "speech_start_after_send_ms": 228.55379999964498,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi again.",
+          "usage": {
+            "total_tokens": 428,
+            "input_tokens": 141,
+            "output_tokens": 287,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 115,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 268,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4419.530899991514,
+          "server_vad_to_first_audio_ms": 3892.3119999817573,
+          "client_eou_to_done_ms": 4421.885699994164,
+          "server_vad_to_done_ms": 3894.6667999844067,
+          "speech_start_after_send_ms": 228.48389999126084,
+          "response_audio_ms": 1225.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello again.",
+          "usage": {
+            "total_tokens": 386,
+            "input_tokens": 158,
+            "output_tokens": 228,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 132,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 204,
+              "audio_tokens": 24
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4057.971500005806,
+          "server_vad_to_first_audio_ms": 3532.5012000103015,
+          "client_eou_to_done_ms": 4059.7494000103325,
+          "server_vad_to_done_ms": 3534.279100014828,
+          "speech_start_after_send_ms": 224.6195999905467,
+          "response_audio_ms": 837.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey.",
+          "usage": {
+            "total_tokens": 394,
+            "input_tokens": 175,
+            "output_tokens": 219,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 149,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 203,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4248.109399981331,
+          "server_vad_to_first_audio_ms": 3721.4095999952406,
+          "client_eou_to_done_ms": 4252.60919998982,
+          "server_vad_to_done_ms": 3725.9094000037294,
+          "speech_start_after_send_ms": 242.49410000629723,
+          "response_audio_ms": 1100.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there.",
+          "usage": {
+            "total_tokens": 353,
+            "input_tokens": 191,
+            "output_tokens": 162,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 165,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4088.5867000033613,
+          "server_vad_to_first_audio_ms": 3563.0206000059843,
+          "client_eou_to_done_ms": 4099.28029999719,
+          "server_vad_to_done_ms": 3573.714199999813,
+          "speech_start_after_send_ms": 321.277499984717,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 428,
+            "input_tokens": 208,
+            "output_tokens": 220,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 182,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 203,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4247.803300007945,
+          "server_vad_to_first_audio_ms": 3722.1335000067484,
+          "client_eou_to_done_ms": 4270.167500013486,
+          "server_vad_to_done_ms": 3744.497700012289,
+          "speech_start_after_send_ms": 223.0967000068631,
+          "response_audio_ms": 850.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Howdy.",
+          "usage": {
+            "total_tokens": 379,
+            "input_tokens": 224,
+            "output_tokens": 155,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 198,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4018.441199994413,
+          "server_vad_to_first_audio_ms": 3491.801800002577,
+          "client_eou_to_done_ms": 4020.287899998948,
+          "server_vad_to_done_ms": 3493.6485000071116,
+          "speech_start_after_send_ms": 226.18949998286553,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 395,
+            "input_tokens": 240,
+            "output_tokens": 155,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 214,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3181.1232000181917,
+          "server_vad_to_first_audio_ms": 2658.254100009799,
+          "client_eou_to_done_ms": 3189.742800022941,
+          "server_vad_to_done_ms": 2666.8737000145484,
+          "speech_start_after_send_ms": 222.91119999135844,
+          "response_audio_ms": 1137.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there!",
+          "usage": {
+            "total_tokens": 182,
+            "input_tokens": 84,
+            "output_tokens": 98,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 58,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 76,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3723.096599976998,
+          "server_vad_to_first_audio_ms": 3179.665699979523,
+          "client_eou_to_done_ms": 3735.5934999941383,
+          "server_vad_to_done_ms": 3192.1625999966636,
+          "speech_start_after_send_ms": 316.8883000034839,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi!",
+          "usage": {
+            "total_tokens": 256,
+            "input_tokens": 101,
+            "output_tokens": 155,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 75,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3397.2152000060305,
+          "server_vad_to_first_audio_ms": 2859.6692999999505,
+          "client_eou_to_done_ms": 3399.330300017027,
+          "server_vad_to_done_ms": 2861.784400010947,
+          "speech_start_after_send_ms": 231.66580000543036,
+          "response_audio_ms": 862.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 273,
+            "input_tokens": 117,
+            "output_tokens": 156,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 91,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2747.0698000106495,
+          "server_vad_to_first_audio_ms": 2077.3113000032026,
+          "client_eou_to_done_ms": 2756.9554000219796,
+          "server_vad_to_done_ms": 2087.1969000145327,
+          "speech_start_after_send_ms": 220.08260001894087,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 224,
+            "input_tokens": 133,
+            "output_tokens": 91,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 107,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3227.924400009215,
+          "server_vad_to_first_audio_ms": 2703.1585999939125,
+          "client_eou_to_done_ms": 3229.7151000238955,
+          "server_vad_to_done_ms": 2704.949300008593,
+          "speech_start_after_send_ms": 218.2940999919083,
+          "response_audio_ms": 1037.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey there.",
+          "usage": {
+            "total_tokens": 309,
+            "input_tokens": 149,
+            "output_tokens": 160,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 123,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3193.3268000138924,
+          "server_vad_to_first_audio_ms": 2660.402800014708,
+          "client_eou_to_done_ms": 3197.139199997764,
+          "server_vad_to_done_ms": 2664.21519999858,
+          "speech_start_after_send_ms": 218.14770001219586,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey!",
+          "usage": {
+            "total_tokens": 321,
+            "input_tokens": 166,
+            "output_tokens": 155,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 140,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3642.499899986433,
+          "server_vad_to_first_audio_ms": 3112.308000010671,
+          "client_eou_to_done_ms": 3654.486499988707,
+          "server_vad_to_done_ms": 3124.294600012945,
+          "speech_start_after_send_ms": 225.96909999265336,
+          "response_audio_ms": 1112.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there.",
+          "usage": {
+            "total_tokens": 344,
+            "input_tokens": 182,
+            "output_tokens": 162,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 156,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 22
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3453.1255000038072,
+          "server_vad_to_first_audio_ms": 2932.247799995821,
+          "client_eou_to_done_ms": 3461.6852999897674,
+          "server_vad_to_done_ms": 2940.807599981781,
+          "speech_start_after_send_ms": 327.2556999872904,
+          "response_audio_ms": 1225.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello again.",
+          "usage": {
+            "total_tokens": 299,
+            "input_tokens": 199,
+            "output_tokens": 100,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 173,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 76,
+              "audio_tokens": 24
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4280.24860000005,
+          "server_vad_to_first_audio_ms": 3753.2346000079997,
+          "client_eou_to_done_ms": 4288.531099999091,
+          "server_vad_to_done_ms": 3761.5171000070404,
+          "speech_start_after_send_ms": 226.3196000130847,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey.",
+          "usage": {
+            "total_tokens": 499,
+            "input_tokens": 216,
+            "output_tokens": 283,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 190,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 267,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3319.4311000115704,
+          "server_vad_to_first_audio_ms": 2792.942900006892,
+          "client_eou_to_done_ms": 3327.0678000117186,
+          "server_vad_to_done_ms": 2800.5796000070404,
+          "speech_start_after_send_ms": 227.7182000107132,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi again.",
+          "usage": {
+            "total_tokens": 391,
+            "input_tokens": 232,
+            "output_tokens": 159,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 206,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3114.6871999953873,
+          "server_vad_to_first_audio_ms": 2588.9782999875024,
+          "client_eou_to_done_ms": 3117.7137000195216,
+          "server_vad_to_done_ms": 2592.0048000116367,
+          "speech_start_after_send_ms": 220.7289999932982,
+          "response_audio_ms": 1812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello, how can I help?",
+          "usage": {
+            "total_tokens": 206,
+            "input_tokens": 90,
+            "output_tokens": 116,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 64,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 80,
+              "audio_tokens": 36
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3155.3069000074174,
+          "server_vad_to_first_audio_ms": 2627.7561000024434,
+          "client_eou_to_done_ms": 3216.0473999974784,
+          "server_vad_to_done_ms": 2688.4965999925043,
+          "speech_start_after_send_ms": 322.9189999983646,
+          "response_audio_ms": 1525.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi, how can I help?",
+          "usage": {
+            "total_tokens": 285,
+            "input_tokens": 111,
+            "output_tokens": 174,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 85,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 144,
+              "audio_tokens": 30
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3298.9180000149645,
+          "server_vad_to_first_audio_ms": 2763.9782000042032,
+          "client_eou_to_done_ms": 3406.9849000079557,
+          "server_vad_to_done_ms": 2872.0450999971945,
+          "speech_start_after_send_ms": 227.64210001332685,
+          "response_audio_ms": 2100.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there, how can I help you?",
+          "usage": {
+            "total_tokens": 320,
+            "input_tokens": 132,
+            "output_tokens": 188,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 106,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 146,
+              "audio_tokens": 42
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3662.24860001239,
+          "server_vad_to_first_audio_ms": 3156.56560001662,
+          "client_eou_to_done_ms": 3664.6544999966864,
+          "server_vad_to_done_ms": 3158.9715000009164,
+          "speech_start_after_send_ms": 251.8804999999702,
+          "response_audio_ms": 937.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 248,
+            "input_tokens": 155,
+            "output_tokens": 93,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 129,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3941.1588999792,
+          "server_vad_to_first_audio_ms": 3400.6391000002623,
+          "client_eou_to_done_ms": 3949.685799976578,
+          "server_vad_to_done_ms": 3409.16599999764,
+          "speech_start_after_send_ms": 249.1145000094548,
+          "response_audio_ms": 787.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 389,
+            "input_tokens": 171,
+            "output_tokens": 218,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 145,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 203,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3176.9822999776807,
+          "server_vad_to_first_audio_ms": 2640.2276000007987,
+          "client_eou_to_done_ms": 3181.2591000052635,
+          "server_vad_to_done_ms": 2644.5044000283815,
+          "speech_start_after_send_ms": 237.87700000684708,
+          "response_audio_ms": 1162.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello there.",
+          "usage": {
+            "total_tokens": 286,
+            "input_tokens": 187,
+            "output_tokens": 99,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 161,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 76,
+              "audio_tokens": 23
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3817.8505999967456,
+          "server_vad_to_first_audio_ms": 3281.4077000075486,
+          "client_eou_to_done_ms": 3826.3131999992765,
+          "server_vad_to_done_ms": 3289.8703000100795,
+          "speech_start_after_send_ms": 236.2474999972619,
+          "response_audio_ms": 800.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey.",
+          "usage": {
+            "total_tokens": 358,
+            "input_tokens": 204,
+            "output_tokens": 154,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 178,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5624.455300014233,
+          "server_vad_to_first_audio_ms": 5098.981699993601,
+          "client_eou_to_done_ms": 5632.9996999993455,
+          "server_vad_to_done_ms": 5107.526099978713,
+          "speech_start_after_send_ms": 323.0416000005789,
+          "response_audio_ms": 875.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello!",
+          "usage": {
+            "total_tokens": 504,
+            "input_tokens": 220,
+            "output_tokens": 284,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 194,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 267,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 6269.268699979875,
+          "server_vad_to_first_audio_ms": 5740.102299983846,
+          "client_eou_to_done_ms": 6276.357899972936,
+          "server_vad_to_done_ms": 5747.191499976907,
+          "speech_start_after_send_ms": 223.12029998283833,
+          "response_audio_ms": 1037.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there.",
+          "usage": {
+            "total_tokens": 524,
+            "input_tokens": 236,
+            "output_tokens": 288,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 210,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 268,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 4025.1768000016455,
+          "server_vad_to_first_audio_ms": 3499.051699996926,
+          "client_eou_to_done_ms": 4037.5032000010833,
+          "server_vad_to_done_ms": 3511.3780999963637,
+          "speech_start_after_send_ms": 220.06249998230487,
+          "response_audio_ms": 1000.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey there.",
+          "usage": {
+            "total_tokens": 413,
+            "input_tokens": 253,
+            "output_tokens": 160,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 227,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 20
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2483.8376000116114,
+          "server_vad_to_first_audio_ms": 1955.4003000084776,
+          "client_eou_to_done_ms": 2494.374700007029,
+          "server_vad_to_done_ms": 1965.9374000038952,
+          "speech_start_after_send_ms": 234.6730999997817,
+          "response_audio_ms": 862.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 112,
+            "input_tokens": 84,
+            "output_tokens": 28,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 58,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 11,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 5058.818799996516,
+          "server_vad_to_first_audio_ms": 4525.961400009692,
+          "client_eou_to_done_ms": 5066.367199993692,
+          "server_vad_to_done_ms": 4533.509800006868,
+          "speech_start_after_send_ms": 324.6860000072047,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 256,
+            "input_tokens": 100,
+            "output_tokens": 156,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 74,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2932.6063999906182,
+          "server_vad_to_first_audio_ms": 2410.1665999914985,
+          "client_eou_to_done_ms": 2938.6973999789916,
+          "server_vad_to_done_ms": 2416.257599979872,
+          "speech_start_after_send_ms": 225.97280002082698,
+          "response_audio_ms": 825.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 207,
+            "input_tokens": 116,
+            "output_tokens": 91,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 90,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3637.5858999963384,
+          "server_vad_to_first_audio_ms": 3119.031599984737,
+          "client_eou_to_done_ms": 3641.6138999920804,
+          "server_vad_to_done_ms": 3123.059599980479,
+          "speech_start_after_send_ms": 258.4608999895863,
+          "response_audio_ms": 812.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey.",
+          "usage": {
+            "total_tokens": 288,
+            "input_tokens": 132,
+            "output_tokens": 156,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 106,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 140,
+              "audio_tokens": 16
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 2998.074600007385,
+          "server_vad_to_first_audio_ms": 2475.5141000205185,
+          "client_eou_to_done_ms": 3007.8696999989916,
+          "server_vad_to_done_ms": 2485.309200012125,
+          "speech_start_after_send_ms": 222.68580002128147,
+          "response_audio_ms": 1075.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi there.",
+          "usage": {
+            "total_tokens": 245,
+            "input_tokens": 148,
+            "output_tokens": 97,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 122,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 76,
+              "audio_tokens": 21
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3590.9122000157367,
+          "server_vad_to_first_audio_ms": 3073.5182000207715,
+          "client_eou_to_done_ms": 3595.9277000220027,
+          "server_vad_to_done_ms": 3078.5337000270374,
+          "speech_start_after_send_ms": 224.60389998741448,
+          "response_audio_ms": 912.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 322,
+            "input_tokens": 165,
+            "output_tokens": 157,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 139,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 18
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3991.530100000091,
+          "server_vad_to_first_audio_ms": 3457.502500008559,
+          "client_eou_to_done_ms": 3996.159100002842,
+          "server_vad_to_done_ms": 3462.13150001131,
+          "speech_start_after_send_ms": 242.24439999670722,
+          "response_audio_ms": 987.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hey there.",
+          "usage": {
+            "total_tokens": 404,
+            "input_tokens": 181,
+            "output_tokens": 223,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 155,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 204,
+              "audio_tokens": 19
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3255.2815999952145,
+          "server_vad_to_first_audio_ms": 2737.859099986963,
+          "client_eou_to_done_ms": 3266.304000018863,
+          "server_vad_to_done_ms": 2748.8815000106115,
+          "speech_start_after_send_ms": 320.6245999899693,
+          "response_audio_ms": 762.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 288,
+            "input_tokens": 198,
+            "output_tokens": 90,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 172,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 15
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3257.2853000019677,
+          "server_vad_to_first_audio_ms": 2730.5403999926057,
+          "client_eou_to_done_ms": 3259.8088000086136,
+          "server_vad_to_done_ms": 2733.0638999992516,
+          "speech_start_after_send_ms": 223.5547000018414,
+          "response_audio_ms": 887.5,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hello.",
+          "usage": {
+            "total_tokens": 370,
+            "input_tokens": 214,
+            "output_tokens": 156,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 188,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 139,
+              "audio_tokens": 17
+            }
+          }
+        },
+        {
+          "client_eou_to_first_audio_ms": 3305.1410999905784,
+          "server_vad_to_first_audio_ms": 2770.897000009427,
+          "client_eou_to_done_ms": 3307.307299983222,
+          "server_vad_to_done_ms": 2773.0632000020705,
+          "speech_start_after_send_ms": 215.6807999999728,
+          "response_audio_ms": 775.0,
+          "response_status": "completed",
+          "input_transcript": "Say hello briefly.",
+          "output_transcript": "Hi.",
+          "usage": {
+            "total_tokens": 320,
+            "input_tokens": 230,
+            "output_tokens": 90,
+            "input_token_details": {
+              "cached_tokens": 0,
+              "text_tokens": 204,
+              "audio_tokens": 26,
+              "image_tokens": 0,
+              "cached_tokens_details": {
+                "text_tokens": 0,
+                "audio_tokens": 0,
+                "image_tokens": 0
+              }
+            },
+            "output_token_details": {
+              "text_tokens": 75,
+              "audio_tokens": 15
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

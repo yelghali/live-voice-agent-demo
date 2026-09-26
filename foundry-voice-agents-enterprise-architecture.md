@@ -357,12 +357,17 @@ and a production client, so its results describe this environment rather than a 
 target.
 
 For reproduction, see the [unified benchmark
-harness](scripts/bench_voice_patterns_audio.py), [benchmark-only prompt-agent
-provisioner](agent/create_voice_benchmark_agent.py), [first-class voice-agent
-provisioner](agent/create_foundry_voice_agents.py), [audio
-generator](scripts/generate_voice_benchmark_audio.ps1), [raw turn data and
-method](docs/benchmarks/voice-patterns-real-audio-2026-09-26.json), and [editable chart
-source](docs/diagrams/voice-patterns-real-audio-latency.excalidraw).
+harness](https://github.com/yelghali/live-voice-agent-demo/blob/main/scripts/bench_voice_patterns_audio.py),
+[benchmark-only prompt-agent
+provisioner](https://github.com/yelghali/live-voice-agent-demo/blob/main/agent/create_voice_benchmark_agent.py),
+[first-class voice-agent
+provisioner](https://github.com/yelghali/live-voice-agent-demo/blob/main/agent/create_foundry_voice_agents.py),
+[audio
+generator](https://github.com/yelghali/live-voice-agent-demo/blob/main/scripts/generate_voice_benchmark_audio.ps1),
+[raw turn data and
+method](https://github.com/yelghali/live-voice-agent-demo/blob/main/docs/benchmarks/voice-patterns-real-audio-2026-09-26.json),
+and [editable chart
+source](https://github.com/yelghali/live-voice-agent-demo/blob/main/docs/diagrams/voice-patterns-real-audio-latency.excalidraw).
 
 ---
 
